@@ -289,7 +289,7 @@ public class LoanEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof LoanEntity that)) return false;
-        return externalId != null && Objects.equals(externalId, that.externalId);
+        return externalId != null && Objects.equals(externalId, that.getExternalId());
     }
 
     @Override

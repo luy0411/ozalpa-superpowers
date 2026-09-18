@@ -152,11 +152,35 @@ class EntityTest {
         InstallmentEntity newInst = new InstallmentEntity();
         newInst.onCreate();
         assertThat(newInst.getCreatedAt()).isNotNull();
+        assertThat(newInst).isEqualTo(newInst);
+        assertThat(newInst).isNotEqualTo(new InstallmentEntity());
+
+        InstallmentEntity inst3 = new InstallmentEntity();
+        inst3.setId(100L);
+        assertThat(installment).isEqualTo(inst2);
+        assertThat(inst2).isEqualTo(inst3);
+        assertThat(installment).isEqualTo(inst3);
 
         LoanEntity loanWithList = new LoanEntity(1L, UUID.randomUUID(), customer, BigDecimal.TEN, BigDecimal.ONE,
                 BigDecimal.valueOf(11), PaymentScheme.SCHEME_2, new BigDecimal("0.1600"), LoanStatus.ACTIVE, now,
                 Collections.singletonList(inst2));
         assertThat(loanWithList.getInstallments()).hasSize(1);
         assertThat(inst2.getLoan()).isEqualTo(loanWithList);
+
+        CustomerEntity customerProxySubclass = new CustomerEntity() {
+            @Override
+            public UUID getExternalId() {
+                return customer.getExternalId();
+            }
+        };
+        assertThat(customer).isEqualTo(customerProxySubclass);
+
+        LoanEntity loanProxySubclass = new LoanEntity() {
+            @Override
+            public UUID getExternalId() {
+                return loanExternalId;
+            }
+        };
+        assertThat(loan).isEqualTo(loanProxySubclass);
     }
 }

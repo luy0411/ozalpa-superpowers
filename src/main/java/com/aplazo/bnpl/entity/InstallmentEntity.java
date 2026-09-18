@@ -187,11 +187,7 @@ public class InstallmentEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof InstallmentEntity that)) return false;
-        if (id != null && that.id != null) {
-            return Objects.equals(id, that.id);
-        }
-        return Objects.equals(loan != null ? loan.getId() : null, that.loan != null ? that.loan.getId() : null)
-                && Objects.equals(installmentNumber, that.installmentNumber);
+        return id != null && Objects.equals(id, that.getId());
     }
 
     @Override

@@ -222,7 +222,7 @@ public class CustomerEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CustomerEntity that)) return false;
-        return externalId != null && Objects.equals(externalId, that.externalId);
+        return externalId != null && Objects.equals(externalId, that.getExternalId());
     }
 
     @Override
