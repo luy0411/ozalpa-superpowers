@@ -1,34 +1,68 @@
-# Buy Now Pay Later (BNPL) REST API
+# Buy Now Pay Later (BNPL) REST API — Superpowers Validation Project
 
+[![Superpowers](https://img.shields.io/badge/Developed%20with-Superpowers-8A2BE2.svg)](https://github.com/features)
 [![Java 21](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot 3.4](https://img.shields.io/badge/Spring%20Boot-3.4.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
+[![Cucumber BDD](https://img.shields.io/badge/BDD-Cucumber-23D96C.svg)](https://cucumber.io/)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
-A production-ready Buy Now Pay Later (BNPL) REST service developed for the **Aplazo Backend Challenge**. The platform automates customer onboarding, age-tiered credit line assignment, loan origination with biweekly installment schedules, credit limit tracking, and secure JWT-based authentication.
+Este repositório foi construído como um **projeto de validação do Superpowers e de suas capacidades de desenvolvimento autônomo e assistido por IA**. O objetivo é demonstrar na prática o rigor metodológico, a disciplina arquitetural e a execução ponta a ponta orientada por agentes especializados.
 
 ---
 
-## Architecture & Tech Stack
+## 🎯 Sobre a Validação do Superpowers
 
-- **Language & Runtime**: Java 21 (LTS)
-- **Framework**: Spring Boot 3.4.3 (`spring-boot-starter-web`, `spring-boot-starter-data-jpa`, `spring-boot-starter-validation`, `spring-boot-starter-security`)
-- **Security & Authentication**: Spring Security with Stateless JWT (`io.jsonwebtoken:jjwt-api:0.12.6`), issuance upon registration and Bearer authentication on protected endpoints
-- **Database & Persistence**: PostgreSQL 16, Spring Data JPA / Hibernate with optimistic locking
-- **Database Migrations**: Flyway 10 (`flyway-database-postgresql`)
-- **API Documentation**: SpringDoc OpenAPI 3 / Swagger UI (`springdoc-openapi-starter-webmvc-ui:2.8.5`)
-- **Testing & Quality Assurance**:
-  - JUnit 5 & Mockito for unit testing
-  - Cucumber BDD (`cucumber-java:7.21.1`, `cucumber-spring`, `junit-platform-suite`) for end-to-end integration scenarios
-  - Testcontainers (`testcontainers:1.20.4`, PostgreSQL 16 Alpine container) for realistic integration tests
-  - JaCoCo (`jacoco-maven-plugin:0.8.12`) with automated verification rules (>80% minimum branch/instruction coverage enforced)
+O desenvolvimento desta solução foi conduzido integralmente utilizando as ferramentas e convenções do **Superpowers**:
+
+1. **Brainstorming & Alinhamento de Intenção (`superpowers:brainstorming`)**:
+   - Classificação do trabalho (Spike exploratório $\rightarrow$ Projeto Arquitetural $\rightarrow$ Bounded).
+   - Extração e análise automatizada dos requisitos e do contrato OpenAPI do desafio.
+   - Refinamento iterativo de requisitos de arquitetura, banco, segurança e testes com o desenvolvedor.
+2. **Especificação de Design Técnica (`docs/superpowers/specs/`)**:
+   - Elaboração da spec formal contendo modelagem relacional, fórmulas financeiras, políticas de crédito e regras de transação.
+3. **Plano de Implementação com Tarefas Granulares (`superpowers:writing-plans`)**:
+   - Decomposição em 11 tarefas modulares e independentes com gates de verificação técnica.
+4. **Desenvolvimento Dirigido por Subagentes (`superpowers:subagent-driven-development`)**:
+   - Disparo de subagentes isolados para implementação (`implementer`) e para revisão estrita de spec e qualidade de código (`reviewer`), sem contaminação de contexto.
+   - Ciclos de **TDD** (Red-Green-Refactor) e **BDD** (cenários Gherkin vivos com Cucumber).
+5. **Comandos Otimizados com RTK (Rust Token Killer)**:
+   - Uso sistemático do prefixo `rtk` em chamadas de terminal, economizando tokens e preservando sinais críticos de compilação e teste.
+6. **Finalização e Integração (`superpowers:finishing-a-development-branch`)**:
+   - Verificação total da suíte (138 testes com 0 falhas) antes de qualquer integração ou push.
 
 ---
 
-## Documentation Links
+## 🏦 Visão Macro do Desafio BNPL (Aplazo Challenge)
 
-- **[System Design Specification](docs/superpowers/specs/2026-09-18-bnpl-system-design.md)**: Architectural decisions, domain models, business rules, credit line tiers, interest scheme definitions, and API specifications.
-- **[Entity-Relationship Diagram & Data Dictionary](docs/erd.md)**: Complete database schema, Mermaid ERD, column types, constraints, and relational mappings.
+O desafio consiste no desenvolvimento de um sistema de crédito sob demanda no modelo **Buy Now, Pay Later (BNPL)**, cobrindo o ciclo de vida completo de originação e acompanhamento de empréstimos para compras parceladas:
+
+- **Elegibilidade e Cadastro Automático (`POST /v1/customers`)**:
+  - Avaliação de idade em tempo de requisição: aceita apenas clientes entre **18 e 65 anos**.
+  - Atribuição instantânea de limite de crédito baseado na faixa etária ($3.000 para 18–25 anos; $5.000 para 26–30 anos; $8.000 para 31–65 anos).
+  - Emissão de token JWT assinado (`X-Auth-Token`) para utilização imediata.
+- **Concessão de Empréstimo BNPL (`POST /v1/loans`)**:
+  - Validação estrita contra o saldo de crédito remanescente do cliente e dedução atômica transacional.
+  - Seleção dinâmica de esquema de amortização: **Scheme 1** (13% de juros para nomes iniciados com C, L, H) ou **Scheme 2** (16% de juros para cliente com ID > 25 ou fallback).
+  - Divisão precisa em **5 parcelas quinzenais** (D+14 a D+70) com conciliação exata de centavos na última parcela.
+- **Consultas Seguras (`GET /v1/customers/{id}` e `GET /v1/loans/{id}`)**:
+  - Endpoints autenticados via JWT com detalhamento de limites e cronogramas de amortização.
+- **Tratamento Padronizado de Erros**:
+  - Respostas JSON estruturadas sob o contrato OpenAPI com códigos rastreáveis (`APZ000001` a `APZ000008`).
+
+---
+
+## 📚 Documentação Completa da Solução
+
+- **[System Design Specification](docs/superpowers/specs/2026-09-18-bnpl-system-design.md)**: Especificação arquitetural, contratos, regras de negócio e critérios de aceite.
+- **[Plano de Implementação Detalhado](docs/superpowers/plans/2026-09-18-bnpl-system.md)**: Plano de tarefas executado via Subagent-Driven Development.
+- **[Modelo C4 & Structurizr](docs/c4model.md)**: Diagramas de Contexto (C1) e Contêineres (C2) com especificações Structurizr DSL e Mermaid.
+- **[Modelo Entidade-Relacionamento & Dicionário de Dados](docs/erd.md)**: Diagrama relacional Mermaid `erDiagram`, tabelas, constraints e índices.
+- **[Operações Detalhadas com Diagramas de Sequência](docs/operations/)**:
+  - [POST /v1/customers — Cadastro de Cliente](docs/operations/customer-registration.md)
+  - [GET /v1/customers/{customerId} — Consulta de Saldo de Cliente](docs/operations/customer-lookup.md)
+  - [POST /v1/loans — Criação de Empréstimo e Parcelamento](docs/operations/loan-creation.md)
+  - [GET /v1/loans/{loanId} — Consulta de Empréstimo e Parcelas](docs/operations/loan-lookup.md)
 
 ---
 
