@@ -33,3 +33,6 @@ target/
 
 ### Superpowers ###
 .superpowers/
+
+### Node / Newman ###
+node_modules/

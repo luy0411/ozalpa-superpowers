@@ -70,6 +70,7 @@ O desafio consiste no desenvolvimento de um sistema de crédito sob demanda no m
 
 - **Java Development Kit (JDK)**: Java 21 or later (`java -version`)
 - **Docker & Docker Compose**: Docker Engine 24+ and Docker Compose v2+ (`docker compose version`)
+- **Node.js & npm** (opcional, para testes de API via Newman): Node.js 18+ e npm 9+ (`node -v`, `npm -v`)
 - Maven Wrapper is included in the project (`./mvnw`).
 
 ---
@@ -143,6 +144,69 @@ docker compose down -v
 Services exposed:
 - **BNPL REST API**: `http://localhost:8080`
 - **PostgreSQL Database**: `localhost:5432` (`POSTGRES_DB=bnpl`, `POSTGRES_USER=postgres`, `POSTGRES_PASSWORD=postgres`)
+
+---
+
+## 🧪 Automated API Testing with Newman / Postman
+
+O repositório inclui uma suíte automatizada de testes de API e contrato baseada em **Postman Collection v2.1** e executável via **Newman** (CLI do Postman).
+
+A suíte cobre:
+- **Fluxo E2E Encadeado (Happy Path)**:
+  1. `POST /v1/customers`: Cadastro de cliente elegível (idade 35 anos) e captura dinâmica do ID e do token JWT (`X-Auth-Token`).
+  2. `GET /v1/customers/{id}`: Consulta do perfil e limite de crédito concedido ($8.000,00).
+  3. `POST /v1/loans`: Criação de empréstimo de $1.000,00 com aplicação do esquema de juros Scheme 1 (13%) e 5 parcelas quinzenais.
+  4. `GET /v1/loans/{id}`: Consulta e validação do cronograma de amortização (soma total de $1.130,00 com conciliação exata de centavos).
+  5. `GET /v1/customers/{id}`: Validação do saldo de crédito remanescente atualizado ($7.000,00).
+- **Validações de Falha e Contrato (Error & Edge Cases)**:
+  - Cadastro de cliente menor de idade (< 18 anos) retornando `400 Bad Request` com código `APZ000002`.
+  - Requisição sem cabeçalho de autenticação retornando `401 Unauthorized` com código `APZ000007`.
+  - Consulta de cliente inexistente retornando `404 Not Found` com código `APZ000005`.
+  - Solicitação de empréstimo excedendo o limite de crédito disponível retornando `400 Bad Request` com código `APZ000006`.
+
+### Pré-requisito
+Certifique-se de que a aplicação esteja em execução na porta `8080` antes de rodar os testes:
+```bash
+# Opção A: Subir via Docker Compose
+docker compose up -d
+
+# Opção B: Subir via Maven local
+rtk ./mvnw spring-boot:run
+```
+
+### Passo a Passo de Execução
+
+#### 1. Instalar as dependências do projeto (Node.js)
+```bash
+rtk npm install
+```
+
+#### 2. Executar a suíte via NPM Script
+```bash
+rtk npm run test:api
+```
+*(ou simplesmente `rtk npm test`)*
+
+#### 3. Execução direta via `npx newman` (sem dependências locais)
+Se preferir rodar diretamente sem instalar `node_modules`:
+```bash
+rtk npx newman run postman/bnpl-api.postman_collection.json \
+  -e postman/local.postman_environment.json \
+  --reporters cli
+```
+
+#### 4. Gerando relatórios detalhados (HTML / JSON)
+Você pode habilitar relatórios adicionais passando múltiplos reporters para o Newman:
+```bash
+rtk npx newman run postman/bnpl-api.postman_collection.json \
+  -e postman/local.postman_environment.json \
+  --reporters cli,json \
+  --reporter-json-export target/newman-results.json
+```
+
+Arquivos da suíte:
+- **Coleção Postman**: `postman/bnpl-api.postman_collection.json`
+- **Ambiente Local**: `postman/local.postman_environment.json`
 
 ---
 

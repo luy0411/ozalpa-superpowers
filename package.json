@@ -1,0 +1,12 @@
+{
+  "name": "ozalpa-superpowers-api-tests",
+  "version": "1.0.0",
+  "description": "Automated Postman and Newman API test suite for BNPL microservices",
+  "scripts": {
+    "test:api": "newman run postman/bnpl-api.postman_collection.json -e postman/local.postman_environment.json --reporters cli",
+    "test": "npm run test:api"
+  },
+  "devDependencies": {
+    "newman": "^6.2.1"
+  }
+}
