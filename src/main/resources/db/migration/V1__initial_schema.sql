@@ -7,7 +7,7 @@ CREATE TABLE customers (
     date_of_birth DATE NOT NULL,
     credit_line_amount NUMERIC(15, 2) NOT NULL,
     available_credit_line_amount NUMERIC(15, 2) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_customers_external_id ON customers(external_id);
@@ -22,7 +22,7 @@ CREATE TABLE loans (
     scheme_name VARCHAR(20) NOT NULL,
     interest_rate NUMERIC(5, 4) NOT NULL,
     status VARCHAR(20) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_loans_external_id ON loans(external_id);
@@ -35,7 +35,7 @@ CREATE TABLE installments (
     amount NUMERIC(15, 2) NOT NULL,
     scheduled_payment_date DATE NOT NULL,
     status VARCHAR(20) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uk_installments_loan_number UNIQUE (loan_id, installment_number)
 );
 

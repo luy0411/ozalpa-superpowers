@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = SecurityConfigTest.TestSecurityController.class)
 @Import({SecurityConfig.class, JwtAuthenticationFilter.class, CustomAuthenticationEntryPoint.class, JwtTokenProvider.class, GlobalExceptionHandler.class})
+@ActiveProfiles("security-test")
 class SecurityConfigTest {
 
     @Autowired
@@ -33,6 +36,7 @@ class SecurityConfigTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @RestController
+    @Profile("security-test")
     static class TestSecurityController {
 
         @PostMapping("/v1/customers")

@@ -2,10 +2,10 @@ spring:
   application:
     name: bnpl-service-test
   datasource:
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:16-alpine:///testdb
-    username: test
-    password: test
+    driver-class-name: org.h2.Driver
+    url: ${TEST_DB_URL:jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1}
+    username: sa
+    password:
   jpa:
     hibernate:
       ddl-auto: validate
