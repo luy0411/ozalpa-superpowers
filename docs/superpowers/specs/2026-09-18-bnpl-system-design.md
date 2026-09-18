@@ -27,7 +27,7 @@ A aplicação contempla o ciclo de vida de crédito ao consumidor:
 - **Banco de Dados:** PostgreSQL 16.
 - **Migrações:** Flyway (`src/main/resources/db/migration`).
 - **Segurança:** Spring Security 6 + JWT (HMAC-SHA256).
-- **Testes Unitários:** JUnit 5 + Mockito + AssertJ (foco em regras de negócio e cobertura >= 80%).
+- **Testes Unitários:** JUnit 5 + Mockito + AssertJ (foco em cenários principais de sucesso e falhas essenciais, meta de cobertura de ~50%).
 - **Testes de Integração:** Cucumber (BDD com cenários Gherkin em `.feature`) + SpringBootTest + Testcontainers (PostgreSQL).
 - **Containerização:** Dockerfile multi-stage e `docker-compose.yml`.
 - **Documentação de Banco:** Arquivo dedicado `docs/erd.md` com diagrama Mermaid (`erDiagram`) e Dicionário de Dados.
@@ -181,12 +181,11 @@ Tabela de Mapeamento de Erros:
 ## 7. Estratégia de Testes
 
 ### 7.1 Testes Unitários (JUnit 5 + Mockito)
-- **Foco:** Cobertura de código superior a 80%, garantindo validação de todos os casos de borda e regras de negócio.
-- **Classes-alvo:**
-  - `CreditLineCalculatorTest`: Testes de limites de idade (<18, 18, 25, 26, 30, 31, 65, >65) e valores de crédito concedidos.
-  - `PaymentSchemeResolverTest`: Testes de regras de scheme (nomes com C/L/H, id > 25, default scheme), cálculo de juros e arredondamento de centavos nas parcelas.
-  - `CustomerServiceTest` e `LoanServiceTest`: Teste de fluxo de serviços com mocks de repositório e validação de exceptions.
-  - `JwtTokenProviderTest`: Criação e validação de tokens JWT.
+- **Foco:** Meta de cobertura de ~50%, com foco estritamente nos cenários principais de sucesso e nas falhas essenciais, evitando acúmulo prematuro de testes unitários.
+- **Classes-alvo essenciais:**
+  - `CreditLineCalculatorTest`: Cenários válidos de concessão de limite e rejeição por idade.
+  - `PaymentSchemeResolverTest`: Cenários principais de determinação de Scheme (1 e 2) e cálculo básico das parcelas.
+  - `CustomerServiceTest` e `LoanServiceTest`: Fluxos fundamentais de cadastro e solicitação de empréstimo.
 
 ### 7.2 Testes Integrados em BDD (Cucumber + Testcontainers + SpringBootTest)
 - **Foco:** Especificação viva dos cenários de negócio ponta a ponta com banco real (PostgreSQL em container).
