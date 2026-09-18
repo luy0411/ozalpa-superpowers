@@ -1,0 +1,489 @@
+openapi: 3.0.1
+info:
+  title: Aplazo BNPL API
+  version: 0.0.1
+  description: >
+    ### Minimal BNPL API
+
+    Allows for customer and loan creation.
+servers:
+  - url: /{apiVersion}
+    variables:
+      apiVersion:
+        default: v1
+        enum:
+          - v1
+        description: API version path
+
+tags:
+  - name: Customers
+    description: Manage customers
+  - name: Loans
+    description: Manage loans
+paths:
+  /customers:
+    post:
+      tags:
+        - Customers
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        description: Customer request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+            examples:
+              Customer under 18:
+                description: Under age customer
+                value:
+                  firstName: Juan
+                  lastName: López
+                  secondLastNme: Pérez
+                  dateOfBirth: 2009-11-02
+              Customer accepted:
+                description: Customer which age is in accepted range
+                value:
+                  firstName: Pepe
+                  lastName: García
+                  secondLastNme: Flores
+                  dateOfBirth: 1998-07-21
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+          headers:
+            Location:
+              description: Relative path to search for newly created customer
+              schema:
+                type: string
+                format: uri-reference
+              example: "/v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa7"
+            X-Auth-Token:
+              description: JWT with the required roles and required for authentication
+              schema:
+                type: string
+                format: base64
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiUk9MRV9DVVNUT01FUiJ9.y1CB8JTESER6VbB2A83ay0pEGnIBE2qRFfluoQv2qGM"
+          links:
+            GetCustomerById:
+              operationId: getCustomerById
+              parameters:
+                id: "$response.body#/id"
+              description: >
+                The `id` value returned in the response can be used as
+                the `customerId` parameter in `GET /customers/{customerId}`.
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid request response:
+                  description: General invalid request error
+                  value:
+                    code: APZ000002
+                    error: INVALID_CUSTOMER_REQUEST
+                    timestamp: 1739397485
+                    message: Error detail
+                    path: /v1/customers
+        "429":
+          description: Too many request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Too many request response:
+                  description: Rate limit error
+                  value:
+                    code: APZ000003
+                    error: RATE_LIMIT_ERROR
+                    timestamp: 1739397485
+                    message: Error detail
+                    path: /v1/customers
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /customers/{customerId}:
+    get:
+      tags:
+        - Customers
+      summary: Get customer identified by `customerId`
+      operationId: getCustomerById
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer's unique identified
+          required: true
+          schema:
+            $ref: '#/components/schemas/CustomerId'
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        "400":
+          $ref: '#/components/responses/InvalidRequest'
+        "401":
+          $ref: '#/components/responses/UnauthorizedRequest'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Customer not found response:
+                  description: Customer not found
+                  value:
+                    code: APZ000005
+                    error: CUSTOMER_NOT_FOUND
+                    timestamp: 1739397485
+                    message: Error detail
+                    path: /v1/customers/{customerId}
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      security:
+        - aplazoAuth: []
+  /loans:
+    post:
+      tags:
+        - Loans
+      summary: Create a loan
+      operationId: createLoan
+      requestBody:
+        description: Loan request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanRequest'
+            examples:
+              Simple request:
+                description: Minimal request
+                value:
+                  customerId: b2863d62-0746-4b26-a6e3-edcb4b9578f2
+                  amount: 400.80
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanResponse'
+          headers:
+            Location:
+              description: Relative path to search for newly created loan
+              schema:
+                type: string
+                format: uri-reference
+              example: "/v1/loans/3fa85f64-5717-4562-b3fc-2c963f66afa7"
+          links:
+            GetLoanById:
+              operationId: getLoanById
+              parameters:
+                id: "$response.body#/id"
+              description: >
+                The `id` value returned in the response can be used as
+                the `loanId` parameter in `GET /loans/{loanId}`.
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid request response:
+                  description: Not valid request error
+                  value:
+                    code: APZ000006
+                    error: INVALID_LOAN_REQUEST
+                    timestamp: 1739397485
+                    message: Error detail
+                    path: /v1/loans
+        "401":
+          $ref: '#/components/responses/UnauthorizedRequest'
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      security:
+        - aplazoAuth: []
+  /loans/{loanId}:
+    get:
+      tags:
+        - Loans
+      summary: Get loan identified by `loanId`
+      operationId: getLoanById
+      parameters:
+        - name: loanId
+          in: path
+          description: Loan's unique identifier
+          required: true
+          schema:
+            $ref: '#/components/schemas/LoanId'
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanResponse'
+        "400":
+          $ref: '#/components/responses/InvalidRequest'
+        "401":
+          $ref: '#/components/responses/UnauthorizedRequest'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Loan not found:
+                  description: Customer not found
+                  value:
+                    code: APZ000008
+                    error: LOAN_NOT_FOUND
+                    timestamp: 1739397485
+                    message: Error detail
+                    path: /v1/loans/3fa85e68-5717-4562-b3fc-2c963f66afa6
+        "500":
+          $ref: '#/components/responses/InternalServerErrorResponse'
+      security:
+        - aplazoAuth: []
+components:
+  schemas:
+    CustomerRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - secondLastName
+        - dateOfBirth
+      properties:
+        firstName:
+          type: string
+          description: Customer's first name
+        lastName:
+          type: string
+          description: Customer's last name
+        secondLastName:
+          type: string
+          description: Customer's second last name
+        dateOfBirth:
+          type: string
+          format: date
+          pattern: '^\d\d\d\d-\d\d-\d\d$'
+          description: >
+            Customer's date of birth. Customers age should be at least 18 and 65 at most (at the date of sign up).
+    CustomerResponse:
+      type: object
+      required:
+        - id
+        - creditLineAmount
+        - availableCreditLineAmount
+        - createdAt
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomerId'
+        createdAt:
+          $ref: '#/components/schemas/CreatedAt'
+        creditLineAmount:
+          type: number
+          format: double
+          description: Approved credit line
+          minimum: 0
+          exclusiveMinimum: true
+        availableCreditLineAmount:
+          type: number
+          format: double
+          description: Available credit line, discounting the amount used in loans.
+          minimum: 0
+    LoanRequest:
+      required:
+        - customerId
+        - amount
+      type: object
+      properties:
+        customerId:
+          type: string
+          format: uuid
+          description: Customer's unique identifier
+        amount:
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+          description: Requested loan amount
+    LoanResponse:
+      required:
+        - id
+        - customerId
+        - amount
+        - createdAt
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/LoanId'
+        customerId:
+          $ref: '#/components/schemas/CustomerId'
+        status:
+          $ref: '#/components/schemas/LoanStatus'
+        createdAt:
+          $ref: '#/components/schemas/CreatedAt'
+        paymentPlan:
+          type: object
+          required:
+            - installments
+            - commissionAmount
+          properties:
+            commissionAmount:
+              type: number
+              format: double
+              minimum: 0
+              exclusiveMinimum: true
+              description: Commission amount applied to loan
+            installments:
+              type: array
+              minItems: 5
+              maxItems: 5
+              items:
+                $ref: '#/components/schemas/InstallmentResponse'
+    InstallmentResponse:
+      required:
+        - amount
+        - scheduledPaymentDate
+        - status
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+          description: Installment amount to be paid
+        scheduledPaymentDate:
+          type: string
+          format: date
+          description: Scheduled date for the installment to be
+        status:
+          $ref: '#/components/schemas/InstallmentStatus'
+    LoanStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - LATE
+        - COMPLETED
+      description: >
+        Statuses:
+          - `ACTIVE`: has pending installment payments.
+          - `LATE`: has installment payments with error.
+          - `COMPLETED`: all installments are paid.
+    InstallmentStatus:
+      type: string
+      enum:
+        - NEXT
+        - PENDING
+        - ERROR
+      description: >
+        Statuses:
+          - `NEXT`: marked as next installment to be paid
+          - `PENDING`: installment still pending to be paid
+          - `ERROR`: error on payment, considered unpaid
+    CustomerId:
+      type: string
+      format: uuid
+      description: Customer's unique identifier
+    LoanId:
+      type: string
+      format: uuid
+      description: Loan's unique identifier
+    CreatedAt:
+      type: string
+      format: date-time
+      description: Creation date time as ISO-8601
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          pattern: '^APZ\d{6}$'
+          description: Internal error code
+        error:
+          type: string
+          description: Internal error name
+        timestamp:
+          type: integer
+          format: int64
+          description: Unix timestamp
+        message:
+          type: string
+          description: Error message or error description
+        path:
+          type: string
+          description: The path where the error occurred
+  responses:
+    InternalServerErrorResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            Internal server error response:
+              description: General internal server error
+              value:
+                code: APZ000001
+                error: INTERNAL_SERVER_ERROR
+                timestamp: 1739397485
+                message: Error detail
+                path: /v1/current-path-that-threw-error
+    InvalidRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            Invalid customer request response:
+              description: General invalid request error
+              value:
+                code: APZ000004
+                error: INVALID_REQUEST
+                timestamp: 1739397485
+                message: Error detail
+                path: /v1/customers/invalid-uuid
+            Invalid loan request response:
+              description: General invalid request error
+              value:
+                code: APZ000004
+                error: INVALID_REQUEST
+                timestamp: 1739397485
+                message: Error detail
+                path: /v1/loans/invalid-uuid
+    UnauthorizedRequest:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            Unauthorized request error:
+              description: Unauthorized error
+              value:
+                code: APZ000007
+                error: UNAUTHORIZED
+                timestamp: 1739397485
+                message: Error detail
+                path: /v1/current-path-that-threw-error
+  securitySchemes:
+    aplazoAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
