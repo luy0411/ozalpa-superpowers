@@ -22,11 +22,8 @@ WORKDIR /app
 # Create a non-root system group and user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Copy the built jar from the builder stage
-COPY --from=builder /app/target/*.jar app.jar
-
-# Change ownership to the non-root user
-RUN chown -R appuser:appgroup /app
+# Copy the built jar from the builder stage with proper ownership to optimize image layer caching
+COPY --from=builder --chown=appuser:appgroup /app/target/*.jar app.jar
 
 USER appuser
 

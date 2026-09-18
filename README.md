@@ -123,13 +123,13 @@ Services exposed:
 
 ### 1. Register Customer (`POST /v1/customers`)
 
-Registers a customer, computes their credit line based on birth date (e.g., 18-20: $3,000; 21-25: $5,000; 26-65: $8,000), and returns the JWT in the `X-Auth-Token` response header.
+Registers a customer, computes their credit line based on birth date (Age 18–25: $3,000.00; Age 26–30: $5,000.00; Age 31–65: $8,000.00), and returns the JWT in the `X-Auth-Token` response header.
 
 ```bash
 curl -i -X POST http://localhost:8080/v1/customers \
   -H "Content-Type: application/json" \
   -d '{
-    "firstName": "Bruce",
+    "firstName": "Carlos",
     "lastName": "Wayne",
     "secondLastName": "Kane",
     "dateOfBirth": "1990-05-15"
@@ -139,17 +139,15 @@ curl -i -X POST http://localhost:8080/v1/customers \
 **Example Response:**
 ```http
 HTTP/1.1 201 Created
-Location: /v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa6
+Location: /v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa7
 X-Auth-Token: eyJhbGciOiJIUzI1NiJ9...
 Content-Type: application/json
 
 {
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "firstName": "Bruce",
-  "lastName": "Wayne",
-  "secondLastName": "Kane",
-  "dateOfBirth": "1990-05-15",
-  "creditLine": 8000.00
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "creditLineAmount": 8000.00,
+  "availableCreditLineAmount": 8000.00,
+  "createdAt": "2026-09-18T12:00:00Z"
 }
 ```
 
@@ -157,7 +155,7 @@ Content-Type: application/json
 
 ```bash
 export TOKEN="<value-of-X-Auth-Token-header>"
-export CUSTOMER_ID="3fa85f64-5717-4562-b3fc-2c963f66afa6"
+export CUSTOMER_ID="3fa85f64-5717-4562-b3fc-2c963f66afa7"
 ```
 
 ---
@@ -174,12 +172,10 @@ curl -i -X GET http://localhost:8080/v1/customers/${CUSTOMER_ID} \
 **Example Response:**
 ```json
 {
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "firstName": "Bruce",
-  "lastName": "Wayne",
-  "secondLastName": "Kane",
-  "dateOfBirth": "1990-05-15",
-  "creditLine": 8000.00
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "creditLineAmount": 8000.00,
+  "availableCreditLineAmount": 8000.00,
+  "createdAt": "2026-09-18T12:00:00Z"
 }
 ```
 
@@ -187,7 +183,7 @@ curl -i -X GET http://localhost:8080/v1/customers/${CUSTOMER_ID} \
 
 ### 3. Create Loan (`POST /v1/loans`)
 
-Creates a new loan, validates credit line availability, computes interest commission based on the payment scheme, generates 5 biweekly installments, and reduces available credit.
+Creates a new loan, validates credit line availability, computes interest commission based on the customer payment scheme (e.g. Scheme 1 with 13% commission for names starting with C, L, H), generates 5 biweekly installments, and reduces available credit.
 
 ```bash
 curl -i -X POST http://localhost:8080/v1/loans \
@@ -202,54 +198,52 @@ curl -i -X POST http://localhost:8080/v1/loans \
 **Example Response:**
 ```http
 HTTP/1.1 201 Created
-Location: /v1/loans/a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+Location: /v1/loans/7fa85f64-5717-4562-b3fc-2c963f66afa8
 Content-Type: application/json
 
 {
-  "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "id": "7fa85f64-5717-4562-b3fc-2c963f66afa8",
+  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
   "amount": 1000.00,
   "status": "ACTIVE",
-  "scheme": "SCHEME_1",
-  "installments": [
-    {
-      "installmentNumber": 1,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-10-02",
-      "status": "NEXT"
-    },
-    {
-      "installmentNumber": 2,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-10-16",
-      "status": "PENDING"
-    },
-    {
-      "installmentNumber": 3,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-10-30",
-      "status": "PENDING"
-    },
-    {
-      "installmentNumber": 4,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-11-13",
-      "status": "PENDING"
-    },
-    {
-      "installmentNumber": 5,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-11-27",
-      "status": "PENDING"
-    }
-  ]
+  "createdAt": "2026-09-18T12:05:00Z",
+  "paymentPlan": {
+    "commissionAmount": 130.00,
+    "installments": [
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-02",
+        "status": "NEXT"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-16",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-30",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-13",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-27",
+        "status": "PENDING"
+      }
+    ]
+  }
 }
 ```
 
 *Extract the loan ID:*
 
 ```bash
-export LOAN_ID="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+export LOAN_ID="7fa85f64-5717-4562-b3fc-2c963f66afa8"
 ```
 
 ---
@@ -266,42 +260,40 @@ curl -i -X GET http://localhost:8080/v1/loans/${LOAN_ID} \
 **Example Response:**
 ```json
 {
-  "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "id": "7fa85f64-5717-4562-b3fc-2c963f66afa8",
+  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
   "amount": 1000.00,
   "status": "ACTIVE",
-  "scheme": "SCHEME_1",
-  "installments": [
-    {
-      "installmentNumber": 1,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-10-02",
-      "status": "NEXT"
-    },
-    {
-      "installmentNumber": 2,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-10-16",
-      "status": "PENDING"
-    },
-    {
-      "installmentNumber": 3,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-10-30",
-      "status": "PENDING"
-    },
-    {
-      "installmentNumber": 4,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-11-13",
-      "status": "PENDING"
-    },
-    {
-      "installmentNumber": 5,
-      "amount": 226.00,
-      "scheduledPaymentDate": "2026-11-27",
-      "status": "PENDING"
-    }
-  ]
+  "createdAt": "2026-09-18T12:05:00Z",
+  "paymentPlan": {
+    "commissionAmount": 130.00,
+    "installments": [
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-02",
+        "status": "NEXT"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-16",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-30",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-13",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-27",
+        "status": "PENDING"
+      }
+    ]
+  }
 }
 ```
