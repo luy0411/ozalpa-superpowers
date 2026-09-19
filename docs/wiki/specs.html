@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Especificações Técnicas &amp; Metodologia Superpowers — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="specs.html" class="wiki-nav-link active">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="operations/customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="operations/customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="operations/loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="operations/loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="specs.html" class="wiki-nav-link active">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+          <li class="breadcrumb-item">Desafio &amp; Especificações</li>
+          <li class="breadcrumb-item active" aria-current="page">Especificações Técnicas &amp; Superpowers</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge bg-primary fs-6"><i class="bi bi-stars me-1"></i> Superpowers Framework</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6"><i class="bi bi-check2-all me-1"></i> Autonomous Engineering</span>
+          <span class="badge bg-info text-dark fs-6"><i class="bi bi-journal-code me-1"></i> Specs &amp; Plans</span>
+          <span class="badge bg-secondary fs-6">SDD (Subagent-Driven Development)</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-2">Especificações Técnicas &amp; Metodologia Superpowers</h1>
+        <p class="lead text-secondary mb-0">Documentação completa dos artefatos de engenharia de software gerados pelo processo agentic: especificações de design, planos de implementação e matriz de execução com garantia de qualidade.</p>
+      </div>
+
+      <!-- Nav Tabs -->
+      <ul class="nav nav-tabs nav-fill mb-4" id="specsTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active fw-bold py-3" id="tab-superpowers-btn" data-bs-toggle="tab" data-bs-target="#tab-superpowers" type="button" role="tab" aria-controls="tab-superpowers" aria-selected="true">
+            <i class="bi bi-stars text-primary me-2"></i>1. Metodologia Superpowers
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bold py-3" id="tab-bnpl-design-btn" data-bs-toggle="tab" data-bs-target="#tab-bnpl-design" type="button" role="tab" aria-controls="tab-bnpl-design" aria-selected="false">
+            <i class="bi bi-cpu text-info me-2"></i>2. System Design (BNPL API)
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bold py-3" id="tab-bnpl-plan-btn" data-bs-toggle="tab" data-bs-target="#tab-bnpl-plan" type="button" role="tab" aria-controls="tab-bnpl-plan" aria-selected="false">
+            <i class="bi bi-kanban text-success me-2"></i>3. Plano BNPL (11 Tarefas)
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bold py-3" id="tab-wiki-spec-btn" data-bs-toggle="tab" data-bs-target="#tab-wiki-spec" type="button" role="tab" aria-controls="tab-wiki-spec" aria-selected="false">
+            <i class="bi bi-window-sidebar text-warning me-2"></i>4. Especificações da Wiki
+          </button>
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content" id="specsTabContent">
+
+        <!-- TAB 1: METODOLOGIA SUPERPOWERS -->
+        <div class="tab-pane fade show active" id="tab-superpowers" role="tabpanel" aria-labelledby="tab-superpowers-btn">
+          
+          <div class="alert alert-primary d-flex align-items-center gap-3 mb-4 shadow-sm" role="alert">
+            <i class="bi bi-info-circle-fill fs-3 text-primary flex-shrink-0"></i>
+            <div>
+              <strong>Superpowers</strong> é um framework de engenharia agentic disciplinada desenvolvido para conduzir sistemas de Inteligência Artificial autônomos com o mesmo (ou superior) rigor metodológico aplicado pelos melhores times de engenharia de software mundiais.
+            </div>
+          </div>
+
+          <div class="card wiki-card mb-4 border">
+            <div class="card-header fw-bold bg-body-tertiary">
+              <i class="bi bi-diagram-3 me-1"></i> O Ciclo de Desenvolvimento Agentic (Ponta a Ponta)
+            </div>
+            <div class="card-body">
+              <div class="text-center mb-3">
+                <pre class="mermaid">
+flowchart LR
+    A[1. Brainstorming & Alinhamento] --> B[2. System Design Spec]
+    B --> C[3. Implementation Plan]
+    C --> D[4. Subagent-Driven Dev]
+    D --> E[5. Test-Driven Dev / BDD]
+    E --> F[6. Verification Before Completion]
+    F --> G[7. Branch Finish & Merge]
+
+    classDef stage fill:#e7f1ff,stroke:#0d6efd,stroke-width:2px,color:#084298;
+    classDef finish fill:#d1e7dd,stroke:#0f5132,stroke-width:2px,color:#0f5132;
+    class A,B,C,D,E,F stage;
+    class G finish;
+                </pre>
+              </div>
+
+              <div class="row g-3 mt-2">
+                <div class="col-md-6 col-lg-4">
+                  <div class="p-3 bg-body-tertiary rounded border h-100">
+                    <h6 class="fw-bold text-primary"><i class="bi bi-chat-left-dots me-1"></i> 1. Brainstorming</h6>
+                    <p class="small text-secondary mb-0">Exploração crítica de requisitos, formulação de premissas técnicas, identificação de riscos de negócio e validação prévia com os stakeholders antes de escrever qualquer linha de código.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="p-3 bg-body-tertiary rounded border h-100">
+                    <h6 class="fw-bold text-info"><i class="bi bi-file-earmark-text me-1"></i> 2. System Design Spec</h6>
+                    <p class="small text-secondary mb-0">Criação de documento de arquitetura imutável e detalhado: entidades, matriz de erros, modelos transacionais, algoritmos de cálculo financeiro e limites arquiteturais.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="p-3 bg-body-tertiary rounded border h-100">
+                    <h6 class="fw-bold text-success"><i class="bi bi-list-task me-1"></i> 3. Implementation Plan</h6>
+                    <p class="small text-secondary mb-0">Decomposição estrita em tarefas atômicas sequenciais ou paralelizáveis, contendo arquivos envolvidos, interfaces expostas, passos executáveis e critérios de verificação.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="p-3 bg-body-tertiary rounded border h-100">
+                    <h6 class="fw-bold text-warning"><i class="bi bi-robot me-1"></i> 4. Subagent-Driven Dev</h6>
+                    <p class="small text-secondary mb-0">Orquestração de subagentes especializados executando cada tarefa em contextos limpos, com briefs direcionados, sem poluição de contexto e com relatórios formais de encerramento.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="p-3 bg-body-tertiary rounded border h-100">
+                    <h6 class="fw-bold text-danger"><i class="bi bi-shield-check me-1"></i> 5. TDD / BDD Obrigatório</h6>
+                    <p class="small text-secondary mb-0">Garantia absoluta de que testes automatizados (Cucumber BDD e JUnit 5) validam cada requisito antes do aceite. Nenhuma funcionalidade é considerada concluída sem evidência de testes passando.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <div class="p-3 bg-body-tertiary rounded border h-100">
+                    <h6 class="fw-bold text-purple"><i class="bi bi-check2-square me-1"></i> 6. Verification Before Completion</h6>
+                    <p class="small text-secondary mb-0">Regra de ouro do framework: "Evidência antes de asserções". Comandos reais de build e verificação (<code>mvn verify</code>) devem ser executados no ambiente real antes de emitir o parecer de conclusão.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card wiki-card border mb-4">
+            <div class="card-header fw-bold bg-body-tertiary">
+              <i class="bi bi-shield-lock me-1"></i> Pilares de Rigor e Governança
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered align-middle small mb-0">
+                  <thead class="bg-body-secondary">
+                    <tr>
+                      <th style="width: 25%;">Habilidade (Skill)</th>
+                      <th style="width: 35%;">Propósito &amp; Quando Utilizar</th>
+                      <th style="width: 40%;">Impacto na Qualidade da Solução</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>brainstorming</code></td>
+                      <td>Antes de qualquer trabalho criativo, especificação ou codificação.</td>
+                      <td>Evita retrabalho, resolve ambiguidades em regras de negócio e define arquiteturas robustas antes do primeiro commit.</td>
+                    </tr>
+                    <tr>
+                      <td><code>writing-plans</code></td>
+                      <td>Após validação do design spec para quebrar tarefas em passos atômicos.</td>
+                      <td>Elimina derivação de escopo e assegura rastreabilidade ponta a ponta dos requisitos.</td>
+                    </tr>
+                    <tr>
+                      <td><code>subagent-driven-development</code></td>
+                      <td>Durante a execução técnica das tarefas do plano.</td>
+                      <td>Preserva o contexto do agente principal, permite revisões independentes de código e gera relatórios auditáveis.</td>
+                    </tr>
+                    <tr>
+                      <td><code>test-driven-development</code></td>
+                      <td>Ao implementar qualquer funcionalidade ou correção.</td>
+                      <td>Garante que o comportamento esperado é verificado previamente por testes antes da escrita do código de produção.</td>
+                    </tr>
+                    <tr>
+                      <td><code>verification-before-completion</code></td>
+                      <td>Antes de declarar qualquer tarefa ou plano como finalizado.</td>
+                      <td>Impede anúncios prematuros de sucesso; todo término exige evidência concreta de testes e compilação sem alertas.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SYSTEM DESIGN SPEC -->
+        <div class="tab-pane fade" id="tab-bnpl-design" role="tabpanel" aria-labelledby="tab-bnpl-design-btn">
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="h5 mb-0 fw-bold"><i class="bi bi-file-earmark-text text-primary me-2"></i>System Design Specification da API BNPL</h4>
+            <span class="badge bg-secondary font-monospace">2026-09-18-bnpl-system-design.md</span>
+          </div>
+          <p class="text-secondary small">
+            Especificação técnica de arquitetura de software contendo o modelo de dados, políticas de segurança, conciliação monetária e tratamento unificado de erros.
+          </p>
+
+          <div class="row g-3 mb-4">
+            <div class="col-lg-6">
+              <div class="card wiki-card h-100 border">
+                <div class="card-header fw-bold bg-body-tertiary">
+                  <i class="bi bi-calculator me-1"></i> Fórmulas Financeiras &amp; Amortização
+                </div>
+                <div class="card-body">
+                  <h6 class="fw-bold small text-uppercase text-secondary">Cálculo de Juros e Comissão</h6>
+                  <pre><code>commissionAmount = round(amount * interestRate, 2, HALF_EVEN);
+totalAmount = amount + commissionAmount;</code></pre>
+
+                  <h6 class="fw-bold small text-uppercase text-secondary mt-3">Algoritmo de Divisão em 5 Parcelas Quinzenais</h6>
+                  <pre><code>baseInstallment = floor(totalAmount / 5, 2);
+finalInstallment = totalAmount - (baseInstallment * 4);
+
+// Parcela 1 a 4: baseInstallment
+// Parcela 5: finalInstallment (garante soma exata sem perda de centavos)</code></pre>
+                  
+                  <div class="alert alert-info py-2 px-3 small mb-0 mt-3">
+                    <i class="bi bi-lightbulb-fill me-1"></i> <strong>Precisão Monetária:</strong> Todas as variáveis financeiras utilizam <code>BigDecimal</code> com arredondamento bancário <code>RoundingMode.HALF_EVEN</code> e tipos SQL <code>NUMERIC(15, 2)</code>.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="card wiki-card h-100 border">
+                <div class="card-header fw-bold bg-body-tertiary">
+                  <i class="bi bi-shield-check me-1"></i> Matriz Transacional e Concorrência
+                </div>
+                <div class="card-body">
+                  <h6 class="fw-bold small text-uppercase text-secondary">Consistência de Crédito</h6>
+                  <p class="small text-secondary mb-2">
+                    A operação de compra (<code>POST /v1/loans</code>) é executada com anotação <code>@Transactional</code> e nível de isolamento padrão do Spring Data JPA sobre o PostgreSQL.
+                  </p>
+                  <ul class="small mb-3">
+                    <li>Verificação atômica de <code>amount &lt;= availableCreditLineAmount</code>.</li>
+                    <li>Subtração simultânea do saldo disponível: <code>availableCredit = availableCredit - amount</code>.</li>
+                    <li>Criação coordenada da entidade <code>LoanEntity</code> e dos 5 registros filhos <code>InstallmentEntity</code> vinculados por chave estrangeira em cascata.</li>
+                  </ul>
+
+                  <h6 class="fw-bold small text-uppercase text-secondary">Autenticação JWT Stateless</h6>
+                  <p class="small text-secondary mb-0">
+                    Ao registrar um novo cliente (<code>POST /v1/customers</code>), o sistema gera um token JWT com algoritmo HMAC-SHA256, contendo o UUID externo e claims de emissão, retornado no header <code>X-Auth-Token</code>. Esse token é exigido nos endpoints subsequentes via cabeçalho HTTP padrão <code>Authorization: Bearer &lt;token&gt;</code>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card wiki-card border mb-4">
+            <div class="card-header fw-bold bg-body-tertiary">
+              <i class="bi bi-exclamation-octagon me-1"></i> Matriz Completa de Códigos de Erro da API
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered table-sm align-middle small mb-0">
+                  <thead class="bg-body-secondary">
+                    <tr>
+                      <th style="width: 15%;">Código Aplazo</th>
+                      <th style="width: 25%;">Nome do Erro</th>
+                      <th style="width: 15%;">HTTP Status</th>
+                      <th style="width: 45%;">Descrição do Cenário de Disparo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>APZ000001</code></td>
+                      <td><code>INTERNAL_SERVER_ERROR</code></td>
+                      <td><span class="badge bg-danger">500</span></td>
+                      <td>Falha inesperada no servidor ou indisponibilidade de banco de dados.</td>
+                    </tr>
+                    <tr>
+                      <td><code>APZ000002</code></td>
+                      <td><code>INVALID_CUSTOMER_REQUEST</code></td>
+                      <td><span class="badge bg-warning text-dark">400</span></td>
+                      <td>Dados inválidos de cadastro ou idade fora da faixa permitida (menor de 18 ou maior de 65 anos).</td>
+                    </tr>
+                    <tr>
+                      <td><code>APZ000004</code></td>
+                      <td><code>INVALID_REQUEST</code></td>
+                      <td><span class="badge bg-warning text-dark">400</span></td>
+                      <td>Formato de identificador inválido (não é UUID) ou payload JSON com sintaxe corrompida.</td>
+                    </tr>
+                    <tr>
+                      <td><code>APZ000005</code></td>
+                      <td><code>CUSTOMER_NOT_FOUND</code></td>
+                      <td><span class="badge bg-secondary">404</span></td>
+                      <td>Cliente inexistente ao consultar por ID ou tentar criar empréstimo.</td>
+                    </tr>
+                    <tr>
+                      <td><code>APZ000006</code></td>
+                      <td><code>INVALID_LOAN_REQUEST</code></td>
+                      <td><span class="badge bg-warning text-dark">400</span></td>
+                      <td>Valor de empréstimo superior ao limite de crédito disponível ou valor menor/igual a zero.</td>
+                    </tr>
+                    <tr>
+                      <td><code>APZ000007</code></td>
+                      <td><code>UNAUTHORIZED</code></td>
+                      <td><span class="badge bg-danger">401</span></td>
+                      <td>Token JWT ausente, expirado ou com assinatura HMAC inválida.</td>
+                    </tr>
+                    <tr>
+                      <td><code>APZ000008</code></td>
+                      <td><code>LOAN_NOT_FOUND</code></td>
+                      <td><span class="badge bg-secondary">404</span></td>
+                      <td>Empréstimo inexistente para o identificador UUID pesquisado.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: PLANO BNPL (11 TAREFAS) -->
+        <div class="tab-pane fade" id="tab-bnpl-plan" role="tabpanel" aria-labelledby="tab-bnpl-plan-btn">
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="h5 mb-0 fw-bold"><i class="bi bi-check2-all text-success me-2"></i>Plano de Implementação BNPL (11 Tarefas Concluídas — 100%)</h4>
+            <span class="badge bg-success font-monospace">11 / 11 Tarefas Executadas</span>
+          </div>
+          <p class="text-secondary small">
+            Registro do plano operacional de implementação autônoma desenvolvido e executado sob o processo Subagent-Driven Development (SDD):
+          </p>
+
+          <div class="table-responsive mb-4">
+            <table class="table table-bordered table-hover align-middle small">
+              <thead class="bg-body-secondary">
+                <tr>
+                  <th style="width: 8%;">Tarefa</th>
+                  <th style="width: 28%;">Título &amp; Escopo</th>
+                  <th style="width: 34%;">Arquivos Principais Produzidos</th>
+                  <th style="width: 15%;">Metodologia</th>
+                  <th style="width: 15%;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold">Task 1</td>
+                  <td>Database Documentation &amp; ERD</td>
+                  <td><code>docs/erd.md</code></td>
+                  <td><span class="badge bg-secondary">Docs First</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 2</td>
+                  <td>Scaffolding do Projeto &amp; Maven</td>
+                  <td><code>pom.xml</code>, <code>application.yml</code>, <code>BnplApplication.java</code></td>
+                  <td><span class="badge bg-secondary">Scaffold</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 3</td>
+                  <td>Migrações Flyway PostgreSQL</td>
+                  <td><code>V1__initial_schema.sql</code></td>
+                  <td><span class="badge bg-secondary">Migration</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 4</td>
+                  <td>Entidades de Domínio JPA &amp; Repositories</td>
+                  <td><code>CustomerEntity</code>, <code>LoanEntity</code>, <code>InstallmentEntity</code></td>
+                  <td><span class="badge bg-secondary">Domain Model</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 5</td>
+                  <td>Serviços de Domínio &amp; Regras de Negócio</td>
+                  <td><code>CreditLineCalculator</code>, <code>PaymentSchemeResolver</code></td>
+                  <td><span class="badge bg-danger">TDD Rigor</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 6</td>
+                  <td>DTOs, Mappers &amp; Global Exception Handler</td>
+                  <td><code>CustomerRequest</code>, <code>LoanRequest</code>, <code>GlobalExceptionHandler</code></td>
+                  <td><span class="badge bg-info text-dark">OpenAPI Spec</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 7</td>
+                  <td>Segurança JWT &amp; Filtro de Autenticação</td>
+                  <td><code>JwtTokenProvider</code>, <code>JwtAuthFilter</code>, <code>SecurityConfig</code></td>
+                  <td><span class="badge bg-warning text-dark">Security</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 8</td>
+                  <td>Customer Service &amp; REST Controller</td>
+                  <td><code>CustomerService</code>, <code>CustomerController</code></td>
+                  <td><span class="badge bg-danger">TDD Rigor</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 9</td>
+                  <td>Loan Service &amp; REST Controller</td>
+                  <td><code>LoanService</code>, <code>LoanController</code></td>
+                  <td><span class="badge bg-danger">TDD Rigor</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 10</td>
+                  <td>Suite Cucumber BDD &amp; Testcontainers</td>
+                  <td><code>customer_registration.feature</code>, <code>loan_creation.feature</code>, <code>security.feature</code></td>
+                  <td><span class="badge bg-primary">BDD E2E</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Task 11</td>
+                  <td>Containerização, Docker &amp; Validação Final</td>
+                  <td><code>Dockerfile</code>, <code>docker-compose.yml</code>, <code>README.md</code></td>
+                  <td><span class="badge bg-success">DevOps &amp; Build</span></td>
+                  <td><span class="badge bg-success"><i class="bi bi-check-lg me-1"></i> Concluída</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="p-3 bg-body-tertiary rounded border text-center">
+                <div class="display-6 fw-bold text-success mb-1">100%</div>
+                <div class="small text-secondary fw-semibold">Taxa de Conclusão do Plano</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 bg-body-tertiary rounded border text-center">
+                <div class="display-6 fw-bold text-primary mb-1">138+</div>
+                <div class="small text-secondary fw-semibold">Steps Cucumber &amp; Asserções</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 bg-body-tertiary rounded border text-center">
+                <div class="display-6 fw-bold text-info mb-1">0</div>
+                <div class="small text-secondary fw-semibold">Regressões ou Falhas</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: ESPECIFICAÇÕES DA WIKI -->
+        <div class="tab-pane fade" id="tab-wiki-spec" role="tabpanel" aria-labelledby="tab-wiki-spec-btn">
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="h5 mb-0 fw-bold"><i class="bi bi-window-sidebar text-warning me-2"></i>Design Spec e Plano da Wiki Estática</h4>
+            <span class="badge bg-secondary font-monospace">2026-09-19-wiki-documentation-design.md</span>
+          </div>
+          <p class="text-secondary small">
+            Especificação de arquitetura do mini portal de documentação em HTML estático com suporte total a navegação local (<code>file:///</code>), alternância de tema e Mermaid.js:
+          </p>
+
+          <div class="card wiki-card border mb-4">
+            <div class="card-header fw-bold bg-body-tertiary">
+              <i class="bi bi-layout-wtf me-1"></i> Arquitetura da Informação (10 Páginas Estruturadas)
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="border rounded p-3 bg-body-tertiary">
+                    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-compass me-1"></i> Páginas de Visão Geral &amp; Arquitetura</h6>
+                    <ul class="small mb-0">
+                      <li><code>index.html</code> — Visão Geral, Métricas, Quickstart e Comandos de Build.</li>
+                      <li><code>c4model.html</code> — Diagramas C1 Context, C2 Container e Structurizr DSL.</li>
+                      <li><code>erd.html</code> — Diagrama ERD Mermaid e Dicionário de Dados detalhado.</li>
+                      <li><code>challenge.html</code> — Regras originais de crédito e esquemas da Aplazo.</li>
+                      <li><code>specs.html</code> — Registro dos planos e metodologia Superpowers.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="border rounded p-3 bg-body-tertiary">
+                    <h6 class="fw-bold text-success mb-2"><i class="bi bi-cpu me-1"></i> Catálogo e Operações da API</h6>
+                    <ul class="small mb-0">
+                      <li><code>operations.html</code> — Hub com resumo de endpoints, auth e matriz de erros.</li>
+                      <li><code>operations/customer-registration.html</code> — POST /v1/customers com regras.</li>
+                      <li><code>operations/customer-lookup.html</code> — GET /v1/customers/{id} com JWT.</li>
+                      <li><code>operations/loan-creation.html</code> — POST /v1/loans com parcelamento em 5x.</li>
+                      <li><code>operations/loan-lookup.html</code> — GET /v1/loans/{id} com parcelas e status.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card wiki-card border mb-4">
+            <div class="card-header fw-bold bg-body-tertiary">
+              <i class="bi bi-check2-circle me-1"></i> Fases de Execução do Plano da Wiki
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle small mb-0">
+                  <thead class="bg-body-secondary">
+                    <tr>
+                      <th style="width: 12%;">Tarefa</th>
+                      <th style="width: 25%;">Escopo Principal</th>
+                      <th style="width: 48%;">Entregáveis Concluídos</th>
+                      <th style="width: 15%;">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Task 1</strong></td>
+                      <td>Assets Globais &amp; Template Base</td>
+                      <td>Bootstrap 5.3, Bootstrap Icons, <code>wiki.css</code>, <code>wiki.js</code> e Mermaid local.</td>
+                      <td><span class="badge bg-success">Concluído</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Task 2</strong></td>
+                      <td>Página Inicial da Wiki</td>
+                      <td><code>index.html</code> com métricas, quickstart e instruções Docker/Maven.</td>
+                      <td><span class="badge bg-success">Concluído</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Task 3</strong></td>
+                      <td>Arquitetura C4 &amp; Dados ERD</td>
+                      <td><code>c4model.html</code> e <code>erd.html</code> com diagramas Mermaid e tabelas de campos.</td>
+                      <td><span class="badge bg-success">Concluído</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Task 4</strong></td>
+                      <td>Catálogo &amp; Detalhes de Operações</td>
+                      <td><code>operations.html</code> e as 4 páginas filhas em <code>operations/</code>.</td>
+                      <td><span class="badge bg-success">Concluído</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Task 5</strong></td>
+                      <td>Desafio Aplazo &amp; Metodologia Specs</td>
+                      <td><code>challenge.html</code> e <code>specs.html</code> com tabs interativas.</td>
+                      <td><span class="badge bg-success">Concluído</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Task 6</strong></td>
+                      <td>Verificação E2E e README Principal</td>
+                      <td>Checagem de links relativos, validação visual e link no <code>README.md</code>.</td>
+                      <td><span class="badge bg-primary">Próxima Fase</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="challenge.html" class="text-secondary text-decoration-none">Desafio Aplazo</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="specs.html" class="text-secondary text-decoration-none fw-bold">Metodologia &amp; Specs</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="c4model.html" class="text-secondary text-decoration-none">Modelo C4</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="erd.html" class="text-secondary text-decoration-none">ERD</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/mermaid.min.js"></script>
+  <script src="assets/js/wiki.js"></script>
+</body>
+</html>

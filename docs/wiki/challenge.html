@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio BNPL Aplazo — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="operations/customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="operations/customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="operations/loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="operations/loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="challenge.html" class="wiki-nav-link active">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+          <li class="breadcrumb-item">Desafio &amp; Especificações</li>
+          <li class="breadcrumb-item active" aria-current="page">Desafio BNPL Aplazo</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge bg-primary fs-6"><i class="bi bi-file-earmark-code me-1"></i> Take-Home Challenge</span>
+          <span class="badge bg-info text-dark fs-6"><i class="bi bi-shield-check me-1"></i> Especificação Original</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6"><i class="bi bi-check-all me-1"></i> 100% Implementado</span>
+          <span class="badge bg-secondary fs-6">Aplazo Engineering</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-2">Desafio Técnico BNPL (Aplazo Take-Home)</h1>
+        <p class="lead text-secondary mb-0">Consolidação completa da especificação de requisitos de negócio, arquitetura proposta, regras de concessão de crédito, esquemas de pagamento e contrato OpenAPI.</p>
+      </div>
+
+      <!-- Quick Navigation Index -->
+      <div class="card wiki-card mb-4 bg-body-tertiary">
+        <div class="card-body py-3">
+          <div class="fw-bold text-uppercase small text-secondary mb-2">
+            <i class="bi bi-list-nested me-1"></i> Índice da Página
+          </div>
+          <div class="d-flex flex-wrap gap-3 small">
+            <a href="#objetivo-geral" class="text-decoration-none">1. Objetivo Geral &amp; Conceitos</a>
+            <a href="#regras-credito" class="text-decoration-none">2. Regras de Avaliação de Crédito</a>
+            <a href="#regras-schemes" class="text-decoration-none">3. Esquemas de Pagamento &amp; Juros</a>
+            <a href="#calculos-internos" class="text-decoration-none">4. Cálculos &amp; Parcelamento Quinzenal</a>
+            <a href="#openapi-contract" class="text-decoration-none">5. Contrato OpenAPI 3.0.1</a>
+            <a href="#criterios-avaliacao" class="text-decoration-none">6. Critérios de Avaliação &amp; Stack</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Objetivo Geral & Conceitos -->
+      <section id="objetivo-geral" class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-bullseye fs-4 text-primary"></i>
+          <h2 class="h4 mb-0">1. Objetivo Geral &amp; Conceitos Fundamentais</h2>
+        </div>
+        <p>
+          O teste técnico consiste no desenvolvimento de uma aplicação backend e sistema REST para compras online que cubra os eventos centrais do processo de concessão e gestão de crédito em um modelo de negócio <strong>BNPL (Buy Now, Pay Later)</strong>.
+        </p>
+        <p>
+          <strong>BNPL</strong> é uma modalidade de financiamento no ponto de venda que viabiliza a compra de bens e serviços por meio de parcelamento programado, onde o primeiro pagamento ocorre no momento da compra ou em data futura. Dessa forma, a principal exigência tecnológica da plataforma é prover serviços escaláveis, determinísticos e com alta consistência transacional para criação de clientes e controle rigoroso de saldo e empréstimos.
+        </p>
+
+        <div class="row g-3 mb-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 wiki-card border shadow-sm">
+              <div class="card-body">
+                <div class="text-primary mb-2"><i class="bi bi-person-badge fs-3"></i></div>
+                <h5 class="card-title h6 fw-bold">Clientes (Clients)</h5>
+                <p class="card-text small text-secondary mb-0">Indivíduos registrados na plataforma que recebem uma linha de crédito aprovada com base em análise cadastral e idade.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 wiki-card border shadow-sm">
+              <div class="card-body">
+                <div class="text-success mb-2"><i class="bi bi-cash-stack fs-3"></i></div>
+                <h5 class="card-title h6 fw-bold">Linha de Crédito (Credit Line)</h5>
+                <p class="card-text small text-secondary mb-0">Montante financeiro máximo disponibilizado ao cliente para financiamento de compras de produtos e serviços.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 wiki-card border shadow-sm">
+              <div class="card-body">
+                <div class="text-warning mb-2"><i class="bi bi-credit-card-2-front fs-3"></i></div>
+                <h5 class="card-title h6 fw-bold">Empréstimo (Loan)</h5>
+                <p class="card-text small text-secondary mb-0">Cada compra efetivada é convertida em um empréstimo vinculado, deduzindo o valor principal da linha de crédito remanescente.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 wiki-card border shadow-sm">
+              <div class="card-body">
+                <div class="text-info mb-2"><i class="bi bi-pie-chart-fill fs-3"></i></div>
+                <h5 class="card-title h6 fw-bold">Esquema &amp; Amortização</h5>
+                <p class="card-text small text-secondary mb-0">Cada empréstimo possui um esquema associado com taxa de comissão e calendário estrito de parcelas quinzenais.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Regras de Avaliação de Crédito -->
+      <section id="regras-credito" class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-sliders fs-4 text-primary"></i>
+          <h2 class="h4 mb-0">2. Regras de Avaliação e Limite de Crédito</h2>
+        </div>
+        <p>
+          No momento do cadastro via <code>POST /v1/customers</code>, o sistema efetua o cálculo da idade do solicitante com base na data de nascimento (<code>birthDate</code> / <code>dateOfBirth</code>) em relação à data atual do servidor (<code>LocalDate.now()</code>).
+        </p>
+
+        <div class="table-responsive mb-4">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="table-group-divider bg-body-secondary">
+              <tr>
+                <th style="width: 22%;">Faixa Etária</th>
+                <th style="width: 28%;">Linha de Crédito Concedida</th>
+                <th style="width: 25%;">Status de Aceite</th>
+                <th style="width: 25%;">Comportamento do Sistema</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-danger-subtle">
+                <td><strong>Menor de 18 anos</strong> (&lt; 18)</td>
+                <td><span class="badge bg-secondary">$0,00</span></td>
+                <td><span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i> Não Elegível</span></td>
+                <td class="small">Rejeição com HTTP 400 Bad Request, código <code>APZ000002</code></td>
+              </tr>
+              <tr class="table-success-subtle">
+                <td><strong>18 a 25 anos</strong> (inclusivo)</td>
+                <td><strong class="text-success fs-5">$3.000,00</strong></td>
+                <td><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> Aprovado</span></td>
+                <td class="small">Cadastro concluído, emissão de JWT no header <code>X-Auth-Token</code></td>
+              </tr>
+              <tr class="table-success-subtle">
+                <td><strong>26 a 30 anos</strong> (inclusivo)</td>
+                <td><strong class="text-success fs-5">$5.000,00</strong></td>
+                <td><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> Aprovado</span></td>
+                <td class="small">Cadastro concluído, emissão de JWT no header <code>X-Auth-Token</code></td>
+              </tr>
+              <tr class="table-success-subtle">
+                <td><strong>31 a 65 anos</strong> (inclusivo)</td>
+                <td><strong class="text-success fs-5">$8.000,00</strong></td>
+                <td><span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> Aprovado</span></td>
+                <td class="small">Cadastro concluído, emissão de JWT no header <code>X-Auth-Token</code></td>
+              </tr>
+              <tr class="table-danger-subtle">
+                <td><strong>Maior de 65 anos</strong> (&gt; 65)</td>
+                <td><span class="badge bg-secondary">$0,00</span></td>
+                <td><span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i> Não Elegível</span></td>
+                <td class="small">Rejeição com HTTP 400 Bad Request, código <code>APZ000002</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="alert alert-warning d-flex align-items-start gap-3" role="alert">
+          <i class="bi bi-exclamation-triangle-fill fs-4 text-warning flex-shrink-0"></i>
+          <div>
+            <strong>Regra Crítica de Negócio:</strong> Clientes menores de 18 anos ou com idade estritamente superior a 65 anos não são aceitos pela política de risco. O sistema não deve persistir o registro no banco de dados e deve responder imediatamente com payload de erro padronizado contendo mensagem explicativa amigável.
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Esquemas de Pagamento & Juros -->
+      <section id="regras-schemes" class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-diagram-2 fs-4 text-primary"></i>
+          <h2 class="h4 mb-0">3. Esquemas de Pagamento &amp; Resolução de Juros</h2>
+        </div>
+        <p>
+          O sistema opera com dois esquemas pré-definidos de amortização. A determinação de qual esquema será aplicado à compra segue uma ordem prioritária e determinística:
+        </p>
+
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card border-primary shadow-sm">
+              <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
+                <span>Scheme 1 — Taxa Reduzida (13%)</span>
+                <span class="badge bg-light text-primary">Prioridade 1</span>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled mb-3">
+                  <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i><strong>Taxa de Comissão:</strong> 13,00% (0.13)</li>
+                  <li class="mb-2"><i class="bi bi-calendar-range text-primary me-2"></i><strong>Número de Parcelas:</strong> 5 pagamentos quinzenais</li>
+                  <li class="mb-2"><i class="bi bi-clock text-primary me-2"></i><strong>Frequência:</strong> A cada 14 dias (D+14, D+28, D+42, D+56, D+70)</li>
+                </ul>
+                <div class="p-2 bg-body-tertiary rounded border small">
+                  <strong>Condição de Aplicação:</strong> O primeiro nome do cliente (<code>firstName</code>) inicia com as letras <strong>C, L ou H</strong> (avaliação case-insensitive, ex.: <em>Carlos, Lucas, Hector</em>).
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card border-secondary shadow-sm">
+              <div class="card-header bg-secondary text-white fw-bold d-flex justify-content-between align-items-center">
+                <span>Scheme 2 — Taxa Padrão (16%)</span>
+                <span class="badge bg-light text-secondary">Prioridade 2 &amp; Fallback</span>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled mb-3">
+                  <li class="mb-2"><i class="bi bi-check2-circle text-secondary me-2"></i><strong>Taxa de Comissão:</strong> 16,00% (0.16)</li>
+                  <li class="mb-2"><i class="bi bi-calendar-range text-secondary me-2"></i><strong>Número de Parcelas:</strong> 5 pagamentos quinzenais</li>
+                  <li class="mb-2"><i class="bi bi-clock text-secondary me-2"></i><strong>Frequência:</strong> A cada 14 dias (D+14, D+28, D+42, D+56, D+70)</li>
+                </ul>
+                <div class="p-2 bg-body-tertiary rounded border small">
+                  <strong>Condição de Aplicação:</strong> O ID sequencial interno do cliente é <strong>maior que 25</strong> (<code>id &gt; 25</code>), OU como <strong>fallback padrão</strong> caso nenhuma outra regra se aplique.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card wiki-card bg-body-tertiary border mb-4">
+          <div class="card-header fw-bold">
+            <i class="bi bi-arrow-repeat me-1"></i> Fluxograma de Resolução dos Esquemas (Mermaid)
+          </div>
+          <div class="card-body text-center">
+            <pre class="mermaid">
+flowchart TD
+    A[Nova Solicitação de Empréstimo] --> B{Primeiro nome inicia com C, L ou H?}
+    B -- Sim --> C[Atribuir SCHEME_1: 13% de juros]
+    B -- Não --> D{ID sequencial interno > 25?}
+    D -- Sim --> E[Atribuir SCHEME_2: 16% de juros]
+    D -- Não --> F[Atribuir SCHEME_2 Padrão: 16% de juros]
+
+    classDef scheme1 fill:#d1e7dd,stroke:#0f5132,stroke-width:2px,color:#0f5132;
+    classDef scheme2 fill:#cfe2ff,stroke:#084298,stroke-width:2px,color:#084298;
+    class C scheme1;
+    class E,F scheme2;
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Cálculos & Parcelamento Quinzenal -->
+      <section id="calculos-internos" class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-calculator fs-4 text-primary"></i>
+          <h2 class="h4 mb-0">4. Cálculos Financeiros e Amortização em 5 Parcelas</h2>
+        </div>
+        <p>
+          A conformidade financeira requer precisão monetária decimal rigorosa, sem perda de centavos por arredondamento de ponto flutuante:
+        </p>
+
+        <div class="row g-3 mb-4">
+          <div class="col-lg-6">
+            <div class="card wiki-card h-100 border">
+              <div class="card-header fw-bold bg-body-tertiary">
+                <i class="bi bi-currency-dollar me-1"></i> Fórmulas de Amortização
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <span class="badge bg-secondary-subtle text-secondary border">1. Comissão de Juros</span>
+                  <div class="p-2 my-1 bg-body-tertiary rounded font-monospace small">
+                    commissionAmount = roundHalfEven(amount * interestRate, 2)
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <span class="badge bg-secondary-subtle text-secondary border">2. Montante Total</span>
+                  <div class="p-2 my-1 bg-body-tertiary rounded font-monospace small">
+                    totalAmount = amount + commissionAmount
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <span class="badge bg-secondary-subtle text-secondary border">3. Parcela Base (1 a 4)</span>
+                  <div class="p-2 my-1 bg-body-tertiary rounded font-monospace small">
+                    baseInstallment = roundDown(totalAmount / 5, 2)
+                  </div>
+                </div>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border">4. Parcela Final de Conciliação (5)</span>
+                  <div class="p-2 my-1 bg-body-tertiary rounded font-monospace small">
+                    finalInstallment = totalAmount - (baseInstallment * 4)
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card wiki-card h-100 border">
+              <div class="card-header fw-bold bg-body-tertiary">
+                <i class="bi bi-calendar-event me-1"></i> Cronograma de Vencimento e Ciclo de Vida
+              </div>
+              <div class="card-body">
+                <p class="small text-secondary mb-2">As 5 parcelas são agendadas em incrementos de 14 dias (2 semanas) a partir da data de criação do empréstimo:</p>
+                <div class="table-responsive">
+                  <table class="table table-sm table-bordered align-middle small mb-0">
+                    <thead class="bg-body-secondary">
+                      <tr>
+                        <th>#</th>
+                        <th>Vencimento</th>
+                        <th>Status Inicial</th>
+                        <th>Descrição</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>1</strong></td>
+                        <td><code>D + 14 dias</code></td>
+                        <td><span class="badge bg-warning text-dark">NEXT</span></td>
+                        <td>Próxima parcela imediatamente exigível</td>
+                      </tr>
+                      <tr>
+                        <td><strong>2</strong></td>
+                        <td><code>D + 28 dias</code></td>
+                        <td><span class="badge bg-secondary">PENDING</span></td>
+                        <td>Aguardando vencimento da anterior</td>
+                      </tr>
+                      <tr>
+                        <td><strong>3</strong></td>
+                        <td><code>D + 42 dias</code></td>
+                        <td><span class="badge bg-secondary">PENDING</span></td>
+                        <td>Parcelamento intermediário</td>
+                      </tr>
+                      <tr>
+                        <td><strong>4</strong></td>
+                        <td><code>D + 56 dias</code></td>
+                        <td><span class="badge bg-secondary">PENDING</span></td>
+                        <td>Parcelamento intermediário</td>
+                      </tr>
+                      <tr>
+                        <td><strong>5</strong></td>
+                        <td><code>D + 70 dias</code></td>
+                        <td><span class="badge bg-secondary">PENDING</span></td>
+                        <td>Última parcela (absorve centavos residuais)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card wiki-card border mb-4">
+          <div class="card-header fw-bold bg-body-tertiary">
+            <i class="bi bi-receipt me-1"></i> Exemplo Prático de Conciliação de Centavos (Compra de $1.000,00 no Scheme 1 a 13%)
+          </div>
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-7">
+                <ul class="small mb-0">
+                  <li><strong>Valor da Compra (Principal):</strong> $1.000,00</li>
+                  <li><strong>Comissão Calculada (13%):</strong> $130,00 ($1000,00 &times; 0,13)</li>
+                  <li><strong>Montante Total Financiado:</strong> $1.130,00</li>
+                  <li><strong>Divisão por 5:</strong> $1.130,00 &divide; 5 = <strong>$226,00</strong> por parcela.</li>
+                  <li><strong>Soma das 5 parcelas:</strong> 5 &times; $226,00 = $1.130,00 (exato, resíduo = 0,00).</li>
+                </ul>
+              </div>
+              <div class="col-md-5">
+                <div class="p-3 bg-body-tertiary rounded border text-center">
+                  <span class="text-secondary small d-block mb-1">Status do Empréstimo Gerado</span>
+                  <span class="badge bg-success fs-6"><i class="bi bi-check-circle me-1"></i> ACTIVE</span>
+                  <span class="text-secondary small d-block mt-2">Dedução Imediata no Saldo do Cliente</span>
+                  <strong class="text-danger">-$1.000,00</strong> do limite disponível
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Contrato OpenAPI 3.0.1 -->
+      <section id="openapi-contract" class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-file-earmark-code fs-4 text-primary"></i>
+          <h2 class="h4 mb-0">5. Contrato OpenAPI 3.0.1</h2>
+        </div>
+        <p>
+          O desenvolvimento da aplicação e dos controladores seguiu com fidelidade matemática e semântica as especificações do contrato Swagger/OpenAPI fornecido pela Aplazo:
+        </p>
+
+        <div class="card wiki-card border mb-4 shadow-sm">
+          <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+              <h5 class="h6 fw-bold mb-1"><i class="bi bi-filetype-yml text-warning me-2 fs-5"></i>Especificação OpenAPI Original (`take-home.openapi.yml`)</h5>
+              <p class="text-secondary small mb-0">Contém os schemas de <code>CustomerRequest</code>, <code>CustomerResponse</code>, <code>LoanRequest</code>, <code>LoanResponse</code>, <code>ErrorResponse</code> e headers exigidos.</p>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="../challenge/take-home.openapi.yml" class="btn btn-outline-primary btn-sm" download title="Download do arquivo YAML original">
+                <i class="bi bi-download me-1"></i> Baixar YAML
+              </a>
+              <a href="http://localhost:8080/swagger-ui/index.html" target="_blank" rel="noopener" class="btn btn-primary btn-sm" title="Abrir Swagger UI da aplicação em execução">
+                <i class="bi bi-box-arrow-up-right me-1"></i> Swagger UI Local (/swagger-ui)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card wiki-card border">
+          <div class="card-header d-flex justify-content-between align-items-center bg-body-tertiary">
+            <span class="fw-bold small"><i class="bi bi-code-slash me-1"></i> Amostra do Contrato OpenAPI (take-home.openapi.yml)</span>
+            <span class="badge bg-secondary font-monospace">OpenAPI 3.0.1</span>
+          </div>
+          <div class="card-body p-0">
+            <pre class="mb-0 border-0 rounded-0" style="max-height: 380px;"><code>openapi: 3.0.1
+info:
+  title: Aplazo BNPL API
+  version: 0.0.1
+  description: Minimal BNPL API for customer and loan creation.
+servers:
+  - url: /{apiVersion}
+    variables:
+      apiVersion:
+        default: v1
+paths:
+  /customers:
+    post:
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema: { type: string }
+            X-Auth-Token:
+              schema: { type: string }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Bad Request (APZ000002)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /loans:
+    post:
+      summary: Create a loan
+      operationId: createLoan
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanResponse'
+        '400':
+          description: Bad Request (APZ000006)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Critérios de Avaliação & Stack -->
+      <section id="criterios-avaliacao" class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+          <i class="bi bi-clipboard-check fs-4 text-primary"></i>
+          <h2 class="h4 mb-0">6. Critérios de Avaliação Técnica &amp; Conformidade</h2>
+        </div>
+        <p>
+          A tabela a seguir correlaciona os requisitos técnicos propostos no desafio da Aplazo com a implementação entregue neste projeto:
+        </p>
+
+        <div class="table-responsive mb-4">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="bg-body-secondary">
+              <tr>
+                <th style="width: 25%;">Requisito Aplazo</th>
+                <th style="width: 20%;">Obrigatoriedade</th>
+                <th style="width: 30%;">Implementação no Repositório</th>
+                <th style="width: 25%;">Evidência / Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Linguagem &amp; Plataforma</strong></td>
+                <td><span class="badge bg-danger">Mandatório (Java 17+)</span></td>
+                <td>Java 21 LTS com Virtual Threads habilitadas e Records nos DTOs</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> Java 21</span></td>
+              </tr>
+              <tr>
+                <td><strong>Framework Web</strong></td>
+                <td><span class="badge bg-danger">Mandatório (Spring Boot 3)</span></td>
+                <td>Spring Boot 3.4.3 com Spring MVC, Validation e Actuator</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> Spring Boot 3.4.3</span></td>
+              </tr>
+              <tr>
+                <td><strong>Acesso a Dados</strong></td>
+                <td><span class="badge bg-danger">Mandatório (Spring Data)</span></td>
+                <td>Spring Data JPA com Hibernate 6 e Flyway Migrations</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> Flyway + JPA</span></td>
+              </tr>
+              <tr>
+                <td><strong>Banco de Dados</strong></td>
+                <td><span class="badge bg-warning text-dark">Preferencial (PostgreSQL)</span></td>
+                <td>PostgreSQL 16 com schema relacional normalizado (3NF)</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> PostgreSQL 16</span></td>
+              </tr>
+              <tr>
+                <td><strong>Logging Padronizado</strong></td>
+                <td><span class="badge bg-danger">Mandatório</span></td>
+                <td>Logback estruturado com MDC, rastreabilidade e logs nos services</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> SLF4J / Logback</span></td>
+              </tr>
+              <tr>
+                <td><strong>Containerização</strong></td>
+                <td><span class="badge bg-danger">Mandatório (Docker)</span></td>
+                <td>Dockerfile multi-stage e <code>docker-compose.yml</code> pronto para orquestração</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> Docker Multi-stage</span></td>
+              </tr>
+              <tr>
+                <td><strong>Testes Unitários &amp; Cobertura</strong></td>
+                <td><span class="badge bg-danger">Mínimo 60% (desejável 80%)</span></td>
+                <td>Testes unitários JUnit 5 / Mockito cobrindo serviços de cálculo e domínio</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> JUnit 5 + JaCoCo</span></td>
+              </tr>
+              <tr>
+                <td><strong>Testcontainers</strong></td>
+                <td><span class="badge bg-info text-dark">Desejável</span></td>
+                <td>Testcontainers PostgreSQL executando suite completa em ambiente isolado</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> Testcontainers 1.20</span></td>
+              </tr>
+              <tr>
+                <td><strong>Segurança &amp; Autenticação</strong></td>
+                <td><span class="badge bg-danger">Mandatório</span></td>
+                <td>Spring Security 6 com autenticação JWT stateless e filtros customizados</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> JWT HMAC-SHA256</span></td>
+              </tr>
+              <tr>
+                <td><strong>BDD / Testes de Aceitação</strong></td>
+                <td><span class="badge bg-primary">Diferencial Superpowers</span></td>
+                <td>Cucumber BDD com cenários Gherkin em <code>.feature</code> ponta a ponta</td>
+                <td><span class="badge bg-success"><i class="bi bi-check2 me-1"></i> 138+ Steps BDD</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="challenge.html" class="text-secondary text-decoration-none fw-bold">Desafio Aplazo</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="specs.html" class="text-secondary text-decoration-none">Metodologia &amp; Specs</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="c4model.html" class="text-secondary text-decoration-none">Modelo C4</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="erd.html" class="text-secondary text-decoration-none">ERD</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/mermaid.min.js"></script>
+  <script src="assets/js/wiki.js"></script>
+</body>
+</html>
