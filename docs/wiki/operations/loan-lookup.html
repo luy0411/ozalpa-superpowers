@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GET /v1/loans/{loanId} — Consulta de Empréstimo — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="../index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="../index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="../specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="../c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="../erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="../operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="loan-lookup.html" class="wiki-nav-link active">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="../challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="../specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../index.html">Início</a></li>
+          <li class="breadcrumb-item"><a href="../operations.html">Operações da API</a></li>
+          <li class="breadcrumb-item active" aria-current="page">GET /v1/loans/{loanId}</li>
+        </ol>
+      </nav>
+
+      <!-- Operation Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge-http badge-http-get fs-6">GET</span>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6">Autenticado JWT</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6">200 OK</span>
+          <span class="badge bg-secondary-subtle text-secondary border fs-6">Path Param: UUID</span>
+        </div>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <h1 class="display-6 fw-bold mb-0">Consulta de Empréstimo</h1>
+        </div>
+        <div class="endpoint-item my-2">
+          <span class="badge-http badge-http-get">GET</span>
+          <span class="endpoint-path fw-bold">/v1/loans/{loanId}</span>
+          <span class="endpoint-desc">Extrato detalhado do empréstimo com plano completo e status das parcelas</span>
+        </div>
+        <p class="lead text-secondary mb-0">Disponibiliza a visão detalhada de um empréstimo específico, fornecendo o status geral do crédito e o acompanhamento individual de cada uma das 5 parcelas de amortização.</p>
+      </div>
+
+      <!-- Section 1: Business Overview -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-briefcase"></i></span>
+          <h2 class="h3 mb-0">1. Visão de Produto e Negócio</h2>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title text-primary"><i class="bi bi-bullseye me-1"></i> Objetivo</h3>
+                <p class="card-text text-secondary">
+                  Disponibilizar a visão detalhada de um empréstimo específico, fornecendo ao cliente e ao ecossistema de gestão de cobranças o plano completo de amortização, valor da comissão cobrada, status geral do crédito (<code>ACTIVE</code>, <code>LATE</code>, <code>COMPLETED</code>) e o status individual de cada parcela (<code>NEXT</code>, <code>PENDING</code>, <code>ERROR</code>).
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title text-success"><i class="bi bi-graph-up-arrow me-1"></i> Proposta de Valor</h3>
+                <ul class="text-secondary small ps-3 mb-0">
+                  <li class="mb-2"><strong>Acompanhamento Financeiro Preciso:</strong> O cliente visualiza com clareza quais parcelas estão por vencer, qual a próxima a ser paga (<code>NEXT</code>) e os vencimentos agendados.</li>
+                  <li><strong>Gestão de Ciclo de Vida:</strong> Base padronizada para reconciliação bancária, relatórios gerenciais e futuras liquidações automáticas de débito.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h5 mb-3"><i class="bi bi-list-check text-primary me-2"></i>Status e Ciclo de Vida das Parcelas</h3>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="card h-100 border-start border-info border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-info text-dark fw-bold">NEXT</span>
+                  <h4 class="h6 mb-0">Próxima Parcela Ativa</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  Identifica a parcela imediatamente exigível na ordem cronológica. No momento da concessão do empréstimo, a 1ª parcela (vencimento D+14) recebe automaticamente o status <code>NEXT</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-start border-secondary border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-secondary text-white fw-bold">PENDING</span>
+                  <h4 class="h6 mb-0">Parcelas Futuras</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  Parcelas vincendas subsequentes (parcelas 2 a 5, vencimentos em D+28, D+42, D+56 e D+70). Ficarão como <code>PENDING</code> até a liquidação da parcela anterior.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-start border-danger border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-danger text-white fw-bold">ERROR</span>
+                  <h4 class="h6 mb-0">Inadimplência / Falha</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  Indica falha de cobrança automática por insuficiência de fundos ou atraso no repasse pelo consumidor, desencadeando rotinas de notificação ou cobrança.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h5 mb-3"><i class="bi bi-shield-check text-primary me-2"></i>Regras de Acesso e Validações</h3>
+        <ul class="text-secondary small">
+          <li><strong>Identificador Único:</strong> Busca realizada exclusivamente pelo UUID público do empréstimo (<code>loanId</code>).</li>
+          <li><strong>Autenticação:</strong> Exige token JWT válido emitido no cadastro. Acesso sem credenciais retorna HTTP <code>401 Unauthorized</code> (<code>APZ000007</code>).</li>
+          <li><strong>Inexistência:</strong> Empréstimo não encontrado retorna HTTP <code>404 Not Found</code> com código <code>APZ000008</code> (<code>LOAN_NOT_FOUND</code>).</li>
+          <li><strong>Validação de Sintaxe:</strong> Identificadores UUID inválidos retornam HTTP <code>400 Bad Request</code> (<code>APZ000004</code>).</li>
+        </ul>
+      </section>
+
+      <!-- Section 2: Internal Sequence Diagram -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-diagram-3"></i></span>
+          <h2 class="h3 mb-0">2. Diagrama de Sequência Interno</h2>
+        </div>
+        <p class="text-secondary">
+          Fluxo detalhado de execução interna da busca de empréstimo e carregamento relacional das 5 parcelas de amortização:
+        </p>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+            <span class="small text-uppercase fw-bold text-secondary">
+              <i class="bi bi-diagram-2 me-1"></i> Sequência: LoanController &rarr; LoanRepository &rarr; PostgreSQL (Read-Only)
+            </span>
+            <span class="badge bg-primary-subtle text-primary">Mermaid.js</span>
+          </div>
+          <div class="card-body">
+            <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Client as Cliente / Painel Financeiro
+    participant Filter as JwtAuthenticationFilter
+    participant Controller as LoanController
+    participant Service as LoanService
+    participant Repo as LoanRepository
+    participant DB as PostgreSQL
+    participant Mapper as LoanMapper
+
+    Client->>Filter: GET /v1/loans/{loanId}<br/>Header: Authorization: Bearer JWT
+    activate Filter
+
+    Filter->>Filter: Valida token e permissões
+    alt Token Inválido / Ausente
+        Filter-->>Client: 401 Unauthorized (APZ000007)
+    else Token Válido
+        Filter->>Controller: Encaminha requisição autenticada
+    end
+    deactivate Filter
+
+    activate Controller
+    Controller->>Service: getLoanByExternalId(loanId)
+    activate Service
+
+    rect rgb(240, 248, 255)
+    Note over Service, DB: Leitura Transacional (@Transactional(readOnly = true))
+    Service->>Repo: findByExternalId(loanId)
+    activate Repo
+    Repo->>DB: SELECT * FROM loans WHERE external_id = ?<br/>(com carregamento ordenado das 5 parcelas de installments)
+    DB-->>Repo: LoanEntity com lista de InstallmentEntity
+    Repo-->>Service: Optional LoanEntity
+    deactivate Repo
+    end
+
+    alt Empréstimo não encontrado
+        Service-->>Controller: throw LoanNotFoundException
+        Controller-->>Client: 404 Not Found (APZ000008 / LOAN_NOT_FOUND)
+    else Empréstimo Encontrado
+        Service->>Mapper: toLoanResponse(entity)
+        activate Mapper
+        Note over Mapper: Mapeia dados gerais, comissão e<br/>as 5 parcelas ordenadas por data
+        Mapper-->>Service: LoanResponse
+        deactivate Mapper
+        Service-->>Controller: LoanResponse
+    end
+    deactivate Service
+
+    Controller-->>Client: 200 OK (Body: LoanResponse)
+    deactivate Controller
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Request & Response Contract -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-file-earmark-code"></i></span>
+          <h2 class="h3 mb-0">3. Contrato da Requisição e Resposta</h2>
+        </div>
+
+        <h3 class="h5 mb-2">Exemplo de Requisição</h3>
+        <pre><code class="language-http">GET /v1/loans/7fa85f64-5717-4562-b3fc-2c963f66afa8 HTTP/1.1
+Host: api.aplazo.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTciLCJyb2xlcyI6WyJST0xFX0NVU1RPTUVOIl19...
+Accept: application/json</code></pre>
+
+        <h3 class="h5 mb-2 mt-4">Exemplo de Resposta de Sucesso (HTTP 200 OK)</h3>
+        <pre><code class="language-http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "7fa85f64-5717-4562-b3fc-2c963f66afa8",
+  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "amount": 1000.00,
+  "status": "ACTIVE",
+  "createdAt": "2026-09-18T12:05:00Z",
+  "paymentPlan": {
+    "commissionAmount": 130.00,
+    "installments": [
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-02",
+        "status": "NEXT"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-16",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-30",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-13",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-27",
+        "status": "PENDING"
+      }
+    ]
+  }
+}</code></pre>
+
+        <h3 class="h5 mb-2 mt-4">Cenários de Erro e Códigos HTTP</h3>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card h-100 border-danger-subtle shadow-sm">
+              <div class="card-header bg-danger-subtle text-danger fw-bold small">
+                404 Not Found — Empréstimo Inexistente (APZ000008)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000008",
+  "error": "LOAN_NOT_FOUND",
+  "message": "Loan not found with id: 7fa85f64-5717-4562-b3fc-2c963f66afa8",
+  "timestamp": 1739397485,
+  "path": "/v1/loans/7fa85f64-5717-4562-b3fc-2c963f66afa8"
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-warning-subtle shadow-sm">
+              <div class="card-header bg-warning-subtle text-warning-emphasis fw-bold small">
+                400 Bad Request — UUID Inválido (APZ000004)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000004",
+  "error": "INVALID_REQUEST",
+  "message": "Failed to convert parameter 'loanId' with value 'invalid-uuid' to required type",
+  "timestamp": 1739397485,
+  "path": "/v1/loans/invalid-uuid"
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-danger-subtle shadow-sm">
+              <div class="card-header bg-danger-subtle text-danger fw-bold small">
+                401 Unauthorized — Não Autenticado (APZ000007)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000007",
+  "error": "UNAUTHORIZED",
+  "message": "Unauthorized: Full authentication is required to access this resource",
+  "timestamp": 1739397485,
+  "path": "/v1/loans/7fa85f64..."
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Footer -->
+      <section class="wiki-section pt-4 border-top">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="loan-creation.html" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Anterior: POST /v1/loans
+          </a>
+          <a href="../operations.html" class="btn btn-primary">
+            Voltar ao Catálogo Geral <i class="bi bi-arrow-up"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="../index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="../operations.html" class="text-secondary text-decoration-none">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="customer-registration.html" class="text-secondary text-decoration-none">Cadastro Cliente</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="loan-creation.html" class="text-secondary text-decoration-none">Criação Empréstimo</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/mermaid.min.js"></script>
+  <script src="../assets/js/wiki.js"></script>
+</body>
+</html>

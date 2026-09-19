@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Operações da API — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="operations.html" class="wiki-nav-link active">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="operations/customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="operations/customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="operations/loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="operations/loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+          <li class="breadcrumb-item">Operações da API</li>
+          <li class="breadcrumb-item active" aria-current="page">Catálogo de Endpoints</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge bg-primary fs-6"><i class="bi bi-hdd-network me-1"></i> RESTful API</span>
+          <span class="badge bg-success fs-6"><i class="bi bi-shield-lock me-1"></i> JWT Stateless</span>
+          <span class="badge bg-info text-dark fs-6"><i class="bi bi-tag me-1"></i> Versão v1</span>
+          <span class="badge bg-warning text-dark fs-6"><i class="bi bi-clock-history me-1"></i> RFC 3339 / ISO 8601</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-2">Catálogo de Operações REST da API</h1>
+        <p class="lead text-secondary mb-0">Hub central de operações financeiras BNPL (Buy Now, Pay Later), cobrindo integração, autenticação baseada em token JWT, contratos de payload e matriz de erros padronizados.</p>
+      </div>
+
+      <!-- Quick Nav Jump -->
+      <div class="row g-3 mb-4">
+        <div class="col-12">
+          <div class="card bg-body-tertiary border-0 shadow-sm">
+            <div class="card-body py-3">
+              <div class="d-flex flex-wrap align-items-center gap-2">
+                <span class="fw-bold text-secondary small text-uppercase me-2"><i class="bi bi-link-45deg"></i> Acesso Rápido:</span>
+                <a href="#endpoints-summary" class="btn btn-sm btn-outline-primary">Endpoints</a>
+                <a href="#authentication-flow" class="btn btn-sm btn-outline-primary">Autenticação JWT</a>
+                <a href="#error-catalog" class="btn btn-sm btn-outline-primary">Catálogo de Erros</a>
+                <a href="#lifecycle-diagram" class="btn btn-sm btn-outline-primary">Ciclo Operacional</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Endpoints Summary -->
+      <section id="endpoints-summary" class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-grid-3x3-gap"></i></span>
+          <h2 class="h3 mb-0">Matriz de Endpoints Disponíveis</h2>
+        </div>
+        <p class="text-secondary">
+          A API expõe quatro endpoints REST sob o path base <code>/v1</code>. Toda comunicação trafega estritamente com corpos codificados em JSON (<code>application/json</code>) e respostas com timestamps e identificadores públicos UUID v4.
+        </p>
+
+        <div class="row g-4 mt-1">
+          <!-- Card 1: POST /v1/customers -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-start border-success border-4">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <span class="badge-http badge-http-post">POST</span>
+                  <span class="badge bg-secondary-subtle text-secondary border small">Público / Onboarding</span>
+                </div>
+                <h3 class="h5 card-title font-monospace text-primary mb-1">/v1/customers</h3>
+                <h4 class="h6 text-body-secondary mb-3">Cadastro de Cliente &amp; Concessão de Linha</h4>
+                <p class="card-text text-secondary small mb-3">
+                  Avalia a idade do solicitante (18 a 65 anos), calcula a linha de crédito automática ($3.000, $5.000 ou $8.000) e emite o token JWT no cabeçalho <code>X-Auth-Token</code> para compras imediatas.
+                </p>
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <span class="text-success small fw-semibold"><i class="bi bi-check2-circle"></i> 201 Created</span>
+                  <a href="operations/customer-registration.html" class="btn btn-sm btn-primary">
+                    Ver Detalhes <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: GET /v1/customers/{customerId} -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-start border-primary border-4">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <span class="badge-http badge-http-get">GET</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">Autenticado / JWT</span>
+                </div>
+                <h3 class="h5 card-title font-monospace text-primary mb-1">/v1/customers/{customerId}</h3>
+                <h4 class="h6 text-body-secondary mb-3">Consulta Cadastral e Saldo em Tempo Real</h4>
+                <p class="card-text text-secondary small mb-3">
+                  Recupera a linha de crédito total e o saldo remanescente disponível para novas operações (<code>availableCreditLineAmount</code>), permitindo checagem prévia no checkout.
+                </p>
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <span class="text-primary small fw-semibold"><i class="bi bi-check2-circle"></i> 200 OK</span>
+                  <a href="operations/customer-lookup.html" class="btn btn-sm btn-primary">
+                    Ver Detalhes <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: POST /v1/loans -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-start border-success border-4">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <span class="badge-http badge-http-post">POST</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">Autenticado / Transacional</span>
+                </div>
+                <h3 class="h5 card-title font-monospace text-primary mb-1">/v1/loans</h3>
+                <h4 class="h6 text-body-secondary mb-3">Criação de Empréstimo BNPL</h4>
+                <p class="card-text text-secondary small mb-3">
+                  Aplica motor de taxas (Scheme 1 com 13% ou Scheme 2 com 16%), debita atômico do saldo remanescente, divide o montante financiado em 5 parcelas quinzenais e reconcilia eventuais centavos residuais na última parcela.
+                </p>
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <span class="text-success small fw-semibold"><i class="bi bi-check2-circle"></i> 201 Created</span>
+                  <a href="operations/loan-creation.html" class="btn btn-sm btn-primary">
+                    Ver Detalhes <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: GET /v1/loans/{loanId} -->
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-start border-primary border-4">
+              <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <span class="badge-http badge-http-get">GET</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">Autenticado / JWT</span>
+                </div>
+                <h3 class="h5 card-title font-monospace text-primary mb-1">/v1/loans/{loanId}</h3>
+                <h4 class="h6 text-body-secondary mb-3">Consulta de Empréstimo e Parcelas</h4>
+                <p class="card-text text-secondary small mb-3">
+                  Retorna o extrato completo do empréstimo com juros aplicados, valor principal e o cronograma cronológico das 5 parcelas com status dinâmicos (<code>NEXT</code>, <code>PENDING</code>, <code>ERROR</code>).
+                </p>
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                  <span class="text-primary small fw-semibold"><i class="bi bi-check2-circle"></i> 200 OK</span>
+                  <a href="operations/loan-lookup.html" class="btn btn-sm btn-primary">
+                    Ver Detalhes <i class="bi bi-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Authentication Overview -->
+      <section id="authentication-flow" class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-shield-lock"></i></span>
+          <h2 class="h3 mb-0">Visão Geral de Autenticação JWT</h2>
+        </div>
+        <p class="text-secondary">
+          A API utiliza autenticação stateless baseada em <strong>JSON Web Token (JWT)</strong> assinado com algoritmo <code>HMAC-SHA256</code>. Não há sessões em memória no servidor, possibilitando escalabilidade horizontal sem afinidade de nó.
+        </p>
+
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title d-flex align-items-center gap-2">
+                  <i class="bi bi-1-circle-fill text-primary"></i> 1. Emissão no Cadastro (Onboarding)
+                </h3>
+                <p class="text-secondary small">
+                  Ao realizar com sucesso a chamada <code>POST /v1/customers</code>, o servidor devolve o token gerado diretamente no cabeçalho de resposta:
+                </p>
+                <div class="p-3 bg-body rounded border font-monospace small mb-3">
+                  <div class="text-secondary">HTTP/1.1 201 Created</div>
+                  <div class="text-primary fw-bold">X-Auth-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmE4NWY...</div>
+                  <div class="text-secondary">Location: /v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa7</div>
+                </div>
+                <p class="text-secondary small mb-0">
+                  O subject (<code>sub</code>) do token contém o identificador UUID do cliente e sua role padrão (<code>ROLE_CUSTOMER</code>).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title d-flex align-items-center gap-2">
+                  <i class="bi bi-2-circle-fill text-primary"></i> 2. Consumo das Operações Protegidas
+                </h3>
+                <p class="text-secondary small">
+                  Em todas as requisições subsequentes para endpoints protegidos, o cliente pode enviar o token através de um dos cabeçalhos suportados:
+                </p>
+                <div class="p-3 bg-body rounded border font-monospace small mb-3">
+                  <div class="text-secondary">// Padrão RFC 6750 (Recomendado)</div>
+                  <div class="text-success fw-bold">Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...</div>
+                  <div class="text-secondary mt-2">// Ou cabeçalho proprietário direto</div>
+                  <div class="text-info fw-bold">X-Auth-Token: eyJhbGciOiJIUzI1NiJ9...</div>
+                </div>
+                <p class="text-secondary small mb-0">
+                  Caso o token esteja expirado, adulterado ou ausente, a requisição é interceptada pelo <code>JwtAuthenticationFilter</code>, retornando <code>401 Unauthorized</code> com código <code>APZ000007</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info border-info-subtle mt-4 d-flex align-items-start gap-3" role="alert">
+          <i class="bi bi-info-circle-fill fs-4 text-info flex-shrink-0"></i>
+          <div>
+            <strong>Interoperabilidade de Headers:</strong> O filtro de segurança <code>JwtAuthenticationFilter</code> da API checa primeiramente o cabeçalho <code>Authorization</code> prefixado com <code>Bearer&nbsp;</code>. Caso não esteja presente, faz o fallback automático para o cabeçalho <code>X-Auth-Token</code>.
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Operational Sequence Diagram -->
+      <section id="lifecycle-diagram" class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-shuffle"></i></span>
+          <h2 class="h3 mb-0">Fluxo Operacional Ponta a Ponta</h2>
+        </div>
+        <p class="text-secondary">
+          Diagrama de sequência exibindo o ciclo de vida completo de um cliente desde o auto-cadastro até a contratação e consulta do empréstimo:
+        </p>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+            <span class="small text-uppercase fw-bold text-secondary">
+              <i class="bi bi-diagram-2 me-1"></i> Sequência de Operações da API BNPL
+            </span>
+            <span class="badge bg-primary-subtle text-primary">Mermaid.js</span>
+          </div>
+          <div class="card-body">
+            <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as Consumidor / Checkout
+    participant API as BNPL REST API
+    participant Sec as JwtSecurityFilter
+    participant DB as PostgreSQL 16
+
+    Note over User, API: 1. Onboarding e Concessão de Limite
+    User->>API: POST /v1/customers (Nome, Data de Nascimento)
+    API->>API: Valida Idade (18 a 65 anos) e calcula limite ($3k-$8k)
+    API->>DB: INSERT into customers (external_id, credit_line)
+    API-->>User: 201 Created (Location: /v1/customers/{id}, Header X-Auth-Token: JWT)
+
+    Note over User, API: 2. Verificação de Poder de Compra
+    User->>Sec: GET /v1/customers/{customerId} (Header Authorization: Bearer JWT)
+    Sec->>Sec: Valida assinatura e expiração do JWT
+    Sec->>API: Requisição autenticada
+    API->>DB: SELECT available_credit_line_amount FROM customers
+    API-->>User: 200 OK (creditLineAmount, availableCreditLineAmount)
+
+    Note over User, API: 3. Contratação da Compra (Financiamento BNPL)
+    User->>Sec: POST /v1/loans (customerId, amount) (Bearer JWT)
+    Sec->>API: Requisição autenticada
+    API->>API: Resolve Scheme 1 (13%) ou Scheme 2 (16%)
+    API->>DB: UPDATE customers SET available_credit_line -= amount
+    API->>DB: INSERT loans + 5 installments (D+14 a D+70 com ajuste de centavos)
+    API-->>User: 201 Created (loanId, totalAmount, installments[5])
+
+    Note over User, API: 4. Acompanhamento do Cronograma
+    User->>Sec: GET /v1/loans/{loanId} (Bearer JWT)
+    Sec->>API: Requisição autenticada
+    API->>DB: SELECT loan + installments WHERE external_id = loanId
+    API-->>User: 200 OK (status: ACTIVE, installments: [NEXT, PENDING...])
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Error Catalog -->
+      <section id="error-catalog" class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-exclamation-octagon"></i></span>
+          <h2 class="h3 mb-0">Tabela Consolidada de Códigos de Erro</h2>
+        </div>
+        <p class="text-secondary">
+          Todas as respostas de erro da API seguem rigorosamente o contrato padronizado definido pelo <code>ErrorResponse</code>, contendo código interno unificado (<code>APZ000001</code> a <code>APZ000008</code>), identificador do tipo de erro, mensagem descritiva, timestamp Unix e path de origem:
+        </p>
+
+        <!-- Error Contract Structure -->
+        <div class="card mb-4 bg-body-tertiary border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="h6 card-title text-uppercase text-secondary mb-2">Contrato JSON de Erro (RFC / OpenAPI)</h3>
+            <div class="p-3 bg-body rounded border font-monospace small">
+{<br>
+&nbsp;&nbsp;<span class="text-primary">"code"</span>: <span class="text-success">"APZ000002"</span>,<br>
+&nbsp;&nbsp;<span class="text-primary">"error"</span>: <span class="text-success">"INVALID_CUSTOMER_REQUEST"</span>,<br>
+&nbsp;&nbsp;<span class="text-primary">"message"</span>: <span class="text-secondary">"Customer age must be between 18 and 65 years old"</span>,<br>
+&nbsp;&nbsp;<span class="text-primary">"timestamp"</span>: <span class="text-warning">1739397485</span>,<br>
+&nbsp;&nbsp;<span class="text-primary">"path"</span>: <span class="text-secondary">"/v1/customers"</span><br>
+}
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive shadow-sm rounded">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" style="width: 140px;">Código</th>
+                <th scope="col" style="width: 210px;">Enum / Identificador</th>
+                <th scope="col" style="width: 150px;">Status HTTP</th>
+                <th scope="col">Descrição e Cenário de Disparo</th>
+                <th scope="col" style="width: 180px;">Operação Afetada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="fw-bold text-danger">APZ000001</code></td>
+                <td><span class="badge bg-danger-subtle text-danger border border-danger-subtle">INTERNAL_SERVER_ERROR</span></td>
+                <td><span class="badge bg-danger text-white">500 Internal Server</span></td>
+                <td>Falha inesperada ou erro não mapeado no servidor durante processamento interno.</td>
+                <td><span class="text-secondary small">Global</span></td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-warning">APZ000002</code></td>
+                <td><span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">INVALID_CUSTOMER_REQUEST</span></td>
+                <td><span class="badge bg-warning text-dark">400 Bad Request</span></td>
+                <td>Campos cadastrais obrigatórios ausentes, mal formatados ou cliente com idade inferior a 18 anos ou superior a 65 anos.</td>
+                <td><code>POST /v1/customers</code></td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-secondary">APZ000003</code></td>
+                <td><span class="badge bg-secondary-subtle text-secondary border">RATE_LIMIT_ERROR</span></td>
+                <td><span class="badge bg-secondary text-white">429 Too Many Requests</span></td>
+                <td>Excesso de chamadas à API em curto intervalo, excedendo a cota configurada no gateway.</td>
+                <td><span class="text-secondary small">Global</span></td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-warning">APZ000004</code></td>
+                <td><span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">INVALID_REQUEST</span></td>
+                <td><span class="badge bg-warning text-dark">400 Bad Request</span></td>
+                <td>Identificador UUID inválido nos parâmetros de path (ex: <code>invalid-uuid</code>) ou corpo JSON sintaticamente ilegível.</td>
+                <td><code>GET /{id}</code> / Global</td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-info">APZ000005</code></td>
+                <td><span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">CUSTOMER_NOT_FOUND</span></td>
+                <td><span class="badge bg-info text-dark">404 Not Found</span></td>
+                <td>O identificador de cliente informado não corresponde a nenhum registro existente na base de dados.</td>
+                <td><code>GET /v1/customers/{id}</code><br><code>POST /v1/loans</code></td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-warning">APZ000006</code></td>
+                <td><span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">INVALID_LOAN_REQUEST</span></td>
+                <td><span class="badge bg-warning text-dark">400 Bad Request</span></td>
+                <td>O valor solicitado para o empréstimo (<code>amount</code>) excede o saldo remanescente disponível ou é menor/igual a zero.</td>
+                <td><code>POST /v1/loans</code></td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-danger">APZ000007</code></td>
+                <td><span class="badge bg-danger-subtle text-danger border border-danger-subtle">UNAUTHORIZED</span></td>
+                <td><span class="badge bg-danger text-white">401 Unauthorized</span></td>
+                <td>Cabeçalho de autorização ausente, token JWT expirado ou assinatura HMAC inválida.</td>
+                <td>Endpoints Protegidos</td>
+              </tr>
+              <tr>
+                <td><code class="fw-bold text-info">APZ000008</code></td>
+                <td><span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">LOAN_NOT_FOUND</span></td>
+                <td><span class="badge bg-info text-dark">404 Not Found</span></td>
+                <td>O identificador UUID do empréstimo informado na busca não foi localizado na base de dados.</td>
+                <td><code>GET /v1/loans/{loanId}</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Navigation Footer Cards -->
+      <section class="wiki-section pt-4 border-top">
+        <h3 class="h5 mb-3">Navegue pelas Especificações Detalhadas de cada Operação:</h3>
+        <div class="row g-3">
+          <div class="col-sm-6 col-lg-3">
+            <a href="operations/customer-registration.html" class="card text-decoration-none h-100 shadow-sm hover-shadow border">
+              <div class="card-body">
+                <span class="badge-http badge-http-post mb-2">POST</span>
+                <h4 class="h6 card-title text-body mb-1">Cadastro de Cliente</h4>
+                <p class="small text-secondary mb-0">Fluxo de elegibilidade, limites e emissão de token.</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <a href="operations/customer-lookup.html" class="card text-decoration-none h-100 shadow-sm hover-shadow border">
+              <div class="card-body">
+                <span class="badge-http badge-http-get mb-2">GET</span>
+                <h4 class="h6 card-title text-body mb-1">Consulta de Cliente</h4>
+                <p class="small text-secondary mb-0">Consulta de limites e saldo disponível em tempo real.</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <a href="operations/loan-creation.html" class="card text-decoration-none h-100 shadow-sm hover-shadow border">
+              <div class="card-body">
+                <span class="badge-http badge-http-post mb-2">POST</span>
+                <h4 class="h6 card-title text-body mb-1">Criação de Empréstimo</h4>
+                <p class="small text-secondary mb-0">Schemes de juros, conciliação de centavos e 5 parcelas.</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <a href="operations/loan-lookup.html" class="card text-decoration-none h-100 shadow-sm hover-shadow border">
+              <div class="card-body">
+                <span class="badge-http badge-http-get mb-2">GET</span>
+                <h4 class="h6 card-title text-body mb-1">Consulta de Empréstimo</h4>
+                <p class="small text-secondary mb-0">Visão das parcelas NEXT/PENDING e amortização.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="c4model.html" class="text-secondary text-decoration-none">Modelo C4</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="erd.html" class="text-secondary text-decoration-none">ERD</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="operations.html" class="text-secondary text-decoration-none fw-bold text-primary">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="specs.html" class="text-secondary text-decoration-none">Specs</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/mermaid.min.js"></script>
+  <script src="assets/js/wiki.js"></script>
+</body>
+</html>

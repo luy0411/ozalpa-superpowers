@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POST /v1/customers — Cadastro de Cliente — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="../index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="../index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="../specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="../c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="../erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="../operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="customer-registration.html" class="wiki-nav-link active">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="../challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="../specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../index.html">Início</a></li>
+          <li class="breadcrumb-item"><a href="../operations.html">Operações da API</a></li>
+          <li class="breadcrumb-item active" aria-current="page">POST /v1/customers</li>
+        </ol>
+      </nav>
+
+      <!-- Operation Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge-http badge-http-post fs-6">POST</span>
+          <span class="badge bg-secondary-subtle text-secondary border fs-6">Endpoint Público</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6">201 Created</span>
+          <span class="badge bg-primary fs-6">X-Auth-Token Header</span>
+        </div>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <h1 class="display-6 fw-bold mb-0">Cadastro de Cliente</h1>
+        </div>
+        <div class="endpoint-item my-2">
+          <span class="badge-http badge-http-post">POST</span>
+          <span class="endpoint-path fw-bold">/v1/customers</span>
+          <span class="endpoint-desc">Onboarding instantâneo e atribuição automática de linha de crédito</span>
+        </div>
+        <p class="lead text-secondary mb-0">Avalia a elegibilidade do solicitante com base em sua data de nascimento, concede o limite financeiro imediato e entrega o token JWT assinado para compras.</p>
+      </div>
+
+      <!-- Section 1: Business Overview -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-briefcase"></i></span>
+          <h2 class="h3 mb-0">1. Visão de Produto e Negócio</h2>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title text-primary"><i class="bi bi-bullseye me-1"></i> Objetivo</h3>
+                <p class="card-text text-secondary">
+                  Permitir a entrada de novos clientes no ecossistema Buy Now, Pay Later (BNPL) da Aplazo, avaliando instantaneamente a elegibilidade e atribuindo uma linha de crédito inicial automática baseada na faixa etária do solicitante.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title text-success"><i class="bi bi-graph-up-arrow me-1"></i> Proposta de Valor</h3>
+                <ul class="text-secondary small ps-3 mb-0">
+                  <li class="mb-2"><strong>Onboarding sem atrito:</strong> Processo instantâneo com decisão automática de crédito em tempo de requisição, sem análise manual demorada.</li>
+                  <li><strong>Autonomia para compras:</strong> O cliente já recebe seu identificador único (<code>id</code>), limite de crédito aprovado e um token de autenticação JWT (<code>X-Auth-Token</code>) para realizar compras imediatamente.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h5 mb-3"><i class="bi bi-check2-square text-primary me-2"></i>Regras de Negócio e Políticas de Crédito</h3>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="card h-100 border-start border-warning border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-calendar-check text-warning fs-4"></i>
+                  <h4 class="h6 mb-0">Faixa Etária de Aceitação</h4>
+                </div>
+                <p class="small text-secondary mb-2">
+                  O cliente deve possuir idade entre <strong>18 e 65 anos completos</strong> no momento do cadastro.
+                </p>
+                <div class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle small">
+                  Rejeição: 400 APZ000002
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-start border-success border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-cash-coin text-success fs-4"></i>
+                  <h4 class="h6 mb-0">Faixas de Linha de Crédito</h4>
+                </div>
+                <ul class="small text-secondary ps-3 mb-0">
+                  <li><strong>18 a 25 anos:</strong> Limite de <strong>$3.000,00</strong></li>
+                  <li><strong>26 a 30 anos:</strong> Limite de <strong>$5.000,00</strong></li>
+                  <li><strong>31 a 65 anos:</strong> Limite de <strong>$8.000,00</strong></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-start border-primary border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-shield-check text-primary fs-4"></i>
+                  <h4 class="h6 mb-0">Disponibilidade e Segurança</h4>
+                </div>
+                <p class="small text-secondary mb-2">
+                  No momento da criação, o saldo disponível (<code>availableCreditLineAmount</code>) é igual à linha concedida (<code>creditLineAmount</code>).
+                </p>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle small">
+                  Token JWT no X-Auth-Token
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Internal Sequence Diagram -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-diagram-3"></i></span>
+          <h2 class="h3 mb-0">2. Diagrama de Sequência Interno</h2>
+        </div>
+        <p class="text-secondary">
+          Fluxo detalhado de execução interna entre as camadas Spring Boot, validação Jakarta, motor de cálculo de linha de crédito, persistência PostgreSQL e gerador de token JWT:
+        </p>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+            <span class="small text-uppercase fw-bold text-secondary">
+              <i class="bi bi-diagram-2 me-1"></i> Sequência: CustomerController &rarr; CreditLineCalculator &rarr; JwtTokenProvider
+            </span>
+            <span class="badge bg-primary-subtle text-primary">Mermaid.js</span>
+          </div>
+          <div class="card-body">
+            <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Client as Cliente / E-commerce
+    participant Controller as CustomerController
+    participant Service as CustomerService
+    participant Calculator as CreditLineCalculator
+    participant Repo as CustomerRepository
+    participant DB as PostgreSQL
+    participant JWT as JwtTokenProvider
+
+    Client->>Controller: POST /v1/customers (firstName, lastName, dateOfBirth)
+    activate Controller
+
+    Controller->>Controller: Valida campos (@Valid Jakarta)
+    alt Campos inválidos
+        Controller-->>Client: 400 Bad Request (APZ000002 / APZ000004)
+    end
+
+    Controller->>Service: createCustomer(CustomerRequest)
+    activate Service
+
+    Service->>Calculator: calculateCreditLine(dateOfBirth, today)
+    activate Calculator
+    alt Idade < 18 ou Idade > 65
+        Calculator-->>Service: throw InvalidCustomerRequestException
+        Service-->>Controller: Exception propagada
+        Controller-->>Client: 400 Bad Request (APZ000002)
+    else Idade Válida
+        Calculator-->>Service: Retorna Limite ($3000 / $5000 / $8000)
+    end
+    deactivate Calculator
+
+    Service->>Repo: save(CustomerEntity)
+    activate Repo
+    Repo->>DB: INSERT INTO customers (external_id, credit_line_amount, ...)
+    DB-->>Repo: CustomerEntity persistido (id sequencial gerado)
+    Repo-->>Service: CustomerEntity
+    deactivate Repo
+
+    Service->>JWT: generateToken(customer.externalId)
+    activate JWT
+    JWT-->>Service: Token JWT assinado (HMAC-SHA256)
+    deactivate JWT
+
+    Service-->>Controller: CustomerRegistrationResult (CustomerResponse, token)
+    deactivate Service
+
+    Controller-->>Client: 201 Created (Location: /v1/customers/{id}, X-Auth-Token: JWT, Body: CustomerResponse)
+    deactivate Controller
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Request & Response Contract -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-file-earmark-code"></i></span>
+          <h2 class="h3 mb-0">3. Contrato da Requisição e Resposta</h2>
+        </div>
+
+        <h3 class="h5 mb-2">Headers da Requisição e Resposta</h3>
+        <div class="table-responsive mb-4 shadow-sm rounded">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" style="width: 220px;">Cabeçalho</th>
+                <th scope="col" style="width: 140px;">Sentido</th>
+                <th scope="col" style="width: 130px;">Obrigatoriedade</th>
+                <th scope="col">Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>Content-Type</code></td>
+                <td><span class="badge bg-primary-subtle text-primary">Requisição</span></td>
+                <td><span class="badge bg-danger text-white">Obrigatório</span></td>
+                <td>Deve ser obrigatoriamente <code>application/json</code>.</td>
+              </tr>
+              <tr>
+                <td><code>Location</code></td>
+                <td><span class="badge bg-success-subtle text-success">Resposta</span></td>
+                <td><span class="badge bg-success text-white">Presente no 201</span></td>
+                <td>URI do novo recurso criado: <code>/v1/customers/{id}</code>.</td>
+              </tr>
+              <tr>
+                <td><code>X-Auth-Token</code></td>
+                <td><span class="badge bg-success-subtle text-success">Resposta</span></td>
+                <td><span class="badge bg-success text-white">Presente no 201</span></td>
+                <td>Token JWT assinado contendo o UUID do cliente no subject para chamadas subsequentes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="h5 mb-2">Exemplo de Requisição (HTTP Payload)</h3>
+        <pre><code class="language-http">POST /v1/customers HTTP/1.1
+Host: api.aplazo.com
+Content-Type: application/json
+
+{
+  "firstName": "Carlos",
+  "lastName": "López",
+  "secondLastName": "Pérez",
+  "dateOfBirth": "1995-05-15"
+}</code></pre>
+
+        <h3 class="h5 mb-2 mt-4">Exemplo de Resposta de Sucesso (HTTP 201 Created)</h3>
+        <pre><code class="language-http">HTTP/1.1 201 Created
+Location: /v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa7
+X-Auth-Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTciLCJyb2xlcyI6WyJST0xFX0NVU1RPTUVOIl19...
+Content-Type: application/json
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "creditLineAmount": 5000.00,
+  "availableCreditLineAmount": 5000.00,
+  "createdAt": "2026-09-18T12:00:00Z"
+}</code></pre>
+
+        <h3 class="h5 mb-2 mt-4">Exemplos de Falha de Validação e Erro de Negócio</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card h-100 border-danger-subtle shadow-sm">
+              <div class="card-header bg-danger-subtle text-danger fw-bold small">
+                400 Bad Request — Idade Inválida (APZ000002)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000002",
+  "error": "INVALID_CUSTOMER_REQUEST",
+  "message": "Customer age must be between 18 and 65 years old",
+  "timestamp": 1739397485,
+  "path": "/v1/customers"
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 border-danger-subtle shadow-sm">
+              <div class="card-header bg-danger-subtle text-danger fw-bold small">
+                400 Bad Request — Validação de Campos (APZ000002 / APZ000004)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000002",
+  "error": "INVALID_CUSTOMER_REQUEST",
+  "message": "firstName: must not be blank, dateOfBirth: must not be null",
+  "timestamp": 1739397485,
+  "path": "/v1/customers"
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Footer -->
+      <section class="wiki-section pt-4 border-top">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="../operations.html" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Catálogo Geral
+          </a>
+          <a href="customer-lookup.html" class="btn btn-primary">
+            Próxima Operação: GET /v1/customers/{id} <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="../index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="../operations.html" class="text-secondary text-decoration-none">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="customer-lookup.html" class="text-secondary text-decoration-none">Consulta Cliente</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="loan-creation.html" class="text-secondary text-decoration-none">Criação Empréstimo</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/mermaid.min.js"></script>
+  <script src="../assets/js/wiki.js"></script>
+</body>
+</html>

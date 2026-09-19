@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GET /v1/customers/{customerId} — Consulta de Cliente — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="../index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="../index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="../specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="../c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="../erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="../operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="customer-lookup.html" class="wiki-nav-link active">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="../challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="../specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="../index.html">Início</a></li>
+          <li class="breadcrumb-item"><a href="../operations.html">Operações da API</a></li>
+          <li class="breadcrumb-item active" aria-current="page">GET /v1/customers/{customerId}</li>
+        </ol>
+      </nav>
+
+      <!-- Operation Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge-http badge-http-get fs-6">GET</span>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6">Autenticado JWT</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6">200 OK</span>
+          <span class="badge bg-secondary-subtle text-secondary border fs-6">Path Param: UUID</span>
+        </div>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <h1 class="display-6 fw-bold mb-0">Consulta de Cliente</h1>
+        </div>
+        <div class="endpoint-item my-2">
+          <span class="badge-http badge-http-get">GET</span>
+          <span class="endpoint-path fw-bold">/v1/customers/{customerId}</span>
+          <span class="endpoint-desc">Consulta cadastral e saldo remanescente em tempo real</span>
+        </div>
+        <p class="lead text-secondary mb-0">Recupera informações cadastrais, a linha de crédito global e o saldo disponível para contratação de novas compras parceladas.</p>
+      </div>
+
+      <!-- Section 1: Business Overview -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-briefcase"></i></span>
+          <h2 class="h3 mb-0">1. Visão de Produto e Negócio</h2>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title text-primary"><i class="bi bi-bullseye me-1"></i> Objetivo</h3>
+                <p class="card-text text-secondary">
+                  Permitir a consulta do status cadastral e financeiro de um cliente cadastrado, fornecendo a visibilidade de sua linha de crédito total e, principalmente, do <strong>saldo disponível em tempo real</strong> para novas compras no modelo Buy Now, Pay Later (BNPL).
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100 border-0 bg-body-tertiary shadow-sm">
+              <div class="card-body">
+                <h3 class="h5 card-title text-success"><i class="bi bi-graph-up-arrow me-1"></i> Proposta de Valor</h3>
+                <ul class="text-secondary small ps-3 mb-0">
+                  <li class="mb-2"><strong>Transparência de Limite:</strong> Permite que o cliente ou o checkout de e-commerce verifique instantaneamente o poder de compra remanescente antes de submeter uma nova transação.</li>
+                  <li><strong>Segurança e Isolamento:</strong> Protegido por autenticação JWT (Bearer ou <code>X-Auth-Token</code>), garantindo que dados cadastrais e limites só sejam acessados por clientes autenticados.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h5 mb-3"><i class="bi bi-check2-square text-primary me-2"></i>Regras de Negócio e Validações</h3>
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <div class="card h-100 border-start border-primary border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-fingerprint text-primary fs-4"></i>
+                  <h4 class="h6 mb-0">Identificador UUID</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  A busca é realizada exclusivamente pelo UUID público do cliente (<code>customerId</code>), sem expor a chave primária sequencial interna do banco.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card h-100 border-start border-danger border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-shield-lock text-danger fs-4"></i>
+                  <h4 class="h6 mb-0">Autenticação Obrigatória</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  Requisições sem token válido ou com assinatura expirada retornam <code>401 Unauthorized</code> com código <code>APZ000007</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card h-100 border-start border-warning border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-search text-warning fs-4"></i>
+                  <h4 class="h6 mb-0">Cliente Inexistente</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  Caso o <code>customerId</code> não exista na base de dados, a API retorna <code>404 Not Found</code> com código de erro <code>APZ000005</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card h-100 border-start border-info border-3 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <i class="bi bi-exclamation-triangle text-info fs-4"></i>
+                  <h4 class="h6 mb-0">Formato Inválido</h4>
+                </div>
+                <p class="small text-secondary mb-0">
+                  Identificadores que não representam um padrão UUID válido são interceptados com <code>400 Bad Request</code> (<code>APZ000004</code>).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Internal Sequence Diagram -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-diagram-3"></i></span>
+          <h2 class="h3 mb-0">2. Diagrama de Sequência Interno</h2>
+        </div>
+        <p class="text-secondary">
+          Fluxo detalhado de execução interna entre o filtro de autenticação JWT, Spring MVC Controller, serviço de consulta, repositório JPA e mapper:
+        </p>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+            <span class="small text-uppercase fw-bold text-secondary">
+              <i class="bi bi-diagram-2 me-1"></i> Sequência: JwtAuthenticationFilter &rarr; CustomerController &rarr; CustomerRepository
+            </span>
+            <span class="badge bg-primary-subtle text-primary">Mermaid.js</span>
+          </div>
+          <div class="card-body">
+            <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Client as Cliente / App Mobile
+    participant Filter as JwtAuthenticationFilter
+    participant Controller as CustomerController
+    participant Service as CustomerService
+    participant Repo as CustomerRepository
+    participant DB as PostgreSQL
+    participant Mapper as CustomerMapper
+
+    Client->>Filter: GET /v1/customers/{customerId} (Header Authorization: Bearer JWT)
+    activate Filter
+
+    Filter->>Filter: Valida token e extrai claims
+    alt Token Ausente ou Inválido
+        Filter-->>Client: 401 Unauthorized (APZ000007 / UNAUTHORIZED)
+    else Token Válido
+        Filter->>Filter: Autentica SecurityContext
+        Filter->>Controller: Encaminha requisição
+    end
+    deactivate Filter
+
+    activate Controller
+    Controller->>Service: getCustomerByExternalId(customerId)
+    activate Service
+
+    Service->>Repo: findByExternalId(customerId)
+    activate Repo
+    Repo->>DB: SELECT * FROM customers WHERE external_id = ?
+    DB-->>Repo: Registro encontrado / vazio
+    Repo-->>Service: Optional CustomerEntity
+    deactivate Repo
+
+    alt Cliente não encontrado
+        Service-->>Controller: throw CustomerNotFoundException
+        Controller-->>Client: 404 Not Found (APZ000005 / CUSTOMER_NOT_FOUND)
+    else Cliente Encontrado
+        Service->>Mapper: toCustomerResponse(entity)
+        activate Mapper
+        Mapper-->>Service: CustomerResponse
+        deactivate Mapper
+        Service-->>Controller: CustomerResponse
+    end
+    deactivate Service
+
+    Controller-->>Client: 200 OK (Body: CustomerResponse)
+    deactivate Controller
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Request & Response Contract -->
+      <section class="wiki-section">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="fs-4 text-primary"><i class="bi bi-file-earmark-code"></i></span>
+          <h2 class="h3 mb-0">3. Contrato da Requisição e Resposta</h2>
+        </div>
+
+        <h3 class="h5 mb-2">Parâmetros de Path e Cabeçalhos</h3>
+        <div class="table-responsive mb-4 shadow-sm rounded">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" style="width: 220px;">Parâmetro / Header</th>
+                <th scope="col" style="width: 140px;">Tipo</th>
+                <th scope="col" style="width: 130px;">Obrigatoriedade</th>
+                <th scope="col">Descrição e Formato</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>customerId</code></td>
+                <td><span class="badge bg-secondary-subtle text-secondary">Path (UUID v4)</span></td>
+                <td><span class="badge bg-danger text-white">Obrigatório</span></td>
+                <td>Identificador público único do cliente (ex: <code>3fa85f64-5717-4562-b3fc-2c963f66afa7</code>).</td>
+              </tr>
+              <tr>
+                <td><code>Authorization</code></td>
+                <td><span class="badge bg-primary-subtle text-primary">Header HTTP</span></td>
+                <td><span class="badge bg-danger text-white">Obrigatório</span></td>
+                <td>Token JWT no formato <code>Bearer &lt;token&gt;</code> (ou header alternativo <code>X-Auth-Token</code>).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="h5 mb-2">Exemplo de Requisição</h3>
+        <pre><code class="language-http">GET /v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa7 HTTP/1.1
+Host: api.aplazo.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTciLCJyb2xlcyI6WyJST0xFX0NVU1RPTUVOIl19...
+Accept: application/json</code></pre>
+
+        <h3 class="h5 mb-2 mt-4">Exemplo de Resposta de Sucesso (HTTP 200 OK)</h3>
+        <pre><code class="language-http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "creditLineAmount": 5000.00,
+  "availableCreditLineAmount": 3800.00,
+  "createdAt": "2026-09-18T12:00:00Z"
+}</code></pre>
+
+        <h3 class="h5 mb-2 mt-4">Cenários de Erro Tratados</h3>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card h-100 border-danger-subtle shadow-sm">
+              <div class="card-header bg-danger-subtle text-danger fw-bold small">
+                404 Not Found — Inexistente (APZ000005)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000005",
+  "error": "CUSTOMER_NOT_FOUND",
+  "message": "Customer not found with id: 3fa85f64...",
+  "timestamp": 1739397485,
+  "path": "/v1/customers/3fa85f64..."
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-warning-subtle shadow-sm">
+              <div class="card-header bg-warning-subtle text-warning-emphasis fw-bold small">
+                400 Bad Request — UUID Inválido (APZ000004)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000004",
+  "error": "INVALID_REQUEST",
+  "message": "Failed to convert parameter 'customerId' with value 'invalid-uuid' to required type",
+  "timestamp": 1739397485,
+  "path": "/v1/customers/invalid-uuid"
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 border-danger-subtle shadow-sm">
+              <div class="card-header bg-danger-subtle text-danger fw-bold small">
+                401 Unauthorized — Token Ausente (APZ000007)
+              </div>
+              <div class="card-body p-2">
+                <pre class="mb-0"><code class="language-json">{
+  "code": "APZ000007",
+  "error": "UNAUTHORIZED",
+  "message": "Unauthorized: Full authentication is required to access this resource",
+  "timestamp": 1739397485,
+  "path": "/v1/customers/3fa85f64..."
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Footer -->
+      <section class="wiki-section pt-4 border-top">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="customer-registration.html" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Anterior: POST /v1/customers
+          </a>
+          <a href="loan-creation.html" class="btn btn-primary">
+            Próxima Operação: POST /v1/loans <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="../index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="../operations.html" class="text-secondary text-decoration-none">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="customer-registration.html" class="text-secondary text-decoration-none">Cadastro Cliente</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="loan-creation.html" class="text-secondary text-decoration-none">Criação Empréstimo</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/mermaid.min.js"></script>
+  <script src="../assets/js/wiki.js"></script>
+</body>
+</html>
