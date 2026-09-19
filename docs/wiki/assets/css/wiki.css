@@ -1,0 +1,372 @@
+/**
+ * Ozalpa Superpowers Wiki - Custom CSS
+ * Modern technical documentation theme with sidebar layout, dark mode,
+ * HTTP badges, copyable code blocks, and responsive navigation.
+ */
+
+:root {
+  --wiki-sidebar-width: 280px;
+  --wiki-topbar-height: 58px;
+  --wiki-content-max-width: 1200px;
+  --wiki-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --wiki-font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --wiki-code-bg: #f6f8fa;
+  --wiki-code-border: #d0d7de;
+  --wiki-sidebar-bg: #f8f9fa;
+  --wiki-sidebar-border: #e9ecef;
+  --wiki-sidebar-active-bg: #e7f1ff;
+  --wiki-sidebar-active-color: #0d6efd;
+}
+
+[data-bs-theme="dark"] {
+  --wiki-code-bg: #161b22;
+  --wiki-code-border: #30363d;
+  --wiki-sidebar-bg: #111418;
+  --wiki-sidebar-border: #212529;
+  --wiki-sidebar-active-bg: #1a2a44;
+  --wiki-sidebar-active-color: #58a6ff;
+}
+
+/* --------------------------------------------------
+ * Global Layout
+ * -------------------------------------------------- */
+body {
+  font-family: var(--wiki-font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wiki-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+/* --------------------------------------------------
+ * Top Navbar (Mobile / Quick controls)
+ * -------------------------------------------------- */
+.wiki-navbar {
+  height: var(--wiki-topbar-height);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  border-bottom: 1px solid var(--bs-border-color);
+  backdrop-filter: blur(8px);
+  background-color: rgba(var(--bs-body-bg-rgb), 0.95);
+}
+
+/* --------------------------------------------------
+ * Sidebar Navigation
+ * -------------------------------------------------- */
+.wiki-sidebar {
+  width: var(--wiki-sidebar-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--wiki-topbar-height);
+  height: calc(100vh - var(--wiki-topbar-height));
+  overflow-y: auto;
+  background-color: var(--wiki-sidebar-bg);
+  border-right: 1px solid var(--wiki-sidebar-border);
+  padding: 1.25rem 1rem;
+  scrollbar-width: thin;
+}
+
+.wiki-sidebar-header {
+  margin-bottom: 1.25rem;
+}
+
+.wiki-sidebar-search {
+  margin-bottom: 1rem;
+}
+
+.wiki-nav-group {
+  margin-bottom: 1.25rem;
+}
+
+.wiki-nav-header {
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bs-secondary-color);
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wiki-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 0.375rem;
+  color: var(--bs-body-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 450;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.wiki-nav-link:hover {
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-primary);
+}
+
+.wiki-nav-link.active {
+  background-color: var(--wiki-sidebar-active-bg);
+  color: var(--wiki-sidebar-active-color);
+  font-weight: 600;
+}
+
+.wiki-nav-link i {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------
+ * Main Content Area
+ * -------------------------------------------------- */
+.wiki-main {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 2.5rem 4rem 2.5rem;
+  max-width: var(--wiki-content-max-width);
+}
+
+.wiki-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.wiki-breadcrumb {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* --------------------------------------------------
+ * HTTP Method Badges
+ * -------------------------------------------------- */
+.badge-http {
+  font-family: var(--wiki-font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3em 0.55em;
+  border-radius: 0.25rem;
+  letter-spacing: 0.03em;
+  display: inline-block;
+  text-align: center;
+  min-width: 58px;
+}
+
+.badge-http-get {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.badge-http-post {
+  background-color: #198754;
+  color: #fff;
+}
+
+.badge-http-put {
+  background-color: #fd7e14;
+  color: #fff;
+}
+
+.badge-http-patch {
+  background-color: #6f42c1;
+  color: #fff;
+}
+
+.badge-http-delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.badge-http-options,
+.badge-http-head {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* Endpoint pill container */
+.endpoint-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.5rem;
+  background-color: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  margin-bottom: 0.5rem;
+  font-family: var(--wiki-font-mono);
+  font-size: 0.9rem;
+}
+
+.endpoint-item .endpoint-path {
+  color: var(--bs-body-color);
+  word-break: break-all;
+}
+
+.endpoint-item .endpoint-desc {
+  margin-left: auto;
+  font-family: var(--wiki-font-sans);
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+}
+
+/* --------------------------------------------------
+ * Code Blocks & Copy Button
+ * -------------------------------------------------- */
+.code-block-wrapper {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+pre {
+  background-color: var(--wiki-code-bg);
+  border: 1px solid var(--wiki-code-border);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  font-family: var(--wiki-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+code:not(pre code) {
+  background-color: var(--wiki-code-bg);
+  color: var(--bs-danger-text-emphasis, #d63384);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  font-family: var(--wiki-font-mono);
+  font-size: 0.875em;
+  border: 1px solid var(--wiki-code-border);
+}
+
+.btn-copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, background-color 0.2s;
+  z-index: 5;
+}
+
+.code-block-wrapper:hover .btn-copy {
+  opacity: 1;
+}
+
+/* --------------------------------------------------
+ * Mermaid Diagrams
+ * -------------------------------------------------- */
+.mermaid-diagram-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.5rem;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+
+.mermaid-diagram-container .mermaid {
+  text-align: center;
+  width: 100%;
+}
+
+/* --------------------------------------------------
+ * Cards, Tables, Notes & Highlights
+ * -------------------------------------------------- */
+.wiki-card {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wiki-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.table-wiki {
+  font-size: 0.9rem;
+}
+
+.table-wiki th {
+  background-color: var(--bs-tertiary-bg);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.wiki-stat-box {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--bs-tertiary-bg);
+}
+
+.wiki-stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.wiki-stat-label {
+  font-size: 0.8rem;
+  color: var(--bs-secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+/* --------------------------------------------------
+ * Responsive Breakpoints
+ * -------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .wiki-sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    height: 100vh;
+    z-index: 1045;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .wiki-sidebar.show {
+    left: 0;
+  }
+
+  .wiki-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+
+  .wiki-sidebar-backdrop.show {
+    display: block;
+  }
+
+  .wiki-main {
+    padding: 1.5rem 1rem 3rem 1rem;
+  }
+}
