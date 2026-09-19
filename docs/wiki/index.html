@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Início — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="index.html" class="wiki-nav-link active">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="operations/customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="operations/customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="operations/loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="operations/loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Wiki</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Início</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge bg-primary fs-6"><i class="bi bi-shield-check me-1"></i> Superpowers Validated</span>
+          <span class="badge bg-warning text-dark fs-6"><i class="bi bi-cup-hot-fill me-1"></i> Java 21</span>
+          <span class="badge bg-success fs-6"><i class="bi bi-box-seam me-1"></i> Spring Boot 3.4.3</span>
+          <span class="badge bg-info text-dark fs-6"><i class="bi bi-database me-1"></i> PostgreSQL 16</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6"><i class="bi bi-check-circle-fill me-1"></i> Cucumber BDD</span>
+          <span class="badge bg-secondary fs-6">MIT License</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-2">Buy Now Pay Later (BNPL) REST API</h1>
+        <p class="lead text-secondary mb-0">Projeto de Validação do Framework Superpowers — Desenvolvimento Autônomo e Assistido por IA com Rigor Arquitetural Ponta a Ponta.</p>
+      </div>
+
+      <div class="alert alert-primary border-primary-subtle d-flex align-items-center gap-3 mb-4 shadow-sm" role="alert">
+        <i class="bi bi-info-circle-fill fs-3 text-primary flex-shrink-0"></i>
+        <div>
+          Este repositório foi construído como um <strong>projeto de validação do Superpowers e de suas capacidades de desenvolvimento autônomo e assistido por IA</strong>. O objetivo é demonstrar na prática o rigor metodológico, a disciplina arquitetural e a execução ponta a ponta orientada por agentes especializados.
+        </div>
+      </div>
+
+      <!-- Métricas Rápidas -->
+      <div class="row g-3 mb-5">
+        <div class="col-sm-6 col-lg-3">
+          <div class="wiki-stat-box">
+            <div class="wiki-stat-value text-primary">138+</div>
+            <div class="wiki-stat-label">Testes &amp; Steps BDD</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="wiki-stat-box">
+            <div class="wiki-stat-value text-success">0</div>
+            <div class="wiki-stat-label">Falhas nos Testes</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="wiki-stat-box">
+            <div class="wiki-stat-value text-info">11</div>
+            <div class="wiki-stat-label">Tarefas de Implementação</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="wiki-stat-box">
+            <div class="wiki-stat-value text-warning">100%</div>
+            <div class="wiki-stat-label">Conformidade OpenAPI</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Sobre a Validação do Superpowers -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-bullseye text-danger"></i> Sobre a Validação do Superpowers
+        </h2>
+        <p>O desenvolvimento desta solução foi conduzido integralmente utilizando as ferramentas, skills e convenções do ecossistema <strong>Superpowers</strong>:</p>
+
+        <div class="row g-3 mt-1">
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card wiki-card-interactive">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                  <i class="bi bi-lightbulb me-1"></i> 1. Brainstorming &amp; Alinhamento
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted font-monospace small">superpowers:brainstorming</h6>
+                <ul class="card-text small text-secondary mb-0 ps-3">
+                  <li>Classificação do trabalho (Spike exploratório &rarr; Projeto Arquitetural &rarr; Bounded).</li>
+                  <li>Extração e análise automatizada dos requisitos e do contrato OpenAPI do desafio.</li>
+                  <li>Refinamento iterativo de arquitetura, banco, segurança e testes com o desenvolvedor.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card wiki-card-interactive">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                  <i class="bi bi-file-earmark-code me-1"></i> 2. Especificação Técnica
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted font-monospace small">docs/superpowers/specs/</h6>
+                <ul class="card-text small text-secondary mb-0 ps-3">
+                  <li>Elaboração da spec formal contendo modelagem relacional, fórmulas financeiras, políticas de crédito e regras de conciliação transacional.</li>
+                  <li>Definição estrita das mensagens de erro e códigos padronizados (<code>APZ000001</code> a <code>APZ000008</code>).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card wiki-card-interactive">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                  <i class="bi bi-card-checklist me-1"></i> 3. Plano de Implementação
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted font-monospace small">superpowers:writing-plans</h6>
+                <ul class="card-text small text-secondary mb-0 ps-3">
+                  <li>Decomposição em 11 tarefas modulares e independentes com gates de verificação técnica.</li>
+                  <li>Especificação de critérios de aceite, comandos executáveis e testes preditivos para cada fase.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card wiki-card-interactive">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                  <i class="bi bi-robot me-1"></i> 4. Subagent-Driven Development
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted font-monospace small">superpowers:subagent-driven-development</h6>
+                <ul class="card-text small text-secondary mb-0 ps-3">
+                  <li>Disparo de subagentes isolados para implementação (<code>implementer</code>) e para revisão estrita de spec e qualidade (<code>reviewer</code>).</li>
+                  <li>Ciclos rigorosos de <strong>TDD</strong> (Red-Green-Refactor) e <strong>BDD</strong> (cenários Gherkin vivos com Cucumber).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card wiki-card-interactive">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                  <i class="bi bi-speedometer2 me-1"></i> 5. Otimização com RTK
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted font-monospace small">Rust Token Killer (rtk)</h6>
+                <ul class="card-text small text-secondary mb-0 ps-3">
+                  <li>Uso sistemático do prefixo <code>rtk</code> em todas as chamadas de terminal.</li>
+                  <li>Economia substantiva de tokens mantendo sinais críticos de compilação, testes e diagnóstico.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card wiki-card-interactive">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">
+                  <i class="bi bi-patch-check me-1"></i> 6. Finalização e Integração
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted font-monospace small">superpowers:finishing-a-development-branch</h6>
+                <ul class="card-text small text-secondary mb-0 ps-3">
+                  <li>Verificação total da suíte (138 testes com 0 falhas) antes de qualquer integração ou push.</li>
+                  <li>Garantia de cobertura de código JaCoCo e conformidade contínua com os contratos estipulados.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Visão Macro do Desafio BNPL -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-bank text-primary"></i> Visão Macro do Desafio BNPL (Aplazo Challenge)
+        </h2>
+        <p>O desafio consiste no desenvolvimento de um sistema de crédito sob demanda no modelo <strong>Buy Now, Pay Later (BNPL)</strong>, cobrindo o ciclo de vida completo de originação e acompanhamento de empréstimos para compras parceladas:</p>
+
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <div class="card wiki-card h-100 border-start border-4 border-success">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge-http badge-http-post">POST</span>
+                  <h5 class="card-title mb-0 fw-bold">Elegibilidade &amp; Cadastro Automático</h5>
+                </div>
+                <div class="text-muted font-monospace small mb-2">/v1/customers</div>
+                <p class="card-text small text-secondary">
+                  Avaliação de idade em tempo de requisição: aceita apenas clientes entre <strong>18 e 65 anos</strong>. Atribuição instantânea de limite de crédito baseado na faixa etária:
+                </p>
+                <div class="table-responsive">
+                  <table class="table table-sm table-bordered table-wiki mb-2">
+                    <thead>
+                      <tr>
+                        <th>Faixa Etária</th>
+                        <th>Limite Concedido</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>18 a 25 anos</td><td class="fw-bold text-success">$3.000,00</td></tr>
+                      <tr><td>26 a 30 anos</td><td class="fw-bold text-success">$5.000,00</td></tr>
+                      <tr><td>31 a 65 anos</td><td class="fw-bold text-success">$8.000,00</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <small class="text-secondary"><i class="bi bi-key-fill text-warning me-1"></i> Emissão de token JWT assinado (<code>X-Auth-Token</code>) para utilização imediata.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card wiki-card h-100 border-start border-4 border-primary">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge-http badge-http-post">POST</span>
+                  <h5 class="card-title mb-0 fw-bold">Concessão de Empréstimo BNPL</h5>
+                </div>
+                <div class="text-muted font-monospace small mb-2">/v1/loans</div>
+                <p class="card-text small text-secondary">
+                  Validação estrita contra o saldo de crédito remanescente do cliente e dedução atômica transacional. Seleção dinâmica de esquema de amortização:
+                </p>
+                <ul class="small text-secondary ps-3 mb-2">
+                  <li><strong>Scheme 1</strong>: 13% de juros para clientes com primeiro nome iniciado em C, L ou H.</li>
+                  <li><strong>Scheme 2</strong>: 16% de juros para cliente com ID &gt; 25 ou fallback.</li>
+                </ul>
+                <small class="text-secondary"><i class="bi bi-calendar3 text-primary me-1"></i> Divisão em <strong>5 parcelas quinzenais</strong> (D+14 a D+70) com conciliação exata de centavos na última parcela.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card wiki-card h-100 border-start border-4 border-info">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge-http badge-http-get">GET</span>
+                  <h5 class="card-title mb-0 fw-bold">Consultas Seguras</h5>
+                </div>
+                <div class="text-muted font-monospace small mb-2">/v1/customers/{id} &amp; /v1/loans/{id}</div>
+                <p class="card-text small text-secondary mb-0">
+                  Endpoints autenticados via Bearer JWT com detalhamento de limites, saldo remanescente, metadados de criação e cronogramas completos de amortização e status de cada parcela (<code>NEXT</code> / <code>PENDING</code>).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card wiki-card h-100 border-start border-4 border-danger">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-danger">RFC 7807</span>
+                  <h5 class="card-title mb-0 fw-bold">Tratamento Padronizado de Erros</h5>
+                </div>
+                <div class="text-muted font-monospace small mb-2">Códigos APZ000001 a APZ000008</div>
+                <p class="card-text small text-secondary mb-0">
+                  Respostas JSON estruturadas sob o contrato OpenAPI com códigos rastreáveis para cliente menor de idade, token ausente/inválido, cliente não encontrado, crédito insuficiente, requisições malformadas e erros internos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Mapa da Documentação Completa -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-book text-success"></i> Mapa da Documentação Completa
+        </h2>
+        <p>Navegue pelos detalhes arquiteturais, diagramas executáveis e especificações operacionais através das seções da Wiki:</p>
+
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-3">
+            <div class="card wiki-card h-100">
+              <div class="card-body d-flex flex-column">
+                <div class="fs-2 text-primary mb-2"><i class="bi bi-boxes"></i></div>
+                <h5 class="card-title fw-bold">Modelo C4</h5>
+                <p class="card-text small text-secondary flex-grow-1">Diagramas de Contexto (C1) e Contêineres (C2) com especificações Structurizr DSL e Mermaid.</p>
+                <a href="c4model.html" class="btn btn-outline-primary btn-sm mt-2">Ver Modelo C4 &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="card wiki-card h-100">
+              <div class="card-body d-flex flex-column">
+                <div class="fs-2 text-info mb-2"><i class="bi bi-database"></i></div>
+                <h5 class="card-title fw-bold">Diagrama ERD</h5>
+                <p class="card-text small text-secondary flex-grow-1">Modelo Entidade-Relacionamento Mermaid, tabelas, constraints, tipos e dicionário de dados.</p>
+                <a href="erd.html" class="btn btn-outline-info btn-sm mt-2">Ver ERD &amp; Dados &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="card wiki-card h-100">
+              <div class="card-body d-flex flex-column">
+                <div class="fs-2 text-success mb-2"><i class="bi bi-collection"></i></div>
+                <h5 class="card-title fw-bold">Operações API</h5>
+                <p class="card-text small text-secondary flex-grow-1">Diagramas de sequência e fluxos passo a passo para cada um dos 4 endpoints da API REST.</p>
+                <a href="operations.html" class="btn btn-outline-success btn-sm mt-2">Ver Operações &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="card wiki-card h-100">
+              <div class="card-body d-flex flex-column">
+                <div class="fs-2 text-warning mb-2"><i class="bi bi-file-earmark-check"></i></div>
+                <h5 class="card-title fw-bold">Especificações</h5>
+                <p class="card-text small text-secondary flex-grow-1">Design System Spec original, plano de 11 tarefas de implementação e detalhes do desafio Aplazo.</p>
+                <a href="specs.html" class="btn btn-outline-warning btn-sm mt-2">Ver Specs &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Pré-requisitos -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-gear-wide-connected text-secondary"></i> Pré-requisitos
+        </h2>
+        <div class="table-responsive">
+          <table class="table table-bordered table-wiki">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Tecnologia</th>
+                <th style="width: 30%;">Versão Recomendada</th>
+                <th>Comando de Verificação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Java Development Kit (JDK)</strong></td>
+                <td>Java 21 ou superior (LTS)</td>
+                <td><code>java -version</code></td>
+              </tr>
+              <tr>
+                <td><strong>Docker &amp; Docker Compose</strong></td>
+                <td>Docker Engine 24+ &amp; Compose v2+</td>
+                <td><code>docker compose version</code></td>
+              </tr>
+              <tr>
+                <td><strong>Node.js &amp; npm</strong> <span class="badge bg-secondary-subtle text-secondary small ms-1">Opcional</span></td>
+                <td>Node.js 18+ e npm 9+ (para testes de API via Newman)</td>
+                <td><code>node -v && npm -v</code></td>
+              </tr>
+              <tr>
+                <td><strong>Maven Wrapper</strong></td>
+                <td>Incluso no projeto (<code>./mvnw</code>)</td>
+                <td><code>./mvnw -v</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção: Como compilar e rodar testes -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-check2-all text-success"></i> Como Compilar e Rodar Testes
+        </h2>
+        <p>Execute a suíte completa de verificação incluindo todos os testes unitários, testes de integração apoiados por Testcontainers, cenários BDD Cucumber e verificação de cobertura de código JaCoCo:</p>
+
+        <pre><code class="language-bash">rtk ./mvnw clean verify</code></pre>
+
+        <div class="row g-3 mt-1">
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 border rounded bg-body-tertiary">
+              <i class="bi bi-check-circle text-success fs-5"></i>
+              <div class="fw-bold mt-1">138+ Cenários &amp; Steps</div>
+              <small class="text-secondary">Executa todos os testes unitários e BDD Cucumber.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 border rounded bg-body-tertiary">
+              <i class="bi bi-database text-info fs-5"></i>
+              <div class="fw-bold mt-1">Testcontainers</div>
+              <small class="text-secondary">Instância PostgreSQL 16 efêmera iniciada automaticamente.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 border rounded bg-body-tertiary">
+              <i class="bi bi-shield-check text-primary fs-5"></i>
+              <div class="fw-bold mt-1">Thresholds JaCoCo</div>
+              <small class="text-secondary">Aplica metas mínimas de cobertura de código estritas.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="p-3 border rounded bg-body-tertiary">
+              <i class="bi bi-file-earmark-bar-graph text-warning fs-5"></i>
+              <div class="fw-bold mt-1">Relatório HTML</div>
+              <small class="text-secondary">Gerado em <code>target/site/jacoco/index.html</code>.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Como rodar localmente com Maven -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-terminal text-primary"></i> Como Rodar Localmente com Maven
+        </h2>
+
+        <div class="card wiki-card mb-3">
+          <div class="card-header fw-bold">Passo 1: Iniciar PostgreSQL 16</div>
+          <div class="card-body">
+            <p class="small text-secondary mb-2">Inicie uma instância local do PostgreSQL 16 (ou utilize o serviço provido pelo Docker Compose):</p>
+            <pre><code class="language-bash">docker run --name bnpl-postgres \
+  -e POSTGRES_DB=bnpldb \
+  -e POSTGRES_USER=bnpluser \
+  -e POSTGRES_PASSWORD=bnplpass \
+  -p 5432:5432 -d postgres:16-alpine</code></pre>
+          </div>
+        </div>
+
+        <div class="card wiki-card">
+          <div class="card-header fw-bold">Passo 2: Iniciar a Aplicação Spring Boot</div>
+          <div class="card-body">
+            <pre><code class="language-bash">rtk ./mvnw spring-boot:run</code></pre>
+            <p class="small text-secondary mb-2">Por padrão, a aplicação conecta em <code>jdbc:postgresql://localhost:5432/bnpldb</code> com usuário <code>bnpluser</code> e senha <code>bnplpass</code>. Você pode sobrescrever configurações via variáveis de ambiente:</p>
+            <pre><code class="language-bash">DB_URL="jdbc:postgresql://localhost:5432/bnpldb" \
+DB_USERNAME="bnpluser" \
+DB_PASSWORD="bnplpass" \
+rtk ./mvnw spring-boot:run</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Como rodar com Docker Compose -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-docker text-primary"></i> Como Rodar com Docker Compose
+        </h2>
+        <p>Para construir a imagem e subir tanto o banco PostgreSQL 16 quanto o serviço da API BNPL em um único comando:</p>
+
+        <pre><code class="language-bash">docker compose up --build</code></pre>
+
+        <p>Para rodar em segundo plano (modo detached):</p>
+        <pre><code class="language-bash">docker compose up -d --build</code></pre>
+
+        <p>Para parar e remover os contêineres e volumes:</p>
+        <pre><code class="language-bash">docker compose down -v</code></pre>
+
+        <div class="card wiki-card">
+          <div class="card-body">
+            <h6 class="fw-bold mb-2">Serviços Expostos:</h6>
+            <ul class="mb-0 small text-secondary ps-3">
+              <li><strong>BNPL REST API:</strong> <code>http://localhost:8080</code></li>
+              <li><strong>PostgreSQL Database:</strong> <code>localhost:5432</code> (DB: <code>bnpl</code>, User: <code>postgres</code>, Pass: <code>postgres</code>)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Testes Automatizados Newman / Postman -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-send-check text-info"></i> Testes Automatizados com Newman / Postman
+        </h2>
+        <p>O repositório inclui uma suíte automatizada de testes de API e contrato baseada em <strong>Postman Collection v2.1</strong> e executável via <strong>Newman</strong> (CLI do Postman).</p>
+
+        <div class="accordion mb-3" id="accordionNewman">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingHappyPath">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHappyPath" aria-expanded="true" aria-controls="collapseHappyPath">
+                <i class="bi bi-diagram-2 text-success me-2"></i> Fluxo E2E Encadeado (Happy Path)
+              </button>
+            </h2>
+            <div id="collapseHappyPath" class="accordion-collapse collapse show" aria-labelledby="headingHappyPath">
+              <div class="accordion-body small">
+                <ol class="mb-0 ps-3">
+                  <li class="mb-1"><code>POST /v1/customers</code>: Cadastro de cliente elegível (idade 35 anos) e captura dinâmica do ID e do token JWT (<code>X-Auth-Token</code>).</li>
+                  <li class="mb-1"><code>GET /v1/customers/{id}</code>: Consulta do perfil e limite de crédito concedido ($8.000,00).</li>
+                  <li class="mb-1"><code>POST /v1/loans</code>: Criação de empréstimo de $1.000,00 com aplicação do esquema de juros Scheme 1 (13%) e 5 parcelas quinzenais.</li>
+                  <li class="mb-1"><code>GET /v1/loans/{id}</code>: Consulta e validação do cronograma de amortização (soma total de $1.130,00 com conciliação exata de centavos).</li>
+                  <li><code>GET /v1/customers/{id}</code>: Validação do saldo de crédito remanescente atualizado ($7.000,00).</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEdgeCases">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEdgeCases" aria-expanded="false" aria-controls="collapseEdgeCases">
+                <i class="bi bi-exclamation-triangle text-danger me-2"></i> Validações de Falha e Contrato (Edge Cases)
+              </button>
+            </h2>
+            <div id="collapseEdgeCases" class="accordion-collapse collapse" aria-labelledby="headingEdgeCases">
+              <div class="accordion-body small">
+                <ul class="mb-0 ps-3">
+                  <li class="mb-1">Cadastro de cliente menor de idade (&lt; 18 anos) retornando <code>400 Bad Request</code> com código <code>APZ000002</code>.</li>
+                  <li class="mb-1">Requisição sem cabeçalho de autenticação retornando <code>401 Unauthorized</code> com código <code>APZ000007</code>.</li>
+                  <li class="mb-1">Consulta de cliente inexistente retornando <code>404 Not Found</code> com código <code>APZ000005</code>.</li>
+                  <li>Solicitação de empréstimo excedendo o limite de crédito disponível retornando <code>400 Bad Request</code> com código <code>APZ000006</code>.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5 class="fw-bold mt-3 mb-2">Comandos de Execução da Suíte Newman:</h5>
+        <div class="card wiki-card">
+          <div class="card-body">
+            <p class="small text-secondary mb-1"><strong>1. Instalar dependências (Node.js):</strong></p>
+            <pre><code class="language-bash">rtk npm install</code></pre>
+
+            <p class="small text-secondary mb-1"><strong>2. Executar a suíte via NPM:</strong></p>
+            <pre><code class="language-bash">rtk npm run test:api</code></pre>
+
+            <p class="small text-secondary mb-1"><strong>3. Execução direta via npx newman (sem instalar localmente):</strong></p>
+            <pre><code class="language-bash">rtk npx newman run postman/bnpl-api.postman_collection.json \
+  -e postman/local.postman_environment.json \
+  --reporters cli</code></pre>
+
+            <p class="small text-secondary mb-1"><strong>4. Gerar Dashboard HTML Interativo (htmlextra):</strong></p>
+            <pre><code class="language-bash">rtk npm run test:api:html</code></pre>
+            <p class="small text-secondary mb-0">Para abrir o relatório no navegador: <code>xdg-open target/newman/report.html</code></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Rotas da API & Documentação OpenAPI -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-link-45deg text-primary"></i> Catálogo Resumido das Rotas da API
+        </h2>
+
+        <div class="endpoint-item">
+          <span class="badge-http badge-http-post">POST</span>
+          <span class="endpoint-path">/v1/customers</span>
+          <span class="endpoint-desc">Cadastro de cliente e cálculo de linha de crédito</span>
+        </div>
+        <div class="endpoint-item">
+          <span class="badge-http badge-http-get">GET</span>
+          <span class="endpoint-path">/v1/customers/{id}</span>
+          <span class="endpoint-desc">Consulta de cliente e saldo de crédito disponível</span>
+        </div>
+        <div class="endpoint-item">
+          <span class="badge-http badge-http-post">POST</span>
+          <span class="endpoint-path">/v1/loans</span>
+          <span class="endpoint-desc">Originação de empréstimo e geração de 5 parcelas</span>
+        </div>
+        <div class="endpoint-item">
+          <span class="badge-http badge-http-get">GET</span>
+          <span class="endpoint-path">/v1/loans/{id}</span>
+          <span class="endpoint-desc">Consulta de empréstimo e cronograma de amortização</span>
+        </div>
+
+        <div class="mt-3 p-3 bg-body-tertiary border rounded d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div>
+            <i class="bi bi-file-code text-primary me-2 fs-5"></i>
+            <strong>Consoles Interativos OpenAPI / Swagger UI:</strong>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="http://localhost:8080/swagger-ui/index.html" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-box-arrow-up-right me-1"></i> Swagger UI
+            </a>
+            <a href="http://localhost:8080/v3/api-docs" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-filetype-json me-1"></i> OpenAPI v3 JSON
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção: Exemplos Completos cURL -->
+      <section class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-code-slash text-warning"></i> Exemplos Rápidos com cURL
+        </h2>
+
+        <!-- cURL 1: Register Customer -->
+        <div class="card wiki-card mb-4">
+          <div class="card-header d-flex align-items-center gap-2">
+            <span class="badge-http badge-http-post">POST</span>
+            <span class="font-monospace fw-bold">/v1/customers</span>
+            <span class="text-secondary small ms-auto">Cadastro de Cliente</span>
+          </div>
+          <div class="card-body">
+            <p class="small text-secondary mb-2">Cadastra o cliente, calcula o limite etário e retorna o token JWT no cabeçalho <code>X-Auth-Token</code>:</p>
+            <pre><code class="language-bash">curl -i -X POST http://localhost:8080/v1/customers \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "Carlos",
+    "lastName": "Wayne",
+    "secondLastName": "Kane",
+    "dateOfBirth": "1990-05-15"
+  }'</code></pre>
+
+            <h6 class="small fw-bold mt-3 mb-1">Exemplo de Resposta HTTP (201 Created):</h6>
+            <pre><code class="language-http">HTTP/1.1 201 Created
+Location: /v1/customers/3fa85f64-5717-4562-b3fc-2c963f66afa7
+X-Auth-Token: eyJhbGciOiJIUzI1NiJ9...
+Content-Type: application/json
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "creditLineAmount": 8000.00,
+  "availableCreditLineAmount": 8000.00,
+  "createdAt": "2026-09-18T12:00:00Z"
+}</code></pre>
+
+            <p class="small text-secondary mt-2 mb-1">Para exportar o token e ID para as requisições seguintes:</p>
+            <pre><code class="language-bash">export TOKEN="&lt;value-of-X-Auth-Token-header&gt;"
+export CUSTOMER_ID="3fa85f64-5717-4562-b3fc-2c963f66afa7"</code></pre>
+          </div>
+        </div>
+
+        <!-- cURL 2: Retrieve Customer -->
+        <div class="card wiki-card mb-4">
+          <div class="card-header d-flex align-items-center gap-2">
+            <span class="badge-http badge-http-get">GET</span>
+            <span class="font-monospace fw-bold">/v1/customers/{id}</span>
+            <span class="text-secondary small ms-auto">Consulta de Saldo</span>
+          </div>
+          <div class="card-body">
+            <pre><code class="language-bash">curl -i -X GET http://localhost:8080/v1/customers/${CUSTOMER_ID} \
+  -H "Authorization: Bearer ${TOKEN}"</code></pre>
+
+            <h6 class="small fw-bold mt-3 mb-1">Exemplo de Resposta JSON (200 OK):</h6>
+            <pre><code class="language-json">{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "creditLineAmount": 8000.00,
+  "availableCreditLineAmount": 8000.00,
+  "createdAt": "2026-09-18T12:00:00Z"
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- cURL 3: Create Loan -->
+        <div class="card wiki-card mb-4">
+          <div class="card-header d-flex align-items-center gap-2">
+            <span class="badge-http badge-http-post">POST</span>
+            <span class="font-monospace fw-bold">/v1/loans</span>
+            <span class="text-secondary small ms-auto">Originação de Empréstimo</span>
+          </div>
+          <div class="card-body">
+            <pre><code class="language-bash">curl -i -X POST http://localhost:8080/v1/loans \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customerId": "'"${CUSTOMER_ID}"'",
+    "amount": 1000.00
+  }'</code></pre>
+
+            <h6 class="small fw-bold mt-3 mb-1">Exemplo de Resposta HTTP (201 Created):</h6>
+            <pre><code class="language-http">HTTP/1.1 201 Created
+Location: /v1/loans/7fa85f64-5717-4562-b3fc-2c963f66afa8
+Content-Type: application/json
+
+{
+  "id": "7fa85f64-5717-4562-b3fc-2c963f66afa8",
+  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "amount": 1000.00,
+  "status": "ACTIVE",
+  "createdAt": "2026-09-18T12:05:00Z",
+  "paymentPlan": {
+    "commissionAmount": 130.00,
+    "installments": [
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-02",
+        "status": "NEXT"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-16",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-30",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-13",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-27",
+        "status": "PENDING"
+      }
+    ]
+  }
+}</code></pre>
+
+            <p class="small text-secondary mt-2 mb-1">Para exportar o ID do empréstimo:</p>
+            <pre><code class="language-bash">export LOAN_ID="7fa85f64-5717-4562-b3fc-2c963f66afa8"</code></pre>
+          </div>
+        </div>
+
+        <!-- cURL 4: Retrieve Loan -->
+        <div class="card wiki-card">
+          <div class="card-header d-flex align-items-center gap-2">
+            <span class="badge-http badge-http-get">GET</span>
+            <span class="font-monospace fw-bold">/v1/loans/{id}</span>
+            <span class="text-secondary small ms-auto">Consulta de Empréstimo</span>
+          </div>
+          <div class="card-body">
+            <pre><code class="language-bash">curl -i -X GET http://localhost:8080/v1/loans/${LOAN_ID} \
+  -H "Authorization: Bearer ${TOKEN}"</code></pre>
+
+            <h6 class="small fw-bold mt-3 mb-1">Exemplo de Resposta JSON (200 OK):</h6>
+            <pre><code class="language-json">{
+  "id": "7fa85f64-5717-4562-b3fc-2c963f66afa8",
+  "customerId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "amount": 1000.00,
+  "status": "ACTIVE",
+  "createdAt": "2026-09-18T12:05:00Z",
+  "paymentPlan": {
+    "commissionAmount": 130.00,
+    "installments": [
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-02",
+        "status": "NEXT"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-16",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-10-30",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-13",
+        "status": "PENDING"
+      },
+      {
+        "amount": 226.00,
+        "scheduledPaymentDate": "2026-11-27",
+        "status": "PENDING"
+      }
+    ]
+  }
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="c4model.html" class="text-secondary text-decoration-none">Modelo C4</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="erd.html" class="text-secondary text-decoration-none">ERD</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="operations.html" class="text-secondary text-decoration-none">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="specs.html" class="text-secondary text-decoration-none">Specs</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/mermaid.min.js"></script>
+  <script src="assets/js/wiki.js"></script>
+</body>
+</html>
