@@ -4,9 +4,11 @@
   "description": "Automated Postman and Newman API test suite for BNPL microservices",
   "scripts": {
     "test:api": "newman run postman/bnpl-api.postman_collection.json -e postman/local.postman_environment.json --reporters cli",
-    "test": "npm run test:api"
+    "test:api:html": "newman run postman/bnpl-api.postman_collection.json -e postman/local.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export target/newman/report.html",
+    "test": "npm run test:api:html"
   },
   "devDependencies": {
-    "newman": "^6.2.1"
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1"
   }
 }

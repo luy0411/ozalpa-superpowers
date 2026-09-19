@@ -195,8 +195,24 @@ rtk npx newman run postman/bnpl-api.postman_collection.json \
   --reporters cli
 ```
 
-#### 4. Gerando relatórios detalhados (HTML / JSON)
-Você pode habilitar relatórios adicionais passando múltiplos reporters para o Newman:
+#### 4. Gerando relatórios visuais (Dashboard HTML Interativo)
+O projeto já conta com o reporter `newman-reporter-htmlextra` configurado:
+
+```bash
+# Executa os testes gerando o dashboard HTML interativo em target/newman/report.html
+rtk npm run test:api:html
+
+# Ou simplesmente:
+rtk npm test
+```
+
+Para abrir o relatório gerado no navegador:
+```bash
+xdg-open target/newman/report.html  # Linux
+# ou abra diretamente o arquivo target/newman/report.html no seu navegador
+```
+
+Você também pode gerar relatórios em JSON se desejar:
 ```bash
 rtk npx newman run postman/bnpl-api.postman_collection.json \
   -e postman/local.postman_environment.json \
