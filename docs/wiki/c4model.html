@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelo C4 &amp; Arquitetura — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="c4model.html" class="wiki-nav-link active">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="erd.html" class="wiki-nav-link">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="operations/customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="operations/customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="operations/loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="operations/loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+          <li class="breadcrumb-item">Arquitetura &amp; Dados</li>
+          <li class="breadcrumb-item active" aria-current="page">Modelo C4 &amp; Structurizr</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge bg-primary fs-6"><i class="bi bi-boxes me-1"></i> C4 Model</span>
+          <span class="badge bg-info text-dark fs-6"><i class="bi bi-diagram-2 me-1"></i> Structurizr DSL</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6"><i class="bi bi-eye me-1"></i> C1 &amp; C2 Visual</span>
+          <span class="badge bg-secondary fs-6">Arquitetura de Software</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-2">Modelo C4 e Arquitetura do Sistema BNPL (Aplazo)</h1>
+        <p class="lead text-secondary mb-0">Descrição estruturada da arquitetura utilizando o modelo C4 (Contexto e Contêineres), especificação padrão Structurizr DSL e diagramas Mermaid C4 interativos.</p>
+      </div>
+
+      <!-- Quick Navigation Index -->
+      <div class="card wiki-card mb-4 bg-body-tertiary">
+        <div class="card-body py-3">
+          <div class="fw-bold text-uppercase small text-secondary mb-2">
+            <i class="bi bi-list-nested me-1"></i> Nesta Página
+          </div>
+          <div class="d-flex flex-wrap gap-3 small">
+            <a href="#visao-geral" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>1. Visão Geral da Solução</a>
+            <a href="#nivel-1-c1" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>2. Nível 1: Contexto de Sistema (C1)</a>
+            <a href="#nivel-2-c2" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>3. Nível 2: Contêineres (C2)</a>
+            <a href="#structurizr-dsl" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>4. Especificação Structurizr DSL</a>
+            <a href="#rastreabilidade" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>5. Rastreabilidade de Contêineres</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 1: Visão Geral da Solução -->
+      <section id="visao-geral" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-binoculars text-primary"></i> 1. Visão Geral da Solução
+        </h2>
+        <p>O sistema tem como finalidade fornecer uma infraestrutura de crédito sob demanda (<em>Buy Now, Pay Later - BNPL</em>) para checkouts de e-commerce parceiros e consumidores finais:</p>
+
+        <div class="row g-4 mt-1">
+          <div class="col-md-4">
+            <div class="card h-100 wiki-card">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-primary p-2 rounded-circle"><i class="bi bi-person-check fs-5 text-white"></i></span>
+                  <h5 class="card-title fw-bold mb-0">Clientes Consumidores</h5>
+                </div>
+                <p class="card-text text-secondary small">
+                  Cadastram-se no ecossistema, recebem aprovação instantânea de linha de crédito baseada em sua faixa etária e realizam compras financiadas em 5 parcelas quinzenais com cronograma automatizado.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 wiki-card">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-success p-2 rounded-circle"><i class="bi bi-cart-check fs-5 text-white"></i></span>
+                  <h5 class="card-title fw-bold mb-0">Plataformas E-commerce</h5>
+                </div>
+                <p class="card-text text-secondary small">
+                  Integram-se via REST APIs seguras autenticadas por Bearer JWT para oferecer pagamentos parcelados a seus clientes, recebendo confirmações instantâneas de liquidação do empréstimo.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 wiki-card">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="badge bg-warning p-2 rounded-circle"><i class="bi bi-calculator fs-5 text-dark"></i></span>
+                  <h5 class="card-title fw-bold mb-0">Engine Financeira</h5>
+                </div>
+                <p class="card-text text-secondary small">
+                  Calcula taxas e comissões dinâmicas (Esquema 1 a 13% vs Esquema 2 a 16%), debita saldos remanescentes de forma atômica e estabelece amortização rigorosa com ajuste de centavos residuais.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 2: Nível 1: Diagrama de Contexto de Sistema (C1) -->
+      <section id="nivel-1-c1" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-diagram-3 text-info"></i> 2. Nível 1: Diagrama de Contexto de Sistema (C1)
+        </h2>
+        <p>O <strong>Diagrama de Contexto</strong> estabelece as fronteiras do sistema, destacando os atores humanos e sistemas externos com os quais a solução interage dentro e fora do Ecossistema Aplazo.</p>
+
+        <div class="card wiki-card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="fw-semibold small"><i class="bi bi-bezier2 me-1"></i> Diagrama C1 — Contexto de Sistema</span>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Mermaid C4Context</span>
+          </div>
+          <div class="card-body p-0">
+            <div class="mermaid-diagram-container m-0 border-0 rounded-0">
+              <pre class="mermaid">
+C4Context
+    title Diagrama de Contexto de Sistema (C1) - Sistema BNPL Aplazo
+
+    Person(customer, "Cliente Consumidor", "Usuário que se cadastra, obtém crédito e financia compras em parcelas.")
+    System_Ext(ecommerce, "Plataforma de E-commerce / Checkout", "Loja virtual parceira onde o cliente realiza compras utilizando o BNPL.")
+
+    Enterprise_Boundary(b0, "Ecossistema Aplazo") {
+        System(bnpl_system, "Sistema BNPL Aplazo", "Gerencia o ciclo de vida de crédito, concessão de limites, emissão de empréstimos e planos de parcelamento.")
+    }
+
+    Rel(customer, ecommerce, "Navega e seleciona produtos", "HTTPS")
+    Rel(customer, bnpl_system, "Realiza cadastro e consulta linha de crédito", "HTTPS / JSON")
+    Rel(ecommerce, bnpl_system, "Solicita criação de empréstimo em nome do cliente", "HTTPS / REST / JWT")
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-wiki align-middle">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Elemento</th>
+                <th style="width: 20%;">Tipo</th>
+                <th>Descrição do Papel no Contexto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold"><i class="bi bi-person me-1 text-primary"></i> Cliente Consumidor</td>
+                <td><span class="badge bg-primary">Person</span></td>
+                <td>Usuário final que solicita o limite de crédito inicial e compra produtos com parcelamento quinzenal.</td>
+              </tr>
+              <tr>
+                <td class="fw-bold"><i class="bi bi-shop me-1 text-secondary"></i> Plataforma de E-commerce</td>
+                <td><span class="badge bg-secondary">System_Ext</span></td>
+                <td>Checkout da loja virtual conveniada que autentica via JWT para aprovar compras parceladas instantaneamente.</td>
+              </tr>
+              <tr>
+                <td class="fw-bold"><i class="bi bi-box-seam me-1 text-success"></i> Sistema BNPL Aplazo</td>
+                <td><span class="badge bg-success">System (Core)</span></td>
+                <td>Núcleo de negócio responsável pelo motor de elegibilidade, concessão de crédito, controle de saldo e emissão de planos de pagamento.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seção 3: Nível 2: Diagrama de Contêineres (C2) -->
+      <section id="nivel-2-c2" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-boxes text-success"></i> 3. Nível 2: Diagrama de Contêineres (C2)
+        </h2>
+        <p>O <strong>Diagrama de Contêineres</strong> expande o Sistema BNPL para detalhar as aplicações em tempo de execução, bancos de dados, portas de rede e protocolos de comunicação que compõem a solução técnica.</p>
+
+        <div class="card wiki-card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="fw-semibold small"><i class="bi bi-hdd-network me-1"></i> Diagrama C2 — Arquitetura de Contêineres</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle">Mermaid C4Container</span>
+          </div>
+          <div class="card-body p-0">
+            <div class="mermaid-diagram-container m-0 border-0 rounded-0">
+              <pre class="mermaid">
+C4Container
+    title Diagrama de Contêineres (C2) - Sistema BNPL Aplazo
+
+    Person(customer, "Cliente Consumidor", "Usuário final da linha de crédito.")
+    System_Ext(ecommerce, "Plataforma de E-commerce", "Sistema parceiro integrado.")
+
+    Container_Boundary(bnpl_boundary, "Sistema BNPL Aplazo") {
+        Container(api_app, "BNPL REST API", "Java 21, Spring Boot 3.4, Spring Security", "Disponibiliza endpoints REST para registro de clientes, validação de crédito, autenticação JWT e gestão de empréstimos.")
+        ContainerDb(database, "Banco de Dados Relacional", "PostgreSQL 16", "Armazena clientes, limites concedidos, saldos disponíveis, empréstimos, comissões e cronograma de parcelas.")
+    }
+
+    Rel(customer, api_app, "Registra-se e consulta saldo", "JSON/HTTPS", "Porta 8080")
+    Rel(ecommerce, api_app, "Cria e consulta empréstimos", "JSON/HTTPS / Bearer JWT", "Porta 8080")
+    Rel(api_app, database, "Lê e grava dados transacionais com migrações Flyway", "JDBC / SQL", "Porta 5432")
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-primary d-flex align-items-center gap-2">
+                  <i class="bi bi-cpu"></i> BNPL REST API (Contêiner Aplicação)
+                </h5>
+                <ul class="small text-secondary ps-3 mb-0">
+                  <li><strong>Stack:</strong> Java 21 LTS, Spring Boot 3.4.3, Spring Data JPA, Spring Security, JJWT 0.12.6.</li>
+                  <li><strong>Porta de Escuta:</strong> <code>8080</code> (HTTP/REST com JSON payload).</li>
+                  <li><strong>Segurança:</strong> Autenticação Bearer JWT para operações restritas de empréstimo.</li>
+                  <li><strong>Resiliência:</strong> Tratamento global de erros RFC 7807 (ProblemDetail) e validação declarativa Bean Validation.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card">
+              <div class="card-body">
+                <h5 class="card-title fw-bold text-success d-flex align-items-center gap-2">
+                  <i class="bi bi-database"></i> Banco de Dados (Contêiner de Dados)
+                </h5>
+                <ul class="small text-secondary ps-3 mb-0">
+                  <li><strong>Engine:</strong> PostgreSQL 16 Alpine com conexões pooling HikariCP.</li>
+                  <li><strong>Porta de Escuta:</strong> <code>5432</code> (Driver JDBC oficial).</li>
+                  <li><strong>Evolução de Schema:</strong> Flyway Database Migrations versionadas no classpath (<code>V1__initial_schema.sql</code>).</li>
+                  <li><strong>Consistência:</strong> Isolamento de transações <code>READ COMMITTED</code> com trava atômica de decremento de crédito.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Especificação Structurizr DSL -->
+      <section id="structurizr-dsl" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-file-earmark-code text-warning"></i> 4. Especificação Structurizr DSL (<code>workspace.dsl</code>)
+        </h2>
+        <p>Abaixo está o arquivo completo em formato <strong>Structurizr DSL</strong> (especificação padrão da indústria para modelagem arquitetural C4 as-code). Ele pode ser copiado diretamente para o <a href="https://structurizr.com/help/lite" target="_blank" rel="noopener">Structurizr Lite</a> ou compilado via Structurizr CLI.</p>
+
+        <div class="card wiki-card">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="font-monospace small"><i class="bi bi-code-slash me-1"></i> workspace.dsl</span>
+            <span class="badge bg-secondary-subtle text-secondary border">DSL Version 1.x</span>
+          </div>
+          <div class="card-body p-0">
+            <pre class="m-0 rounded-0 border-0"><code class="language-dsl">workspace "Sistema BNPL Aplazo" "Arquitetura da solução de Buy Now Pay Later (BNPL)" {
+
+    model {
+        customer = person "Cliente Consumidor" "Consumidor que utiliza crédito BNPL para aquisição de produtos."
+        ecommerce = softwareSystem "Plataforma de E-commerce" "Plataformas parceiras e checkouts de vendas." "External"
+
+        bnpl = softwareSystem "Sistema BNPL Aplazo" "Gerencia concessão de crédito, criação de empréstimos e parcelamentos." {
+            api = container "BNPL REST API" "Processa requisições de clientes e empréstimos, executa regras financeiras e emite JWT." "Java 21, Spring Boot 3.4"
+            database = container "Banco de Dados" "Armazena registros de clientes, linhas de crédito, empréstimos e parcelas." "PostgreSQL 16" "Database"
+        }
+
+        # Relações de Contexto (C1)
+        customer -> ecommerce "Compra produtos utilizando parcelamento" "HTTPS"
+        customer -> bnpl "Realiza cadastro e consulta limite disponível" "HTTPS / REST"
+        ecommerce -> bnpl "Envia solicitações de crédito e criação de empréstimo" "HTTPS / REST / JWT"
+
+        # Relações de Contêineres (C2)
+        customer -> api "Consome endpoints /v1/customers" "HTTPS / JSON"
+        ecommerce -> api "Consome endpoints /v1/loans com token Bearer" "HTTPS / JSON"
+        api -> database "Persiste e consulta clientes, empréstimos e parcelas" "JDBC / Flyway"
+    }
+
+    views {
+        systemContext bnpl "C1_Contexto" "Diagrama de Contexto de Sistema (C1)" {
+            include *
+            autoLayout lr
+        }
+
+        container bnpl "C2_Containers" "Diagrama de Contêineres (C2)" {
+            include *
+            autoLayout lr
+        }
+
+        styles {
+            element "Person" {
+                shape Person
+                background #08427b
+                color #ffffff
+            }
+            element "Software System" {
+                background #1168bd
+                color #ffffff
+            }
+            element "External" {
+                background #999999
+                color #ffffff
+            }
+            element "Container" {
+                background #438dd5
+                color #ffffff
+            }
+            element "Database" {
+                shape Cylinder
+                background #2A6099
+                color #ffffff
+            }
+        }
+    }
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 5: Rastreabilidade de Contêineres e Componentes -->
+      <section id="rastreabilidade" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-table text-danger"></i> 5. Rastreabilidade de Contêineres e Componentes
+        </h2>
+        <p>Mapeamento sistemático de responsabilidades, componentes de runtime e decisões de design arquitetural:</p>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-wiki align-middle">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Contêiner</th>
+                <th style="width: 32%;">Responsabilidade Principal</th>
+                <th style="width: 26%;">Tecnologias Utilizadas</th>
+                <th style="width: 20%;">Padrão Arquitetural</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold text-primary">
+                  <i class="bi bi-box-seam me-1"></i> BNPL REST API
+                </td>
+                <td>
+                  Autenticação e autorização via JWT, validação de elegibilidade por idade, determinação de esquemas de juros e comissões, cálculo de parcelas com distribuição de centavos, exposição de endpoints REST.
+                </td>
+                <td>
+                  <span class="badge bg-warning text-dark me-1">Java 21 LTS</span>
+                  <span class="badge bg-success me-1">Spring Boot 3.4.3</span>
+                  <span class="badge bg-info text-dark me-1">Spring Security</span>
+                  <span class="badge bg-secondary me-1">JJWT 0.12.6</span>
+                  <span class="badge bg-dark">Spring Data JPA</span>
+                </td>
+                <td>
+                  Arquitetura em camadas (Controller &rarr; Service &rarr; Repository) com serviços de domínio isolados e DTOs desacoplados.
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-success">
+                  <i class="bi bi-database me-1"></i> Banco de Dados
+                </td>
+                <td>
+                  Persistência transacional atômica, integridade referencial com chaves estrangeiras e deleção em cascata controlada, isolamento ACID no débito de saldo disponível e auditoria de timestamps UTC.
+                </td>
+                <td>
+                  <span class="badge bg-info text-dark me-1">PostgreSQL 16</span>
+                  <span class="badge bg-primary me-1">Flyway Migrations</span>
+                  <span class="badge bg-secondary">HikariCP</span>
+                </td>
+                <td>
+                  Modelo Relacional Normalizado (Terceira Forma Normal - 3NF) com índices B-Tree em UUIDs públicos expostos e FKs internas.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="alert alert-secondary border-secondary-subtle d-flex align-items-center gap-3 mt-4" role="alert">
+          <i class="bi bi-arrow-right-circle fs-4 text-primary flex-shrink-0"></i>
+          <div>
+            Consulte a página <a href="erd.html" class="fw-bold">Diagrama ERD &amp; Dados</a> para visualizar as tabelas detalhadas (<code>customers</code>, <code>loans</code>, <code>installments</code>), restrições de unicidade, tipos SQL e índices do banco de dados.
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="c4model.html" class="text-secondary text-decoration-none fw-bold text-primary">Modelo C4</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="erd.html" class="text-secondary text-decoration-none">ERD</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="operations.html" class="text-secondary text-decoration-none">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="specs.html" class="text-secondary text-decoration-none">Specs</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/mermaid.min.js"></script>
+  <script src="assets/js/wiki.js"></script>
+</body>
+</html>

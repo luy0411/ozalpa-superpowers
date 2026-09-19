@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagrama ERD &amp; Dicionário de Dados — Buy Now Pay Later REST API Wiki</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/wiki.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar navbar-expand-lg wiki-navbar px-3">
+    <div class="container-fluid px-0">
+      <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-wiki-toggle="sidebar" aria-label="Alternar navegação">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 me-auto" href="index.html">
+        <i class="bi bi-lightning-charge-fill text-primary"></i>
+        <span>BNPL API <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-6 align-middle ms-1">Wiki</span></span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-wiki-theme-toggle title="Alternar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <a href="https://github.com/luy0411/ozalpa-superpowers" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm" title="Repositório GitHub">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-sm-inline ms-1">GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wiki-wrapper">
+    <!-- Sidebar Navigation -->
+    <nav class="wiki-sidebar" aria-label="Menu de Navegação da Wiki">
+      <div class="wiki-sidebar-search">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-body-tertiary border-end-0"><i class="bi bi-search"></i></span>
+          <input type="text" id="wiki-sidebar-search-input" class="form-control border-start-0" placeholder="Filtrar páginas..." aria-label="Filtrar páginas">
+        </div>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-compass"></i> Visão Geral
+        </div>
+        <a href="index.html" class="wiki-nav-link">
+          <i class="bi bi-house"></i> Início
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-stars"></i> Metodologia Superpowers
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-diagram-3"></i> Arquitetura &amp; Dados
+        </div>
+        <a href="c4model.html" class="wiki-nav-link">
+          <i class="bi bi-boxes"></i> Modelo C4 &amp; Structurizr
+        </a>
+        <a href="erd.html" class="wiki-nav-link active">
+          <i class="bi bi-database"></i> Diagrama ERD &amp; Dados
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-cpu"></i> Operações da API
+        </div>
+        <a href="operations.html" class="wiki-nav-link">
+          <i class="bi bi-collection"></i> Catálogo de Endpoints
+        </a>
+        <a href="operations/customer-registration.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Cadastro de Cliente
+        </a>
+        <a href="operations/customer-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Cliente
+        </a>
+        <a href="operations/loan-creation.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-post me-1">POST</span> Criação de Empréstimo
+        </a>
+        <a href="operations/loan-lookup.html" class="wiki-nav-link">
+          <span class="badge-http badge-http-get me-1">GET</span> Consulta de Empréstimo
+        </a>
+      </div>
+
+      <div class="wiki-nav-group">
+        <div class="wiki-nav-header">
+          <i class="bi bi-journal-text"></i> Desafio &amp; Especificações
+        </div>
+        <a href="challenge.html" class="wiki-nav-link">
+          <i class="bi bi-flag"></i> Desafio BNPL Aplazo
+        </a>
+        <a href="specs.html" class="wiki-nav-link">
+          <i class="bi bi-file-earmark-check"></i> Especificações Técnicas
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="wiki-main">
+      <nav class="wiki-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+          <li class="breadcrumb-item">Arquitetura &amp; Dados</li>
+          <li class="breadcrumb-item active" aria-current="page">Diagrama ERD &amp; Dados</li>
+        </ol>
+      </nav>
+
+      <!-- Hero Header -->
+      <div class="wiki-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <span class="badge bg-primary fs-6"><i class="bi bi-database me-1"></i> PostgreSQL 16</span>
+          <span class="badge bg-info text-dark fs-6"><i class="bi bi-diagram-3 me-1"></i> Mermaid erDiagram</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle fs-6"><i class="bi bi-table me-1"></i> Dicionário 3NF</span>
+          <span class="badge bg-secondary fs-6">Flyway Migrations</span>
+        </div>
+        <h1 class="display-5 fw-bold mb-2">Diagrama Entidade-Relacionamento (ERD) &amp; Dicionário de Dados</h1>
+        <p class="lead text-secondary mb-0">Detalhamento completo do schema relacional, cardinalidades de negócio, dicionário das tabelas <code>customers</code>, <code>loans</code> e <code>installments</code>, índices de performance e semântica de integridade referencial.</p>
+      </div>
+
+      <!-- Quick Navigation Index -->
+      <div class="card wiki-card mb-4 bg-body-tertiary">
+        <div class="card-body py-3">
+          <div class="fw-bold text-uppercase small text-secondary mb-2">
+            <i class="bi bi-list-nested me-1"></i> Nesta Página
+          </div>
+          <div class="d-flex flex-wrap gap-3 small">
+            <a href="#diagrama-erd" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>1. Diagrama Entidade-Relacionamento</a>
+            <a href="#tabela-customers" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>2.1 Tabela customers</a>
+            <a href="#tabela-loans" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>2.2 Tabela loans</a>
+            <a href="#tabela-installments" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>2.3 Tabela installments</a>
+            <a href="#integridade-referencial" class="text-decoration-none"><i class="bi bi-chevron-right me-1"></i>3. Integridade Referencial &amp; Semântica</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 1: Diagrama Entidade-Relacionamento -->
+      <section id="diagrama-erd" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-diagram-3-fill text-primary"></i> 1. Diagrama Entidade-Relacionamento
+        </h2>
+        <p>O modelo relacional do Sistema BNPL foi projetado na <strong>Terceira Forma Normal (3NF)</strong>, separando claramente o cadastro de limites do tomador de crédito, o registro imutável do empréstimo e o plano de parcelamento quinzenal derivado.</p>
+
+        <div class="card wiki-card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="fw-semibold small"><i class="bi bi-bezier me-1"></i> Modelo ERD Relacional</span>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Mermaid erDiagram</span>
+          </div>
+          <div class="card-body p-0">
+            <div class="mermaid-diagram-container m-0 border-0 rounded-0">
+              <pre class="mermaid">
+erDiagram
+    CUSTOMERS ||--o{ LOANS : "has"
+    LOANS ||--|{ INSTALLMENTS : "contains"
+
+    CUSTOMERS {
+        bigserial id PK "Internal sequential ID"
+        uuid external_id UK "Public UUID exposed in API"
+        varchar first_name "Customer first name"
+        varchar last_name "Paternal surname"
+        varchar second_last_name "Maternal surname"
+        date date_of_birth "Date of birth (18-65 years old)"
+        numeric credit_line_amount "Assigned credit line (3000, 5000, 8000)"
+        numeric available_credit_line_amount "Remaining credit available"
+        timestamptz created_at "Registration timestamp"
+    }
+
+    LOANS {
+        bigserial id PK "Internal sequential ID"
+        uuid external_id UK "Public UUID exposed in API (loanId)"
+        bigint customer_id FK "References customers(id)"
+        numeric amount "Principal loan amount"
+        numeric commission_amount "Calculated interest commission"
+        numeric total_amount "Total financed (amount + commission)"
+        varchar scheme_name "SCHEME_1 or SCHEME_2"
+        numeric interest_rate "0.13 or 0.16"
+        varchar status "ACTIVE, LATE, COMPLETED"
+        timestamptz created_at "Creation timestamp"
+    }
+
+    INSTALLMENTS {
+        bigserial id PK "Internal sequential ID"
+        bigint loan_id FK "References loans(id) ON DELETE CASCADE"
+        int installment_number "Ordinal installment number (1 to 5)"
+        numeric amount "Individual installment payment amount"
+        date scheduled_payment_date "Biweekly due date (D+14 to D+70)"
+        varchar status "NEXT, PENDING, ERROR"
+        timestamptz created_at "Creation timestamp"
+    }
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-body-tertiary h-100">
+              <h6 class="fw-bold text-primary mb-2"><i class="bi bi-key me-1"></i> Estratégia de Identificadores Duplos (Dual-Key)</h6>
+              <p class="small text-secondary mb-0">
+                Cada entidade possui um <code>id</code> surrogate sequencial (<code>BIGSERIAL</code>) para chaves primárias e relacionamentos internos de alto desempenho no banco, e um <code>external_id</code> (<code>UUID</code>) público para exibição e consumo seguro nas rotas da API REST, prevenindo enumeração maliciosa de registros.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-body-tertiary h-100">
+              <h6 class="fw-bold text-success mb-2"><i class="bi bi-clock-history me-1"></i> Auditoria Temporal e Precisão Monetária</h6>
+              <p class="small text-secondary mb-0">
+                Todas as tabelas contêm o campo <code>created_at</code> com fuso horário (<code>TIMESTAMPTZ</code>) preenchido via <code>CURRENT_TIMESTAMP</code>. Campos monetários utilizam o tipo exato <code>NUMERIC(15, 2)</code> com arredondamento estrito <code>HALF_EVEN</code> para evitar perdas de frações financeiras.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 2: Dicionário de Dados -->
+      <section id="dicionario-de-dados" class="mb-5">
+        <h2 class="h3 fw-bold mb-4 d-flex align-items-center gap-2">
+          <i class="bi bi-book-half text-success"></i> 2. Dicionário de Dados
+        </h2>
+
+        <!-- 2.1 Tabela: customers -->
+        <div id="tabela-customers" class="card wiki-card mb-5">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="fw-bold font-monospace"><i class="bi bi-table me-2 text-primary"></i>2.1 Tabela: customers</span>
+            <span class="badge bg-primary">Tabela Principal</span>
+          </div>
+          <div class="card-body">
+            <p class="text-secondary">Armazena perfis de clientes registrados, identificação pessoal, dados biométricos/faixa etária e a alocação de linha de crédito no sistema BNPL.</p>
+
+            <div class="table-responsive mb-3">
+              <table class="table table-bordered table-hover table-wiki align-middle">
+                <thead>
+                  <tr>
+                    <th>Coluna</th>
+                    <th>Tipo SQL</th>
+                    <th>Modificadores / Constraints</th>
+                    <th>Default</th>
+                    <th>Descrição de Negócio &amp; Regras</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-monospace fw-bold text-primary">id</td>
+                    <td><code>BIGSERIAL</code></td>
+                    <td><span class="badge bg-danger">PK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="font-monospace small">Auto-increment</td>
+                    <td>Chave primária substituta interna. Utilizada na regra de desempate do esquema de crédito (<code>id &gt; 25</code> qualifica para <code>SCHEME_1</code>).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold text-success">external_id</td>
+                    <td><code>UUID</code></td>
+                    <td><span class="badge bg-warning text-dark">UK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Identificador único público exposto na API (<code>/v1/customers/{customerId}</code>). Gerado aleatoriamente no momento do cadastro.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">first_name</td>
+                    <td><code>VARCHAR(100)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Primeiro nome do cliente. Avaliado na determinação do esquema de pagamento (iniciais <code>'C'</code>, <code>'L'</code>, <code>'H'</code> qualificam para <code>SCHEME_1</code>).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">last_name</td>
+                    <td><code>VARCHAR(100)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Primeiro sobrenome (sobrenome paterno).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">second_last_name</td>
+                    <td><code>VARCHAR(100)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Segundo sobrenome (sobrenome materno).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">date_of_birth</td>
+                    <td><code>DATE</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Data de nascimento do cliente. Utilizada para validação estrita de elegibilidade (idade deve estar entre 18 e 65 anos inclusive).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">credit_line_amount</td>
+                    <td><code>NUMERIC(15, 2)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Limite total concedido segundo a idade: <strong>$3.000,00</strong> (18 a 25 anos), <strong>$5.000,00</strong> (26 a 30 anos), <strong>$8.000,00</strong> (31 a 65 anos).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">available_credit_line_amount</td>
+                    <td><code>NUMERIC(15, 2)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Limite de crédito remanescente para novas compras. Inicializado igual ao <code>credit_line_amount</code> e debitado atomicamente na criação de empréstimos.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">created_at</td>
+                    <td><code>TIMESTAMPTZ</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="font-monospace small">CURRENT_TIMESTAMP</td>
+                    <td>Carimbo de data e hora do registro do cliente no fuso UTC.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Callout: Índices & Constraints customers -->
+            <div class="p-3 border-start border-primary border-4 bg-body-tertiary rounded-end">
+              <h6 class="fw-bold mb-2 text-primary"><i class="bi bi-shield-check me-1"></i> Índices &amp; Constraints (<code>customers</code>):</h6>
+              <ul class="font-monospace small mb-0 ps-3">
+                <li><code>PRIMARY KEY (id)</code></li>
+                <li><code>CONSTRAINT uk_customers_external_id UNIQUE (external_id)</code></li>
+                <li><code>CREATE INDEX idx_customers_external_id ON customers(external_id);</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.2 Tabela: loans -->
+        <div id="tabela-loans" class="card wiki-card mb-5">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="fw-bold font-monospace"><i class="bi bi-table me-2 text-info"></i>2.2 Tabela: loans</span>
+            <span class="badge bg-info text-dark">Operações de Crédito</span>
+          </div>
+          <div class="card-body">
+            <p class="text-secondary">Armazena os contratos de empréstimo e compras parceladas emitidas para os clientes cadastrados.</p>
+
+            <div class="table-responsive mb-3">
+              <table class="table table-bordered table-hover table-wiki align-middle">
+                <thead>
+                  <tr>
+                    <th>Coluna</th>
+                    <th>Tipo SQL</th>
+                    <th>Modificadores / Constraints</th>
+                    <th>Default</th>
+                    <th>Descrição de Negócio &amp; Regras</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-monospace fw-bold text-primary">id</td>
+                    <td><code>BIGSERIAL</code></td>
+                    <td><span class="badge bg-danger">PK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="font-monospace small">Auto-increment</td>
+                    <td>Chave primária interna sequencial da operação.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold text-success">external_id</td>
+                    <td><code>UUID</code></td>
+                    <td><span class="badge bg-warning text-dark">UK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Identificador público único exposto nos endpoints (<code>/v1/loans/{loanId}</code>).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold text-info">customer_id</td>
+                    <td><code>BIGINT</code></td>
+                    <td><span class="badge bg-info text-dark">FK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Chave estrangeira referenciando <code>customers(id)</code>. Vincula o empréstimo ao cliente titular.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">amount</td>
+                    <td><code>NUMERIC(15, 2)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Valor principal solicitado da compra. Deve ser maior que zero e $\le$ <code>available_credit_line_amount</code>.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">commission_amount</td>
+                    <td><code>NUMERIC(15, 2)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Comissão total de juros calculada: <code>amount * interest_rate</code> (arredondada em 2 casas decimais <code>HALF_EVEN</code>).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">total_amount</td>
+                    <td><code>NUMERIC(15, 2)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Valor total financiado da dívida: <code>amount + commission_amount</code>.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">scheme_name</td>
+                    <td><code>VARCHAR(20)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Nome do esquema de juros aplicado: <code>SCHEME_1</code> (13%) ou <code>SCHEME_2</code> (16%).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">interest_rate</td>
+                    <td><code>NUMERIC(5, 4)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Taxa decimal de juros aplicada na operação: <code>0.1300</code> ou <code>0.1600</code>.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">status</td>
+                    <td><code>VARCHAR(20)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Estado do empréstimo no ciclo de vida: <code>ACTIVE</code> (ativo/inicial), <code>LATE</code> (em atraso) ou <code>COMPLETED</code> (liquidado).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">created_at</td>
+                    <td><code>TIMESTAMPTZ</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="font-monospace small">CURRENT_TIMESTAMP</td>
+                    <td>Carimbo de data e hora em que a operação foi aprovada e criada.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Callout: Índices & Constraints loans -->
+            <div class="p-3 border-start border-info border-4 bg-body-tertiary rounded-end">
+              <h6 class="fw-bold mb-2 text-info"><i class="bi bi-shield-check me-1"></i> Índices &amp; Constraints (<code>loans</code>):</h6>
+              <ul class="font-monospace small mb-0 ps-3">
+                <li><code>PRIMARY KEY (id)</code></li>
+                <li><code>CONSTRAINT uk_loans_external_id UNIQUE (external_id)</code></li>
+                <li><code>CONSTRAINT fk_loans_customer_id FOREIGN KEY (customer_id) REFERENCES customers(id)</code></li>
+                <li><code>CREATE INDEX idx_loans_external_id ON loans(external_id);</code></li>
+                <li><code>CREATE INDEX idx_loans_customer_id ON loans(customer_id);</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.3 Tabela: installments -->
+        <div id="tabela-installments" class="card wiki-card mb-5">
+          <div class="card-header d-flex justify-content-between align-items-center py-2 bg-body-tertiary">
+            <span class="fw-bold font-monospace"><i class="bi bi-table me-2 text-success"></i>2.3 Tabela: installments</span>
+            <span class="badge bg-success">Cronograma de Parcelas</span>
+          </div>
+          <div class="card-body">
+            <p class="text-secondary">Armazena o desdobramento das 5 parcelas quinzenais geradas para amortização de cada empréstimo aprovado.</p>
+
+            <div class="table-responsive mb-3">
+              <table class="table table-bordered table-hover table-wiki align-middle">
+                <thead>
+                  <tr>
+                    <th>Coluna</th>
+                    <th>Tipo SQL</th>
+                    <th>Modificadores / Constraints</th>
+                    <th>Default</th>
+                    <th>Descrição de Negócio &amp; Regras</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-monospace fw-bold text-primary">id</td>
+                    <td><code>BIGSERIAL</code></td>
+                    <td><span class="badge bg-danger">PK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="font-monospace small">Auto-increment</td>
+                    <td>Chave primária sequencial da parcela.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold text-info">loan_id</td>
+                    <td><code>BIGINT</code></td>
+                    <td><span class="badge bg-info text-dark">FK</span> <span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Chave estrangeira referenciando <code>loans(id)</code> com cláusula <code>ON DELETE CASCADE</code> para remoção limpa conjunta.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">installment_number</td>
+                    <td><code>INT</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Número ordinal da parcela no cronograma: <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code> ou <code>5</code>.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">amount</td>
+                    <td><code>NUMERIC(15, 2)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Valor individual devido: <code>total_amount / 5</code> truncado/arredondado, com centavos residuais reconciliados na 5ª parcela.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">scheduled_payment_date</td>
+                    <td><code>DATE</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Data exata de vencimento quinzenal (<strong>D+14</strong> na #1, <strong>D+28</strong> na #2, <strong>D+42</strong> na #3, <strong>D+56</strong> na #4 e <strong>D+70</strong> na #5).</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">status</td>
+                    <td><code>VARCHAR(20)</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="text-muted small">None</td>
+                    <td>Status da parcela: <code>NEXT</code> para a 1ª parcela a vencer; <code>PENDING</code> para as parcelas subsequentes (2 a 5); <code>ERROR</code> se falhar.</td>
+                  </tr>
+                  <tr>
+                    <td class="font-monospace fw-bold">created_at</td>
+                    <td><code>TIMESTAMPTZ</code></td>
+                    <td><span class="badge bg-dark">NOT NULL</span></td>
+                    <td class="font-monospace small">CURRENT_TIMESTAMP</td>
+                    <td>Carimbo de data e hora em que a programação da parcela foi gerada.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Callout: Índices & Constraints installments -->
+            <div class="p-3 border-start border-success border-4 bg-body-tertiary rounded-end">
+              <h6 class="fw-bold mb-2 text-success"><i class="bi bi-shield-check me-1"></i> Índices &amp; Constraints (<code>installments</code>):</h6>
+              <ul class="font-monospace small mb-0 ps-3">
+                <li><code>PRIMARY KEY (id)</code></li>
+                <li><code>CONSTRAINT fk_installments_loan_id FOREIGN KEY (loan_id) REFERENCES loans(id) ON DELETE CASCADE</code></li>
+                <li><code>CONSTRAINT uk_installments_loan_number UNIQUE (loan_id, installment_number)</code></li>
+                <li><code>CREATE INDEX idx_installments_loan_id ON installments(loan_id);</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 3: Integridade Referencial e Semântica de Relacionamentos -->
+      <section id="integridade-referencial" class="mb-5">
+        <h2 class="h3 fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-link-45deg text-warning"></i> 3. Integridade Referencial e Semântica de Relacionamentos
+        </h2>
+        <p>A arquitetura de dados estabelece garantias estritas de integridade relacional entre o cliente, suas operações contratadas e as parcelas geradas:</p>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card">
+              <div class="card-header fw-bold bg-body-tertiary">
+                <i class="bi bi-arrow-left-right text-primary me-2"></i> Relacionamento <code>CUSTOMERS</code> &rarr; <code>LOANS</code> (1:N)
+              </div>
+              <div class="card-body">
+                <div class="mb-2">
+                  <span class="badge bg-primary font-monospace">1 : N</span>
+                  <span class="badge bg-secondary-subtle text-secondary border ms-1">Cardinalidade: ||--o{</span>
+                </div>
+                <ul class="small text-secondary ps-3 mb-0">
+                  <li class="mb-2">Um cliente pode ser cadastrado e inicialmente possuir <strong>zero empréstimos</strong> ou múltiplos empréstimos ao longo do tempo, desde que a soma de novos valores não exceda seu limite disponível (<code>available_credit_line_amount</code>).</li>
+                  <li class="mb-2">Todo empréstimo pertence estritamente a um único cliente (campo <code>customer_id NOT NULL</code>).</li>
+                  <li>A remoção de um registro de cliente é <strong>restringida (RESTRICT)</strong> caso existam empréstimos vinculados, garantindo rastreabilidade contábil e auditoria financeira imutável.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 wiki-card">
+              <div class="card-header fw-bold bg-body-tertiary">
+                <i class="bi bi-arrow-left-right text-success me-2"></i> Relacionamento <code>LOANS</code> &rarr; <code>INSTALLMENTS</code> (1:N)
+              </div>
+              <div class="card-body">
+                <div class="mb-2">
+                  <span class="badge bg-success font-monospace">1 : 5</span>
+                  <span class="badge bg-secondary-subtle text-secondary border ms-1">Cardinalidade: ||--|{</span>
+                </div>
+                <ul class="small text-secondary ps-3 mb-0">
+                  <li class="mb-2">Todo empréstimo aprovado gera atomicamente <strong>exatamente 5 parcelas quinzenais</strong> na mesma transação.</li>
+                  <li class="mb-2">Uma parcela não pode existir sem o seu empréstimo pai (campo <code>loan_id NOT NULL</code>).</li>
+                  <li class="mb-2">Caso um empréstimo seja excluído (por exemplo, durante rotinas de cleanup de testes automatizados), todas as parcelas associadas são excluídas automaticamente via <code>ON DELETE CASCADE</code>.</li>
+                  <li>A constraint única composta <code>uk_installments_loan_number (loan_id, installment_number)</code> garante que nenhuma duplicata ordinal de parcela seja gravada para a mesma operação.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-md mb-3 mb-md-0">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="bi bi-lightning-charge-fill text-primary"></i>
+              <span class="fw-bold">Buy Now Pay Later REST API</span>
+            </div>
+            <small class="d-block text-secondary">&copy; 2026 Ozalpa Superpowers Project. Licenciado sob MIT.</small>
+          </div>
+          <div class="col-12 col-md-auto">
+            <ul class="list-inline mb-0 small">
+              <li class="list-inline-item"><a href="index.html" class="text-secondary text-decoration-none">Início</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="c4model.html" class="text-secondary text-decoration-none">Modelo C4</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="erd.html" class="text-secondary text-decoration-none fw-bold text-primary">ERD</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="operations.html" class="text-secondary text-decoration-none">Operações</a></li>
+              <li class="list-inline-item">&middot;</li>
+              <li class="list-inline-item"><a href="specs.html" class="text-secondary text-decoration-none">Specs</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- JavaScript Assets -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/mermaid.min.js"></script>
+  <script src="assets/js/wiki.js"></script>
+</body>
+</html>
