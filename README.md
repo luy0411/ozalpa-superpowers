@@ -52,7 +52,55 @@ O desafio consiste no desenvolvimento de um sistema de crédito sob demanda no m
 
 ---
 
-## 📚 Documentação Completa da Solução
+## 🌐 Portal de Documentação & Wiki Interativa
+
+O projeto conta com uma **Wiki Técnica Interativa em HTML** completa, auto-contida e offline-first em [`docs/wiki/`](docs/wiki/), com diagramas Mermaid dinâmicos, alternador Dark/Light mode com persistência em `localStorage`, navegação responsiva e suporte nativo ao protocolo `file://`.
+
+### 🚀 Como Acessar a Wiki Interativa
+
+Você pode visualizar a Wiki de duas maneiras práticas:
+
+1. **Abertura direta no navegador (`file://`)**:
+   ```bash
+   # Linux
+   xdg-open docs/wiki/index.html
+
+   # macOS
+   open docs/wiki/index.html
+
+   # Windows
+   start docs/wiki/index.html
+   ```
+   *Ou clique duas vezes em `docs/wiki/index.html` pelo gerenciador de arquivos.*
+
+2. **Via servidor HTTP local**:
+   ```bash
+   # Usando Python 3
+   python3 -m http.server 8000 -d docs/wiki
+   # Acesse: http://localhost:8000
+
+   # Usando Node.js (npx)
+   npx serve docs/wiki
+   ```
+
+### 📑 Páginas e Módulos Disponíveis na Wiki
+
+- **[Visão Geral do Sistema (`docs/wiki/index.html`)](docs/wiki/index.html)**: Dashboard central com arquitetura geral, fluxograma de originação BNPL, stack tecnológica e métricas.
+- **[Modelo C4 & Arquitetura (`docs/wiki/c4model.html`)](docs/wiki/c4model.html)**: Diagramas interativos de Contexto do Sistema (C1) e Contêineres (C2), além da especificação Structurizr DSL.
+- **[Modelo Entidade-Relacionamento (`docs/wiki/erd.html`)](docs/wiki/erd.html)**: Diagrama relacional de dados (Mermaid ERD), dicionário de tabelas, constraints, índices e tipos enum.
+- **[Catálogo de Operações & Endpoints (`docs/wiki/operations.html`)](docs/wiki/operations.html)**: Hub das 4 operações de negócio com diagramas de sequência Mermaid e detalhes de validações:
+  - **[POST /v1/customers (`docs/wiki/operations/customer-registration.html`)](docs/wiki/operations/customer-registration.html)**: Cadastro de cliente, regras de idade e concessão de limite.
+  - **[GET /v1/customers/{id} (`docs/wiki/operations/customer-lookup.html`)](docs/wiki/operations/customer-lookup.html)**: Consulta de perfil, saldo e limites.
+  - **[POST /v1/loans (`docs/wiki/operations/loan-creation.html`)](docs/wiki/operations/loan-creation.html)**: Originação de empréstimo, amortização quinzenal e dedução atômica de crédito.
+  - **[GET /v1/loans/{id} (`docs/wiki/operations/loan-lookup.html`)](docs/wiki/operations/loan-lookup.html)**: Consulta de status e parcelas do empréstimo.
+- **[Desafio BNPL Original (`docs/wiki/challenge.html`)](docs/wiki/challenge.html)**: Enunciado integral do desafio Aplazo BNPL com todas as regras de negócio e critérios originais.
+- **[Especificação Técnica Formal (`docs/wiki/specs.html`)](docs/wiki/specs.html)**: Especificação completa de design do sistema (contratos OpenAPI, fórmulas financeiras e tratamento de erros).
+
+---
+
+## 📚 Documentação Markdown de Origem
+
+Se preferir navegar diretamente pelo GitHub ou leitor de Markdown:
 
 - **[System Design Specification](docs/superpowers/specs/2026-09-18-bnpl-system-design.md)**: Especificação arquitetural, contratos, regras de negócio e critérios de aceite.
 - **[Plano de Implementação Detalhado](docs/superpowers/plans/2026-09-18-bnpl-system.md)**: Plano de tarefas executado via Subagent-Driven Development.
